@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-size: 18px;
+}
+
+@layer components {
+  .info {
+    @apply inline-block px-2 py-1 ml-2 leading-none bg-blue-200 text-blue-600 rounded-full font-semibold text-center uppercase tracking-wide text-xs;
+  }
+
+  .dislikes {
+    @apply text-red-600 font-bold;
+  }
+
+  .likes {
+    @apply text-green-600 font-bold;
+  }
+
+  .datas {
+    @apply grid grid-cols-1 grid-rows-1 items-center justify-items-center
+  }
+
+  .buttons {
+    @apply text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2;
+  }
+}

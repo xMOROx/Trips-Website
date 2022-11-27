@@ -1,0 +1,29 @@
+select::-webkit-scrollbar {
+  width: .5rem;
+  height: .5rem;
+}
+
+select::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  @apply bg-white;
+}
+
+select::-webkit-scrollbar-thumb {
+  border-radius: 100vh;
+  @apply bg-gray-800 border-white border-[.12rem] border-solid;
+}
+
+select::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-900;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
