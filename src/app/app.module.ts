@@ -14,15 +14,19 @@ import { TripsCartComponent } from './trips-cart/trips-cart.component';
 import { CartService } from './services/cart.service';
 import { CurrenciesService } from './services/currencies.service';
 import { FiltersService } from './services/filters.service';
+import { PageNotFoundComponent } from './pageNotFound/pageNotFound.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     NavBarComponent,
     HomePageComponent,
     TripsCartComponent,
-  ],
+    PageNotFoundComponent,
+      FooterComponent
+   ],
   imports: [
     BrowserModule,
     TripsModule,
