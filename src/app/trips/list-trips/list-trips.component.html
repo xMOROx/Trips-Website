@@ -1,29 +1,30 @@
-<div class="w-[80vw] my-8 min-h-[500px] rounded-2xl shadow-md shadow-neutral-900  bg-gray-900 p-2 ">
+  <div class="w-[80vw] my-8 min-h-[500px] rounded-2xl shadow-md shadow-neutral-900  bg-gray-900 p-2 ">
 
-  <div class="grid place-content-center trips w-full min-h-[40px] text-center text-white  align-middle mb-4 rounded-lg"
-    [ngClass]="
-        {
-          'bg-red-500': cart.reservedTotalAmount < 10,
-          'bg-green-500': cart.reservedTotalAmount > 10,
-          'bg-blue-600': cart.reservedTotalAmount === 10
-        }
-        ">
-    Ilość zarezerwowanych miejsc: {{cart.reservedTotalAmount}}
-  </div>
-  <div
-    class=" min-h-0 grid grid-cols-1 xl:grid-cols-3  lg:grid-cols-2  md:grid-cols-2 rounded-2xl   sm:w-full  gap-4 w-full p-4 bg-neutral-800 justify-center">
+    <div
+      class="grid place-content-center trips w-full min-h-[40px] text-center text-white  align-middle mb-4 rounded-lg"
+      [ngClass]="
+          {
+            'bg-red-500': cart.reservedTotalAmount < 10,
+            'bg-green-500': cart.reservedTotalAmount > 10,
+            'bg-blue-600': cart.reservedTotalAmount === 10
+          }
+          ">
+      Ilość zarezerwowanych miejsc: {{cart.reservedTotalAmount}}
+    </div>
+    <div
+      class=" min-h-0 grid grid-cols-1 xl:grid-cols-3  lg:grid-cols-2  md:grid-cols-2 rounded-2xl   sm:w-full  gap-4 w-full p-4 bg-neutral-800 justify-center">
 
-    <div class=" mx-auto w-full"
-      *ngFor="let trip of trips | date : filter.dateStart:filter.dateEnd | destinationCountry: filter.destinationCountry | price: filter.minimumUnitPrice:filter.maximumUnitPrice  | stars: filter.stars">
-      <app-detail-trip [trip]="trip" [trips]="trips" (removeTrip)="handleRemoveTrip($event)"
-        (updateTrip)="handleUpdateTrip($event)"></app-detail-trip>
+      <div class=" mx-auto w-full"
+        *ngFor="let trip of trips | date : filter.dateStart:filter.dateEnd | destinationCountry: filter.destinationCountry | price: filter.minimumUnitPrice:filter.maximumUnitPrice  | stars: filter.stars">
+        <app-detail-trip [trip]="trip" [trips]="trips" (removeTrip)="handleRemoveTrip($event)"
+          (updateTrip)="handleUpdateTrip($event)"></app-detail-trip>
+      </div>
     </div>
   </div>
-</div>
-<router-outlet></router-outlet>
-<a routerLink="/filter"
-  class="show-filter w-12 h-12 rounded-full fixed right-1 bottom-4 md:right-4 group dark:bg-blue-700 shadow-inner shadow-blue-600 grid place-content-center hover:ring-2 ease-in-out cursor-pointer hover:ring-blue-500 transition-all hover:scale-90">
-  <fa-icon [icon]="faFilter" [size]="'lg'" class="text-white  group-hover:text-gray-900">
-  </fa-icon>
-</a>
-<!-- | date : filter.dateStart:filter.dateEnd | destinationCountry: filter.destinationCountry | price: filter.minimumUnitPrice:filter.maximumUnitPrice -->
+  <router-outlet></router-outlet>
+  <a routerLink="/filter"
+    class="show-filter w-12 h-12 rounded-full fixed right-1 bottom-4 md:right-4 group dark:bg-blue-700 shadow-inner shadow-blue-600 grid place-content-center hover:ring-2 ease-in-out cursor-pointer hover:ring-blue-500 transition-all hover:scale-90">
+    <fa-icon [icon]="faFilter" [size]="'lg'" class="text-white  group-hover:text-gray-900">
+    </fa-icon>
+  </a>
+  <!-- | date : filter.dateStart:filter.dateEnd | destinationCountry: filter.destinationCountry | price: filter.minimumUnitPrice:filter.maximumUnitPrice -->

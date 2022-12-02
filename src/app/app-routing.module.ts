@@ -8,12 +8,14 @@ import { TripAddComponent } from './trips/trip-add/trip-add.component';
 import { TripsCartComponent } from './trips-cart/trips-cart.component';
 import { FiltersComponent } from './filters/filters.component';
 import { PageNotFoundComponent } from './pageNotFound/pageNotFound.component';
+import { SingleTripComponent } from './trips/singleTrip/singleTrip.component';
 
 const routes: Routes = [
   { path: 'trips', component: ListTripsComponent },
   { path: 'tripAdd', component: TripAddComponent },
   { path: 'cart', component: TripsCartComponent },
   { path: 'filter', component: FiltersComponent },
+  { path: 'trips/:id', component: SingleTripComponent },
   { path: '', component: HomePageComponent },
   { path: "**", component: PageNotFoundComponent }
 ]

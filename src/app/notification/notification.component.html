@@ -1,6 +1,6 @@
 <aside #notification
-  class="w-[50vw] md:w-[30vw] bg-gray-800 h-[calc(200vh-68px)]  transition-all duration-300 delay-75 ease-out shadow-lg shadow-gray-900 flex flex-col items-center gap-y-4 overflow-auto py-4"
-  [ngClass]="{'translate-x-0 ':!value, '-translate-x-[50vw] md:-translate-x-[30vw] ':value}">
+  class="w-[50vw] md:w-[30vw] bg-gray-800 h-[calc(200vh-68px)] absolute   transition-all duration-300 delay-75 ease-out shadow-lg shadow-gray-900 flex flex-col items-center gap-y-4 overflow-auto py-4"
+  [ngClass]="{'left-0 ':!value, 'left-[-50vw] md:left-[-30vw] ':value}">
 
   <div
     class="w-[80%] min-h-[200px] bg-gray-700 shadow-inner shadow-gray-900 border-b-4 border-solid border-b-blue-800 rounded-b-sm">

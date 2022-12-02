@@ -11,6 +11,7 @@ import { TripRatingComponent } from './trip-rating/trip-rating.component';
 import { TripsParseService } from '../services/tripsParse.service';
 import { TripAddComponent } from './trip-add/trip-add.component';
 import { FiltersComponent } from '../filters/filters.component';
+import { SingleTripComponent } from './singleTrip/singleTrip.component';
 
 
 import { NameValidatorDirective } from '../name-validator.directive';
@@ -27,6 +28,7 @@ import { StarsPipe } from '../pipes/filters/stars.pipe';
     TripRatingComponent,
     TripAddComponent,
     FiltersComponent,
+    SingleTripComponent,
     NameValidatorDirective,
     DestinationCountryPipe,
     PricePipe,

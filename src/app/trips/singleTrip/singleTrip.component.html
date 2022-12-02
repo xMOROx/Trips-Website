@@ -1,31 +1,15 @@
 <div class="flex flex-wrap -mx-4">
   <div class="w-full s p-4">
-    <div class="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden border-[.2rem] border-solid "
-      [ngClass]="{
-              'border-green-600 ': (trip.unitPrice === getMinPriceTrip() && trips.length > 1),
-            'border-red-600 ': (trip.unitPrice === getMaxPriceTrip() && trips.length > 1)
-            
-          }">
+    <div
+      class="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden border-[.2rem] border-solid ">
       <div class="relative pb-48 overflow-hidden z-0  ">
-        <a routerLink="/trips/{{trip.id}}">
-          <img
-            class="absolute inset-0 left-[50%] -translate-x-[50%] -translate-y-[50%] top-[50%] aspect-square object-cover  transition hover:scale-105 ease-out duration-300 "
-            src="{{trip.ImageSrc}}" alt="{{trip.name}}">
-        </a>
+        <img
+          class="absolute inset-0 left-[50%] -translate-x-[50%] -translate-y-[50%] top-[50%] aspect-square object-cover  transition hover:scale-105 ease-out duration-300 "
+          src="{{trip.ImageSrc}}" alt="{{trip.name}}">
       </div>
       <div class="p-4">
         <div class="upperCard flex justify-between">
-          <span *ngIf="trips.length > 1"
-            class="grid place-content-center px-2 py-1 leading-none bg-orange-200 text-orange-600   rounded-full font-semibold uppercase tracking-wide text-xs"
-            [ngClass]="{
-                  'bg-red-600 text-slate-50': trip.unitPrice == getMaxPriceTrip(),
-                  'bg-green-600 text-slate-100': trip.unitPrice == getMinPriceTrip()
-                }">
 
-            <span>
-              {{(trip.unitPrice == getMaxPriceTrip())? "Najdroższa": (trip.unitPrice == getMinPriceTrip()) ? "Najtańsza": "Standardowa"}}
-            </span>
-          </span>
           <span class="info" *ngIf="0 <(trip.maxPlace - trip.amount) && (trip.maxPlace - trip.amount) <= 3">Pozostałe
             miejsca
             {{trip.maxPlace - trip.amount}}</span>

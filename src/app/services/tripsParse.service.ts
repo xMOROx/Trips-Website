@@ -58,5 +58,10 @@ export class TripsParseService {
       .subscribe();
   }
 
+  public getTripUrlById(id: number): Observable<Trip> {
+
+    return this.http.get<Trip>(`${JSON_URL}/${id}`)
+  }
+
 
 }
