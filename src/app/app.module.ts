@@ -17,17 +17,19 @@ import { FooterComponent } from './footer/footer.component';
 import { CartService } from './services/cart.service';
 import { CurrenciesService } from './services/currencies.service';
 import { FiltersService } from './services/filters.service';
+import { NotificationComponent } from './notification/notification.component';
 
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     NavBarComponent,
     HomePageComponent,
     TripsCartComponent,
     PageNotFoundComponent,
-    FooterComponent
-  ],
+    FooterComponent,
+      NotificationComponent
+   ],
   imports: [
     BrowserModule,
     TripsModule,

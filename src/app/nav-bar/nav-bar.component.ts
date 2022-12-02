@@ -3,6 +3,7 @@ import { faPlane, faCircle, faCartArrowDown, IconDefinition } from '@fortawesome
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { ICart } from '../Models/cart';
 import { CartService } from '../services/cart.service';
+import { NotificationsService } from '../services/notifications.service';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -19,7 +20,9 @@ export class NavBarComponent implements OnInit {
     priceTotalAmount: [0],
     tripsReserved: []
   };
-  constructor(private cartService: CartService) {
+  private _toggleNotification: boolean = false;
+
+  constructor(private cartService: CartService, private notificationService: NotificationsService) {
   }
 
 
@@ -32,6 +35,12 @@ export class NavBarComponent implements OnInit {
 
   public toggleHidden(event: any, hidden: any): void {
     hidden.classList.toggle("hidden");
+  }
+
+  public toggleNotification(event: any) {
+    this.notificationService.emitEventshowNotification(this._toggleNotification)
+    this._toggleNotification = !this._toggleNotification;
+
   }
 
 }
