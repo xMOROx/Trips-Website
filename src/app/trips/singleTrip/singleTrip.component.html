@@ -64,8 +64,7 @@
 
       </div>
       <div class="bottom flex flex-wrap justify-center px-5 py-2.5">
-        <app-trip-rating (ratingCahnged)="ratingEventHandler(trip, $event)" [disLikes]="trip.dislikes"
-          [likes]="trip.likes"></app-trip-rating>
+        <app-trip-rating [likes]="trip.likes" [disLikes]="trip.dislikes"></app-trip-rating>
         <button type="button"
           class="buttons text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300  dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
           (click)="onRemove()">Usuń

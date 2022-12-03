@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
+import { RatingService } from 'src/app/services/rating.service';
 
 @Component({
   selector: 'app-trip-rating',
@@ -8,8 +9,7 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 })
 export class TripRatingComponent implements OnInit {
 
-  constructor() { }
-  @Output() ratingCahnged: EventEmitter<number> = new EventEmitter<number>();
+  constructor(private opinionChangeService: RatingService) { }
 
   @Input() likes: number = 0;
   @Input() disLikes: number = 0;
@@ -33,10 +33,10 @@ export class TripRatingComponent implements OnInit {
   rattingApplied(option: string) {
     if (this.alreadyVoted) return;
     if (option === "+") {
-      this.ratingCahnged.emit(1)
+      this.opinionChangeService.eventEmitChangeOpinion(1);
     }
     else {
-      this.ratingCahnged.emit(-1)
+      this.opinionChangeService.eventEmitChangeOpinion(-1);
     }
     this.rating = (this.likes) / (this.disLikes + this.likes) * 100;
 

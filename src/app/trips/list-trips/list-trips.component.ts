@@ -55,29 +55,23 @@ export class ListTripsComponent implements OnInit {
   public handleRemoveTrip(event: Trip): void {
     this.trips = this.trips.filter((trip) => {
       return trip !== event;
-    })
-
+    });
     //? this.TripsParseService.deleteTrip(event.id);  Implementation for future database 
 
   }
 
-  public handleUpdateTrip(event: Trip): void {
-    this.TripsParseService.updateTrip(event.id, event)
-  }
 
   private setAmountForReservedTrip(): void {
-
     this.trips.forEach(trip => {
       this.cart.tripsReserved.forEach(tripReserved => {
         if (trip.id === tripReserved.id) {
           trip.amount = tripReserved.amount;
         }
-      })
+      });
     });
   }
 
   public showFilter(): void {
     this.isActive = !this.isActive;
-
   }
 }

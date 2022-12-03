@@ -16,8 +16,6 @@ export class DetailTripComponent implements OnInit {
   public trips!: Trip[];
   @Output()
   public removeTrip: EventEmitter<any> = new EventEmitter();
-  @Output()
-  public updateTrip: EventEmitter<any> = new EventEmitter();
 
 
 
@@ -49,14 +47,6 @@ export class DetailTripComponent implements OnInit {
     return Math.min(...this.tripValue);
   }
 
-  public ratingEventHandler(trip: Trip, event: any): void {
-    if (event == 1) {
-      trip.likes += 1
-    } else {
-      trip.dislikes += 1
-    }
-    this.updateTrip.emit(trip);
-  }
 
   public addClick(trip: Trip): void {
     if (trip.amount < trip.maxPlace) {
