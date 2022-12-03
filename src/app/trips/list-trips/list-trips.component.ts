@@ -27,7 +27,7 @@ export class ListTripsComponent implements OnInit {
   public faFilter: IconDefinition = faFilter;
   public isActive: boolean = false;
 
-  public constructor(private titleService: Title, private TripsParseService: TripsParseService, private cartService: CartService, private filterService: FiltersService) {
+  public constructor(private titleService: Title, private tripsParseService: TripsParseService, private cartService: CartService, private filterService: FiltersService) {
 
 
   }
@@ -39,7 +39,7 @@ export class ListTripsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setTitle("Wycieczki");
-    this.TripsParseService.getTrips().subscribe((data: Trip[]) => {
+    this.tripsParseService.getTrips().subscribe((data: Trip[]) => {
       data.forEach(el => el.amount = 0)
       this.trips = data;
       this.cartService.addingPlaceEventListener().subscribe(info => {
@@ -49,6 +49,10 @@ export class ListTripsComponent implements OnInit {
     });
     this.filterService.filteredDataEventListener().subscribe(data => {
       this.filter = data;
+    });
+
+    this.tripsParseService.tripListener().subscribe(trip => {
+      this.handleRemoveTrip(trip);
     })
   }
 

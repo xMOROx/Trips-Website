@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Trip } from '../Models/trip';
 import { TripJSON } from '../Models/tripJSON';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 const JSON_URL = 'http://localhost:3000/Trips';
 
@@ -17,6 +17,9 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class TripsParseService {
+  private trip!: Trip;
+
+  private removeTrip: BehaviorSubject<Trip> = new BehaviorSubject<Trip>(this.trip);
 
   constructor(private http: HttpClient) { }
 
@@ -51,17 +54,23 @@ export class TripsParseService {
   }
 
   public updateTrip(id: number, trip: Trip) {
-    let tripJSON: TripJSON = this.changeToTripJSON(trip)
-
+    let tripJSON: TripJSON = this.changeToTripJSON(trip);
 
     this.http.put(`${JSON_URL}/${id}`, tripJSON)
       .subscribe();
   }
 
   public getTripUrlById(id: number): Observable<Trip> {
-
-    return this.http.get<Trip>(`${JSON_URL}/${id}`)
+    return this.http.get<Trip>(`${JSON_URL}/${id}`);
   }
 
+  public emitTrip(trip: Trip): void {
+    console.log("TEST");
+
+    this.removeTrip.next(trip);
+  }
+  public tripListener(): Observable<Trip> {
+    return this.removeTrip.asObservable();
+  }
 
 }

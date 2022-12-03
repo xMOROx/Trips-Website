@@ -164,7 +164,8 @@ export class SingleTripComponent implements OnInit {
   }
 
   public onRemove(): void {
-    // this.removeTrip.emit(this.trip);
+    // this.tripsParseService.deleteTrip() //? Future implementation 
+    this.tripsParseService.emitTrip(this.trip);
   }
 
 

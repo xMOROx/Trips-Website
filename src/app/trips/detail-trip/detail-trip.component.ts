@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Trip } from 'src/app/Models/trip';
 import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { CartService } from 'src/app/services/cart.service';
+import { TripsParseService } from 'src/app/services/tripsParse.service';
 
 @Component({
   selector: 'app-detail-trip',
@@ -14,10 +15,6 @@ export class DetailTripComponent implements OnInit {
   public trip!: Trip;
   @Input()
   public trips!: Trip[];
-  @Output()
-  public removeTrip: EventEmitter<any> = new EventEmitter();
-
-
 
   public faClock: any = faClock;
   public faPlus: any = faPlus;
@@ -25,7 +22,7 @@ export class DetailTripComponent implements OnInit {
 
   private tripValue!: number[];
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private tripParseService: TripsParseService) {
   }
 
   ngOnInit(): void {
@@ -63,7 +60,7 @@ export class DetailTripComponent implements OnInit {
   }
 
   public onRemove(): void {
-    this.removeTrip.emit(this.trip);
+    this.tripParseService.emitTrip(this.trip);
   }
 
 }

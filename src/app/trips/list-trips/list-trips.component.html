@@ -16,7 +16,7 @@
 
       <div class=" mx-auto w-full"
         *ngFor="let trip of trips | date : filter.dateStart:filter.dateEnd | destinationCountry: filter.destinationCountry | price: filter.minimumUnitPrice:filter.maximumUnitPrice  | stars: filter.stars">
-        <app-detail-trip [trip]="trip" [trips]="trips" (removeTrip)="handleRemoveTrip($event)"></app-detail-trip>
+        <app-detail-trip [trip]="trip" [trips]="trips"></app-detail-trip>
       </div>
     </div>
   </div>
