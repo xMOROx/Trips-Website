@@ -8,6 +8,7 @@ import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { RatingService } from 'src/app/services/rating.service';
 import { ICart } from 'src/app/Models/cart';
 import { ISlide } from 'src/app/imageSlider/Models/ISlide';
+import { IOpinion } from 'src/app/Models/IOpinion';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class SingleTripComponent implements OnInit {
     priceTotalAmount: [0],
     tripsReserved: []
   };
-
+  public errors: string[] = [];
+  public opinions: IOpinion[] = [];
   public slides: ISlide[] = [];
 
 
@@ -73,6 +75,20 @@ export class SingleTripComponent implements OnInit {
     });
   }
 
+  private formatDate(date: Date): string {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
 
   public addClick(trip: Trip): void {
     if (trip.amount < trip.maxPlace) {
@@ -87,6 +103,9 @@ export class SingleTripComponent implements OnInit {
       this.cartService.emitEventAddingPlace(-1, trip.currency, -trip.unitPrice, trip);
     }
   }
+
+
+
 
   public onRemove(): void {
     // this.removeTrip.emit(this.trip);

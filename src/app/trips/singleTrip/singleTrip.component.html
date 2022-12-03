@@ -1,11 +1,8 @@
-<div class="wrapper flex justify-center min-h-[calc(100vw-68px)] w-screen">
-  <div class="flex flex-wrap -mx-4 w-[80vw] lg:w-[50vw]">
-    <div class="w-full s p-4">
-      <div
-        class="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden border-[.2rem] border-solid ">
+<div class="wrapper flex flex-col items-center min-h-[calc(100vw-68px)] w-screen pb-4 gap-y-4">
+  <div class="flex flex-wrap -mx-4 w-[80vw] lg:w-[50vw] ">
+    <div class="w-full s p-4 ">
+      <div class="c-card  shadow-gray-800 block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden  ">
         <div class="relative pb-48 overflow-hidden z-0  w-full h-[200px]">
-          <!-- <img *ngFor="let image of trip.ImageSrc; let i = index" class="absolute inset-0  object-cover  transition "
-            src="{{image}}" alt="{{trip.name}}"> -->
           <app-imageSlider [slides]="slides"></app-imageSlider>
         </div>
         <div class="p-4">
@@ -37,7 +34,7 @@
               <fa-icon [icon]="faMinus" class="text-stone-900"></fa-icon>
             </button>
 
-            <button type="button" class="buttons justify-self-start  r bg-stone-800  cursor-not-allowed "
+            <button type="button" class="buttons justify-self-start  bg-stone-800  cursor-not-allowed "
               *ngIf="trip.amount == 0 " disabled>
               <fa-icon [icon]="faMinus" class="text-stone-400"></fa-icon>
             </button>
@@ -75,5 +72,67 @@
     </div>
   </div>
 
+  <div
+    class="flex flex-col items-center gap-y-4 py-[30px] w-[90vw] mt-10 min-h-[400px]  bg-gray-800 rounded-lg shadow-md shadow-gray-900 relative ">
+    <div
+      class="flex items-center absolute w-[80%] h-[50px] bg-zinc-900 -top-[25px] left-[50%] -translate-x-[50%] rounded-lg shadow-inner shadow-zinc-800">
+      <div class="grid place-content-center w-full h-[30px] bg-zinc-800 shadow-inner shadow-zinc-900">
+        <h2 class="text-blue-600">Opinie</h2>
+      </div>
+    </div>
+    <div class="w-[80%] min-h-[200px] bg-gray-700 shadow-inner shadow-gray-900" *ngFor="let opinion of opinions"></div>
+
+  </div>
+  <div class="w-[50vw]">
+    <form
+      class="flex flex-col items-center border-2 bg-gray-800 rounded-lg shadow-md shadow-gray-900 border-none p-10 relative mt-[25px]"
+      #form="ngForm">
+      <div
+        class="flex items-center absolute w-[80%] h-[50px] bg-zinc-900 -top-[25px] left-[50%] -translate-x-[50%] rounded-lg shadow-inner shadow-zinc-800">
+        <div class="grid place-content-center w-full h-[30px] bg-zinc-800 shadow-inner shadow-zinc-900">
+          <h2 class="text-blue-600">Dodaj opinie</h2>
+        </div>
+      </div>
+      <div class="relative z-0 mb-6 w-[200px] group">
+        <input type="text" name="floating_Nick" id="floating_Nick" ngModel #nick="ngModel"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" " />
+        <label for="floating_Nick"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Podaj
+          nick</label>
+      </div>
+      <div class="relative z-0 mb-6  w-[200px] group">
+        <input type="text" name="floating_trip_name" id="floating_trip_name" ngModel #tripName="ngModel"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" " />
+        <label for="floating_trip_name"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Podaj
+          nazwe wycieczki</label>
+      </div>
+      <div class="relative z-0 mb-6 w-[200px] group">
+        <input type="date" name="floating_date_buy" id="floating_date_buy" #dateBuy="ngModel" ngModel
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" " />
+
+        <label for="floating_date_buy"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Data
+          zakupu wycieczki</label>
+      </div>
+      <div class="relative z-0 mb-6 w-[90%] md:w-[50%] group">
+        <textarea name="Description" id="floating_Description" ngModel
+          class="block py-2.5 px-0 w-full min-h-[50px] max-h-[150px] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "> </textarea>
+        <label for="floating_Description"
+          class=" absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-10 scale-75 top-3 -z-10 origin-[0]  ">
+          Opinia</label>
+      </div>
+      <div>
+        <button type="submit"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 cursor-pointer  focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Dodaj</button>
+        <button type="reset"
+          class="md:ml-4 mt-4  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 cursor-pointer  focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reset</button>
+      </div>
+    </form>
+  </div>
 
 </div>
