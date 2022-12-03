@@ -21,6 +21,7 @@ import { DestinationCountryPipe } from '../pipes/filters/destinationCountry.pipe
 import { PricePipe } from '../pipes/filters/price.pipe';
 import { DatePipe } from '../pipes/filters/date.pipe';
 import { StarsPipe } from '../pipes/filters/stars.pipe';
+import { NotificationsService } from '../services/notifications.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { StarsPipe } from '../pipes/filters/stars.pipe';
     NameValidatorDirective
   ],
   providers: [
-    TripsParseService
+    TripsParseService,
+    NotificationsService
   ]
 })
 export class TripsModule { }

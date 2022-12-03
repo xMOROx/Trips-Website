@@ -38,7 +38,7 @@ export class NavBarComponent implements OnInit {
   }
 
   public toggleNotification(event: any) {
-    this.notificationService.emitEventshowNotification(this._toggleNotification)
+    this.notificationService.emitEventShowNotification(this._toggleNotification)
     this._toggleNotification = !this._toggleNotification;
 
   }

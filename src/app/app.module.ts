@@ -21,15 +21,15 @@ import { NotificationComponent } from './notification/notification.component';
 
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     NavBarComponent,
     HomePageComponent,
     TripsCartComponent,
     PageNotFoundComponent,
     FooterComponent,
-      NotificationComponent
-   ],
+    NotificationComponent
+  ],
   imports: [
     BrowserModule,
     TripsModule,

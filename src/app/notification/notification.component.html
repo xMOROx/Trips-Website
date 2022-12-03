@@ -1,9 +1,17 @@
 <aside #notification
-  class="w-[50vw] md:w-[30vw] bg-gray-800 max-h-[calc(200vh-68px)] absolute   transition-all duration-500 ease-in-out shadow-lg shadow-gray-900 flex flex-col items-center gap-y-4 overflow-auto py-4"
+  class="w-[50vw] md:w-[30vw] bg-gray-800 max-h-[calc(100vh-68px)] absolute   transition-all duration-500 ease-in-out shadow-lg shadow-gray-900 flex flex-col items-center gap-y-4 overflow-auto py-4"
   [ngClass]="{'-left-[50vw] ':!value, 'left-[-300vw] md:left-[-280vw] ':value}">
 
-  <div
-    class="w-[80%] min-h-[200px] bg-gray-700 shadow-inner shadow-gray-900 border-b-4 border-solid border-b-blue-800 rounded-b-sm">
+
+  <div *ngFor="let notification of notifications"
+    class="flex flex-col gap-y-2 items-center p-2 w-[80%] min-h-[150px] bg-gray-700 shadow-inner shadow-gray-900 border-b-4 border-solid border-b-blue-800 rounded-b-sm"
+    [ngClass]="{'border-b-red-600':notification.type === notificationType.error, 'border-b-blue-800':notification.type === notificationType.info, 'border-b-green-600':notification.type === notificationType.success, 'border-b-yellow-500':notification.type === notificationType.warning}">
+
+    <h2 class="bg-slate-800 w-full shadow-inner shadow-gray-900 text-center text-gray-600"
+      [ngClass]="{'text-red-600':notification.type === notificationType.error, 'text-blue-800':notification.type === notificationType.info, 'text-green-600':notification.type === notificationType.success, 'text-yellow-500':notification.type === notificationType.warning}">
+      {{notification.title}}</h2>
+    <div class="w-full min-h-[50px] bg-slate-800 shadow-inner shadow-gray-900 text-neutral-400 p-2">
+      {{notification.description}}</div>
   </div>
 
 

@@ -9,6 +9,9 @@ import { RatingService } from 'src/app/services/rating.service';
 import { ICart } from 'src/app/Models/cart';
 import { ISlide } from 'src/app/imageSlider/Models/ISlide';
 import { IOpinion } from 'src/app/Models/IOpinion';
+import { NotificationsService } from 'src/app/services/notifications.service';
+import { INotification } from 'src/app/Models/INotification';
+import { NotificationType } from 'src/app/Models/notificationType.enum';
 
 
 @Component({
@@ -28,15 +31,14 @@ export class SingleTripComponent implements OnInit {
     priceTotalAmount: [0],
     tripsReserved: []
   };
-  public errors: string[] = [];
   public opinions: IOpinion[] = [];
   public slides: ISlide[] = [];
-
+  public numberOfCharacters: string = "";
 
   private subscription: Subscription | undefined
 
 
-  constructor(private route: ActivatedRoute, private tripsParseService: TripsParseService, private cartService: CartService, private ratingService: RatingService) { }
+  constructor(private route: ActivatedRoute, private tripsParseService: TripsParseService, private cartService: CartService, private ratingService: RatingService, private notificationsService: NotificationsService) { }
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(data => {
@@ -103,12 +105,48 @@ export class SingleTripComponent implements OnInit {
       this.cartService.emitEventAddingPlace(-1, trip.currency, -trip.unitPrice, trip);
     }
   }
+  private sendError(title: string, description: string): INotification {
+    return {
+      title: title,
+      description: description,
+      type: NotificationType.error,
+    };
+  }
 
+  public addOpinion(form: any): void {
+    if (form.value.nick === "") {
+      this.notificationsService.sendNotification(this.sendError("Brak nicku", "Podanie nicku jest wymagane aby wystawić opinie."));
+      return;
+    }
+    if (form.value.trip_name === "") {
+      this.notificationsService.sendNotification(this.sendError("Brak nazwy wycieczki", "Podanie nazwy wycieczki jest wymagane aby wystawić opinie."));
+      return;
+    }
+    if (form.value.Description === "") {
+      this.notificationsService.sendNotification(this.sendError("Brak opisu opini", "Podanie opisu opini jest wymagane aby wystawić opinie."));
+      return;
+    }
+    console.log(form.value.Description.length);
+
+    if (form.value.Description.length < 50) {
+      this.notificationsService.sendNotification(this.sendError("Za krótka opinia", "Opinia musi zawierać przynajmniej 50 znaków! "));
+      return;
+    }
+    if (form.value.Description.length > 500) {
+      this.notificationsService.sendNotification(this.sendError("Za długa opinia", "Opinia musi zawierać maksymalnie 500 znaków! "));
+      return;
+    }
+
+
+
+
+  }
 
 
 
   public onRemove(): void {
     // this.removeTrip.emit(this.trip);
+
   }
 
 

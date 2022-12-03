@@ -86,7 +86,7 @@
   <div class="w-[50vw]">
     <form
       class="flex flex-col items-center border-2 bg-gray-800 rounded-lg shadow-md shadow-gray-900 border-none p-10 relative mt-[25px]"
-      #form="ngForm">
+      #form="ngForm" (ngSubmit)="addOpinion(form)">
       <div
         class="flex items-center absolute w-[80%] h-[50px] bg-zinc-900 -top-[25px] left-[50%] -translate-x-[50%] rounded-lg shadow-inner shadow-zinc-800">
         <div class="grid place-content-center w-full h-[30px] bg-zinc-800 shadow-inner shadow-zinc-900">
@@ -94,37 +94,38 @@
         </div>
       </div>
       <div class="relative z-0 mb-6 w-[200px] group">
-        <input type="text" name="floating_Nick" id="floating_Nick" ngModel #nick="ngModel"
+        <input type="text" name="nick" id="nick" ngModel #nick="ngModel"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " />
-        <label for="floating_Nick"
+        <label for="nick"
           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Podaj
           nick</label>
       </div>
       <div class="relative z-0 mb-6  w-[200px] group">
-        <input type="text" name="floating_trip_name" id="floating_trip_name" ngModel #tripName="ngModel"
+        <input type="text" name="trip_name" id="trip_name" ngModel #tripName="ngModel"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " />
-        <label for="floating_trip_name"
+        <label for="trip_name"
           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Podaj
           nazwe wycieczki</label>
       </div>
       <div class="relative z-0 mb-6 w-[200px] group">
-        <input type="date" name="floating_date_buy" id="floating_date_buy" #dateBuy="ngModel" ngModel
+        <input type="date" name="date_buy" id="date_buy" #dateBuy="ngModel" ngModel
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " />
 
-        <label for="floating_date_buy"
+        <label for="date_buy"
           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Data
           zakupu wycieczki</label>
       </div>
       <div class="relative z-0 mb-6 w-[90%] md:w-[50%] group">
-        <textarea name="Description" id="floating_Description" ngModel
+        <textarea name="Description" id="description" [(ngModel)]="numberOfCharacters"
           class="block py-2.5 px-0 w-full min-h-[50px] max-h-[150px] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "> </textarea>
-        <label for="floating_Description"
+        <label for="description"
           class=" absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-10 scale-75 top-3 -z-10 origin-[0]  ">
           Opinia</label>
+        {{numberOfCharacters.length <= 0 ? " ":numberOfCharacters.length}}
       </div>
       <div>
         <button type="submit"
