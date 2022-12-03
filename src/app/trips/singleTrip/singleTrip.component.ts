@@ -6,6 +6,7 @@ import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { CartService } from 'src/app/services/cart.service';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { RatingService } from 'src/app/services/rating.service';
+import { ICart } from 'src/app/Models/cart';
 
 
 @Component({
@@ -20,6 +21,13 @@ export class SingleTripComponent implements OnInit {
   public faClock: any = faClock;
   public faPlus: any = faPlus;
   public faMinus: any = faMinus;
+  public cart: ICart = {
+    reservedTotalAmount: 0,
+    priceTotalAmount: [0],
+    tripsReserved: []
+  };
+
+
   private subscription: Subscription | undefined
 
 
@@ -32,7 +40,10 @@ export class SingleTripComponent implements OnInit {
     this.tripsParseService.getTripUrlById(this.id).subscribe(trip => {
       this.trip = trip;
       this.trip.amount = 0;
-      console.log(this.trip);
+      this.cartService.addingPlaceEventListener().subscribe(info => {
+        this.cart = info;
+        this.setAmountForReservedTrip();
+      });
     });
 
 
@@ -48,10 +59,14 @@ export class SingleTripComponent implements OnInit {
 
   }
 
-  public ratingEventHandler(): void {
-
-    // this.updateTrip.emit(trip);
+  private setAmountForReservedTrip(): void {
+    this.cart.tripsReserved.forEach(tripReserved => {
+      if (this.trip.id === tripReserved.id) {
+        this.trip.amount = tripReserved.amount;
+      }
+    });
   }
+
 
   public addClick(trip: Trip): void {
     if (trip.amount < trip.maxPlace) {
