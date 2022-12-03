@@ -80,7 +80,18 @@
         <h2 class="text-blue-600">Opinie</h2>
       </div>
     </div>
-    <div class="w-[80%] min-h-[200px] bg-gray-700 shadow-inner shadow-gray-900" *ngFor="let opinion of opinions"></div>
+    <div class="flex flex-col items-center p-2 w-[80%] min-h-[200px] " *ngFor="let opinion of opinions">
+      <div class="bg-zinc-800 w-full text-blue-600 shadow-md shadow-zinc-900">
+        <h2 class="w-full text-center">{{opinion.nick}}</h2>
+      </div>
+      <div class="w-full min-h-[150px]">
+        <div class="w-full min-h-[140px] bg-gray-500 shadow-md shadow-gray-800 p-2 break-words">{{opinion.description}}
+        </div>
+        <div class="grid place-content-center w-full h-[20px] bg-gray-600 mt-1" *ngIf="opinion.date !== ''">
+          <p>Data zakupu wycieczki: {{opinion.date}}</p>
+        </div>
+      </div>
+    </div>
 
   </div>
   <div class="w-[50vw]">
@@ -94,7 +105,7 @@
         </div>
       </div>
       <div class="relative z-0 mb-6 w-[200px] group">
-        <input type="text" name="nick" id="nick" ngModel #nick="ngModel"
+        <input type="text" name="nick" id="nick" [(ngModel)]="nick"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " />
         <label for="nick"
@@ -102,7 +113,7 @@
           nick</label>
       </div>
       <div class="relative z-0 mb-6  w-[200px] group">
-        <input type="text" name="trip_name" id="trip_name" ngModel #tripName="ngModel"
+        <input type="text" name="trip_name" id="trip_name" [(ngModel)]="tripName"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " />
         <label for="trip_name"
@@ -110,7 +121,7 @@
           nazwe wycieczki</label>
       </div>
       <div class="relative z-0 mb-6 w-[200px] group">
-        <input type="date" name="date_buy" id="date_buy" #dateBuy="ngModel" ngModel
+        <input type="date" name="date_buy" id="date_buy" [(ngModel)]="date"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " />
 
@@ -119,13 +130,13 @@
           zakupu wycieczki</label>
       </div>
       <div class="relative z-0 mb-6 w-[90%] md:w-[50%] group">
-        <textarea name="Description" id="description" [(ngModel)]="numberOfCharacters"
+        <textarea name="Description" id="description" [(ngModel)]="description"
           class="block py-2.5 px-0 w-full min-h-[50px] max-h-[150px] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "> </textarea>
         <label for="description"
           class=" absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-10 scale-75 top-3 -z-10 origin-[0]  ">
           Opinia</label>
-        {{numberOfCharacters.length <= 0 ? " ":numberOfCharacters.length}}
+        {{description.length <= 0 ? " ":description.length}}
       </div>
       <div>
         <button type="submit"

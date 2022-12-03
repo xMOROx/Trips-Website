@@ -33,7 +33,10 @@ export class SingleTripComponent implements OnInit {
   };
   public opinions: IOpinion[] = [];
   public slides: ISlide[] = [];
-  public numberOfCharacters: string = "";
+  public description: string = "";
+  public date: string = "";
+  public tripName: string = "";
+  public nick: string = "";
 
   private subscription: Subscription | undefined
 
@@ -91,6 +94,21 @@ export class SingleTripComponent implements OnInit {
     return [year, month, day].join('-');
   }
 
+  private sendError(title: string, description: string): INotification {
+    return {
+      title: title,
+      description: description,
+      type: NotificationType.error,
+    };
+  }
+
+  private resetForm(): void {
+    this.description = "";
+    this.nick = "";
+    this.date = "";
+    this.tripName = "";
+  }
+
 
   public addClick(trip: Trip): void {
     if (trip.amount < trip.maxPlace) {
@@ -105,13 +123,7 @@ export class SingleTripComponent implements OnInit {
       this.cartService.emitEventAddingPlace(-1, trip.currency, -trip.unitPrice, trip);
     }
   }
-  private sendError(title: string, description: string): INotification {
-    return {
-      title: title,
-      description: description,
-      type: NotificationType.error,
-    };
-  }
+
 
   public addOpinion(form: any): void {
     if (form.value.nick === "") {
@@ -126,7 +138,6 @@ export class SingleTripComponent implements OnInit {
       this.notificationsService.sendNotification(this.sendError("Brak opisu opini", "Podanie opisu opini jest wymagane aby wystawić opinie."));
       return;
     }
-    console.log(form.value.Description.length);
 
     if (form.value.Description.length < 50) {
       this.notificationsService.sendNotification(this.sendError("Za krótka opinia", "Opinia musi zawierać przynajmniej 50 znaków! "));
@@ -137,16 +148,23 @@ export class SingleTripComponent implements OnInit {
       return;
     }
 
+    this.opinions.push({
+      nick: form.value.nick,
+      description: form.value.Description,
+      date: form.value.date_buy
+    } as IOpinion);
 
+    this.notificationsService.clearErrors();
 
-
+    this.resetForm();
   }
 
-
+  public getCurrentDate(): String {
+    return this.formatDate(new Date());
+  }
 
   public onRemove(): void {
     // this.removeTrip.emit(this.trip);
-
   }
 
 

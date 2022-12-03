@@ -7,8 +7,9 @@
       </fa-layers>
     </a>
     <div class="flex justify-center   mr-0">
-      <fa-icon [icon]="faBell" class="text-gray-500 text-2xl animate-bell hover:text-blue-600 hover:cursor-pointer"
-        (click)="toggleNotification($event)">
+      <fa-icon [icon]="faBell" class="text-gray-500 text-2xl hover:text-blue-600 hover:cursor-pointer"
+        (click)="toggleNotification($event)"
+        [ngClass]="{'animate-bell': notifications.length > 0 && !_toggleNotification}">
       </fa-icon>
     </div>
     <div class="flex items-center md:order-2 ">

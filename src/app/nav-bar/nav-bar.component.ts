@@ -4,6 +4,7 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { ICart } from '../Models/cart';
 import { CartService } from '../services/cart.service';
 import { NotificationsService } from '../services/notifications.service';
+import { INotification } from '../Models/INotification';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -15,12 +16,13 @@ export class NavBarComponent implements OnInit {
   public faCircle: IconDefinition = faCircle;
   public faCartArrowDown: IconDefinition = faCartArrowDown;
   public faBell: IconDefinition = faBell;
+  public notifications: INotification[] = [];
   public cart: ICart = {
     reservedTotalAmount: 0,
     priceTotalAmount: [0],
     tripsReserved: []
   };
-  private _toggleNotification: boolean = false;
+  public _toggleNotification: boolean = false;
 
   constructor(private cartService: CartService, private notificationService: NotificationsService) {
   }
@@ -29,7 +31,10 @@ export class NavBarComponent implements OnInit {
   ngOnInit(): void {
     this.cartService.addingPlaceEventListener().subscribe(info => {
       this.cart = info;
-    })
+    });
+    this.notificationService.getNotifications().subscribe(notifications => {
+      this.notifications = notifications;
+    });
   }
 
 

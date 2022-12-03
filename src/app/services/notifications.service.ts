@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { INotification } from '../Models/INotification';
+import { NotificationType } from '../Models/notificationType.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,12 @@ export class NotificationsService {
 
   public getNotifications(): Observable<INotification[]> {
     return this.notificationsSender.asObservable();
+  }
+
+  public clearErrors() {
+    this.notifications = this.notifications.filter(notification => {
+      return notification.type !== NotificationType.error;
+    });
+    this.notificationsSender.next(this.notifications);
   }
 }
