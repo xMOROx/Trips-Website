@@ -6,7 +6,7 @@ export interface Trip {
     unitPrice: number;
     maxPlace: number;
     Description: string;
-    ImageSrc: string;
+    ImageSrc: string[];
     amount: number;
     currency: string;
     likes: number;

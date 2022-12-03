@@ -1,0 +1,18 @@
+<div class="relative h-[220px] w-full">
+  <div class="absolute top-[50%] -translate-y-[100%] w-full h-[20%] flex p-4">
+    <div class="leftArrow mr-auto text-white cursor-pointer" (click)="goToPrevious()">
+      <fa-icon [icon]="arrowLeft" size="4x"></fa-icon>
+    </div>
+    <div class="rightArrow text-white cursor-pointer" (click)="goToNext()">
+      <fa-icon [icon]="arrowRight" size="4x"></fa-icon>
+    </div>
+  </div>
+  <div class="slide" class="h-full bg-cover bg-center" [ngStyle]="{'background-image':getCurrentSlideUrl()}"></div>
+  <div class="dotContainer absolute z-10 bottom-2 flex justify-center gap-1 left-[50%] -translate-x-[50%]">
+    <div *ngFor="let slide of slides; let slideIndex = index">
+      <div class="pill w-3 h-1 rounded-full bg-white cursor-pointer ring-2 ring-black shadow-lg shadow-gray-500"
+        (click)="goToSlide(slideIndex)" [ngClass]="{'bg-blue-600': currentIndex === slideIndex}"></div>
+    </div>
+
+  </div>
+</div>

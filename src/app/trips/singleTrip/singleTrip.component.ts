@@ -7,6 +7,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { RatingService } from 'src/app/services/rating.service';
 import { ICart } from 'src/app/Models/cart';
+import { ISlide } from 'src/app/imageSlider/Models/ISlide';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class SingleTripComponent implements OnInit {
     tripsReserved: []
   };
 
+  public slides: ISlide[] = [];
+
 
   private subscription: Subscription | undefined
 
@@ -44,6 +47,9 @@ export class SingleTripComponent implements OnInit {
         this.cart = info;
         this.setAmountForReservedTrip();
       });
+      for (const image of this.trip.ImageSrc) {
+        this.slides.push({ url: image, title: this.trip.name });
+      }
     });
 
 

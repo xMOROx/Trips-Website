@@ -4,6 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from '../app-routing.module';
+import { ImageSliderModule } from '../imageSlider/imageSlider/imageSlider.module';
 
 import { ListTripsComponent } from './list-trips/list-trips.component';
 import { DetailTripComponent } from './detail-trip/detail-trip.component';
@@ -41,7 +42,8 @@ import { StarsPipe } from '../pipes/filters/stars.pipe';
     CommonModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ImageSliderModule
   ],
   exports: [
     ListTripsComponent,

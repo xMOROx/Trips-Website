@@ -6,7 +6,7 @@ export interface TripJSON {
     unitPrice: number;
     maxPlace: number;
     Description: string;
-    ImageSrc: string;
+    ImageSrc: string[];
     currency: string;
     likes: number;
     dislikes: number;

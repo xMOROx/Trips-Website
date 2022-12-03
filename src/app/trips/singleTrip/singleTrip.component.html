@@ -1,75 +1,79 @@
-<div class="flex flex-wrap -mx-4">
-  <div class="w-full s p-4">
-    <div
-      class="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden border-[.2rem] border-solid ">
-      <div class="relative pb-48 overflow-hidden z-0  ">
-        <img
-          class="absolute inset-0 left-[50%] -translate-x-[50%] -translate-y-[50%] top-[50%] aspect-square object-cover  transition hover:scale-105 ease-out duration-300 "
-          src="{{trip.ImageSrc}}" alt="{{trip.name}}">
-      </div>
-      <div class="p-4">
-        <div class="upperCard flex justify-between">
-
-          <span class="info" *ngIf="0 <(trip.maxPlace - trip.amount) && (trip.maxPlace - trip.amount) <= 3">Pozostałe
-            miejsca
-            {{trip.maxPlace - trip.amount}}</span>
-          <span class="info" *ngIf=" trip.maxPlace - trip.amount  == 0">Brak wolnych miejsc</span>
+<div class="wrapper flex justify-center min-h-[calc(100vw-68px)] w-screen">
+  <div class="flex flex-wrap -mx-4 w-[80vw] lg:w-[50vw]">
+    <div class="w-full s p-4">
+      <div
+        class="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden border-[.2rem] border-solid ">
+        <div class="relative pb-48 overflow-hidden z-0  w-full h-[200px]">
+          <!-- <img *ngFor="let image of trip.ImageSrc; let i = index" class="absolute inset-0  object-cover  transition "
+            src="{{image}}" alt="{{trip.name}}"> -->
+          <app-imageSlider [slides]="slides"></app-imageSlider>
         </div>
-        <h2 class="mt-2 mb-2 text-xl  font-bold text-center">{{trip.name | uppercase}}</h2>
-        <h3 class="mt-2 mb-2 text-sm  font-semibold text-center">{{trip.DestinationCountry | uppercase}}</h3>
-        <p class="text-sm text-center">{{trip.Description}}</p>
-        <div class="mt-3   grid grid-cols-2 grid-rows-2 place-items-center">
-          <div class="price  col-start-1 col-end-3 row-start-1 row-end-1">
-            <span class="text-sm font-semibold"></span>&nbsp;<span
-              class="font-bold text-xl">{{trip.unitPrice}}</span>&nbsp;<span
-              class="text-sm font-semibold">{{trip.currency}}</span>
+        <div class="p-4">
+          <div class="upperCard flex justify-between">
+
+            <span class="info" *ngIf="0 <(trip.maxPlace - trip.amount) && (trip.maxPlace - trip.amount) <= 3">Pozostałe
+              miejsca
+              {{trip.maxPlace - trip.amount}}</span>
+            <span class="info" *ngIf=" trip.maxPlace - trip.amount  === 0">Brak wolnych miejsc</span>
+          </div>
+          <h2 class="mt-2 mb-2 text-xl  font-bold text-center">{{trip.name | uppercase}}</h2>
+          <h3 class="mt-2 mb-2 text-sm  font-semibold text-center">{{trip.DestinationCountry | uppercase}}</h3>
+          <p class="text-sm text-center">{{trip.Description}}</p>
+          <div class="mt-3   grid grid-cols-2 grid-rows-2 place-items-center">
+            <div class="price  col-start-1 col-end-3 row-start-1 row-end-1">
+              <span class="text-sm font-semibold"></span>&nbsp;<span
+                class="font-bold text-xl">{{trip.unitPrice}}</span>&nbsp;<span
+                class="text-sm font-semibold">{{trip.currency}}</span>
+            </div>
+
+            <button type="button"
+              class="buttons justify-self-end   bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 "
+              (click)="addClick(trip)" [ngClass]="{'invisible': (trip.amount >= trip.maxPlace) }">
+              <fa-icon [icon]="faPlus" class="text-stone-900"></fa-icon>
+            </button>
+            <button type="button"
+              class="buttons justify-self-start    bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 "
+              (click)="removeClick(trip)" *ngIf="trip.amount > 0">
+              <fa-icon [icon]="faMinus" class="text-stone-900"></fa-icon>
+            </button>
+
+            <button type="button" class="buttons justify-self-start  r bg-stone-800  cursor-not-allowed "
+              *ngIf="trip.amount == 0 " disabled>
+              <fa-icon [icon]="faMinus" class="text-stone-400"></fa-icon>
+            </button>
+
+
+          </div>
+        </div>
+        <div class="p-4 border-t border-b text-xs text-gray-700 grid grid-cols-2 grid-rows-2 place-content-center">
+          <span class="flex items-center justify-center">
+            Liczba miejsc: {{trip.maxPlace}}
+          </span>
+          <span class="flex items-center justify-center">
+            Ilosc: {{trip.amount}}
+          </span>
+          <div class="datas">
+            <span>
+              <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Rozpoczęcie wycieczki:
+            </span> <span>{{trip.StartData}}</span>
+          </div>
+          <div class="datas">
+            <span>
+              <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Koniec wycieczki:
+            </span> <span>{{trip.EndData}}</span>
           </div>
 
+        </div>
+        <div class="bottom flex flex-wrap justify-center px-5 py-2.5">
+          <app-trip-rating [likes]="trip.likes" [disLikes]="trip.dislikes"></app-trip-rating>
           <button type="button"
-            class="buttons justify-self-end   bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 "
-            (click)="addClick(trip)" [ngClass]="{'invisible': (trip.amount >= trip.maxPlace) }">
-            <fa-icon [icon]="faPlus" class="text-stone-900"></fa-icon>
-          </button>
-          <button type="button"
-            class="buttons justify-self-start    bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 "
-            (click)="removeClick(trip)" *ngIf="trip.amount > 0">
-            <fa-icon [icon]="faMinus" class="text-stone-900"></fa-icon>
-          </button>
-
-          <button type="button" class="buttons justify-self-start  r bg-stone-800  cursor-not-allowed "
-            *ngIf="trip.amount == 0 " disabled>
-            <fa-icon [icon]="faMinus" class="text-stone-400"></fa-icon>
-          </button>
-
-
+            class="buttons text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300  dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+            (click)="onRemove()">Usuń
+            Wycieczke</button>
         </div>
-      </div>
-      <div class="p-4 border-t border-b text-xs text-gray-700 grid grid-cols-2 grid-rows-2 place-content-center">
-        <span class="flex items-center justify-center">
-          Liczba miejsc: {{trip.maxPlace}}
-        </span>
-        <span class="flex items-center justify-center">
-          Ilosc: {{trip.amount}}
-        </span>
-        <div class="datas">
-          <span>
-            <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Rozpoczęcie wycieczki:
-          </span> <span>{{trip.StartData}}</span>
-        </div>
-        <div class="datas">
-          <span>
-            <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Koniec wycieczki:
-          </span> <span>{{trip.EndData}}</span>
-        </div>
-
-      </div>
-      <div class="bottom flex flex-wrap justify-center px-5 py-2.5">
-        <app-trip-rating [likes]="trip.likes" [disLikes]="trip.dislikes"></app-trip-rating>
-        <button type="button"
-          class="buttons text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300  dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-          (click)="onRemove()">Usuń
-          Wycieczke</button>
       </div>
     </div>
   </div>
+
+
 </div>
