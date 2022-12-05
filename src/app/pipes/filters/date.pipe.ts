@@ -15,16 +15,16 @@ export class DatePipe implements PipeTransform {
     } else if (startDate && !EndDate) {
 
       return trips.filter((trip) => {
-        return new Date(trip.StartData) >= new Date(startDate);
+        return new Date(trip.startDate) >= new Date(startDate);
       });
 
     } else if (!startDate && EndDate) {
       return trips.filter((trip) => {
-        return new Date(trip.EndData) <= new Date(EndDate);
+        return new Date(trip.endDate) <= new Date(EndDate);
       });
     }
     return trips.filter((trip) => {
-      return new Date(startDate) <= new Date(trip.StartData) && new Date(trip.EndData) <= new Date(EndDate);
+      return new Date(startDate) <= new Date(trip.startDate) && new Date(trip.endDate) <= new Date(EndDate);
     });
   }
 

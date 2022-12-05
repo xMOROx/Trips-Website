@@ -26,13 +26,13 @@ export class TripsParseService {
   private changeToTripJSON(trip: Trip): TripJSON {
     return {
       "name": trip.name,
-      "DestinationCountry": trip.DestinationCountry,
-      "StartData": trip.StartData,
-      "EndData": trip.EndData,
+      "destinationCountry": trip.destinationCountry,
+      "startDate": trip.startDate,
+      "endDate": trip.endDate,
       "unitPrice": trip.unitPrice,
       "maxPlace": trip.maxPlace,
-      "Description": trip.Description,
-      "ImageSrc": trip.ImageSrc,
+      "description": trip.description,
+      "imageSrc": trip.imageSrc,
       "currency": trip.currency,
       "likes": trip.likes,
       "dislikes": trip.dislikes,

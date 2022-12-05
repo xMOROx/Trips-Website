@@ -14,8 +14,8 @@
             <span class="info" *ngIf=" trip.maxPlace - trip.amount  === 0">Brak wolnych miejsc</span>
           </div>
           <h2 class="mt-2 mb-2 text-xl  font-bold text-center">{{trip.name | uppercase}}</h2>
-          <h3 class="mt-2 mb-2 text-sm  font-semibold text-center">{{trip.DestinationCountry | uppercase}}</h3>
-          <p class="text-sm text-center">{{trip.Description}}</p>
+          <h3 class="mt-2 mb-2 text-sm  font-semibold text-center">{{trip.destinationCountry | uppercase}}</h3>
+          <p class="text-sm text-center">{{trip.description}}</p>
           <div class="mt-3   grid grid-cols-2 grid-rows-2 place-items-center">
             <div class="price  col-start-1 col-end-3 row-start-1 row-end-1">
               <span class="text-sm font-semibold"></span>&nbsp;<span
@@ -52,12 +52,12 @@
           <div class="datas">
             <span>
               <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Rozpoczęcie wycieczki:
-            </span> <span>{{trip.StartData}}</span>
+            </span> <span>{{trip.startDate}}</span>
           </div>
           <div class="datas">
             <span>
               <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Koniec wycieczki:
-            </span> <span>{{trip.EndData}}</span>
+            </span> <span>{{trip.endDate}}</span>
           </div>
 
         </div>
@@ -80,15 +80,18 @@
         <h2 class="text-blue-600">Opinie</h2>
       </div>
     </div>
-    <div class="flex flex-col items-center p-2 w-[80%] min-h-[200px] " *ngFor="let opinion of opinions">
-      <div class="bg-zinc-800 w-full text-blue-600 shadow-md shadow-zinc-900">
-        <h2 class="w-full text-center">{{opinion.nick}}</h2>
-      </div>
-      <div class="w-full min-h-[150px]">
-        <div class="w-full min-h-[140px] bg-gray-500 shadow-md shadow-gray-800 p-2 break-words">{{opinion.description}}
+    <div class="w-[90%] grid grid-cols-1 xl:grid-cols-3  lg:grid-cols-2  md:grid-cols-2 place-items-center">
+      <div class="flex flex-col items-center p-2 w-full min-h-[200px] " *ngFor="let opinion of opinions">
+        <div class="bg-zinc-800 w-full text-blue-600 shadow-md shadow-zinc-900">
+          <h2 class="w-full text-center">{{opinion.nick}}</h2>
         </div>
-        <div class="grid place-content-center w-full h-[20px] bg-gray-600 mt-1" *ngIf="opinion.date !== ''">
-          <p>Data zakupu wycieczki: {{opinion.date}}</p>
+        <div class="w-full min-h-[150px]">
+          <div class="w-full min-h-[140px] bg-gray-500 shadow-md shadow-gray-800 p-2 break-words">
+            {{opinion.description}}
+          </div>
+          <div class="grid place-content-center w-full h-[20px] bg-gray-600 mt-1" *ngIf="opinion.date !== ''">
+            <p>Data zakupu wycieczki: {{opinion.date}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -122,11 +125,11 @@
       </div>
       <div class="relative z-0 mb-6 w-[200px] group">
         <input type="date" name="date_buy" id="date_buy" [(ngModel)]="date"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          class="block py-2.5 mb-8 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " />
 
         <label for="date_buy"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Data
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ">Data
           zakupu wycieczki</label>
       </div>
       <div class="relative z-0 mb-6 w-[90%] md:w-[50%] group">

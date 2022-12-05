@@ -106,8 +106,8 @@ export class FiltersComponent implements OnInit {
   public getMinimumDate(): string {
     let minimumDate: Date = new Date("3001-01-01");
     for (const index in this.trips) {
-      if (new Date(this.trips[index].StartData) < minimumDate) {
-        minimumDate = new Date(this.trips[index].StartData);
+      if (new Date(this.trips[index].startDate) < minimumDate) {
+        minimumDate = new Date(this.trips[index].startDate);
       }
     }
     return this.formatDate(minimumDate);
@@ -116,8 +116,8 @@ export class FiltersComponent implements OnInit {
   public getMaximumDate(): string {
     let maximumDate: Date = new Date("1970-01-01");
     for (const index in this.trips) {
-      if (new Date(this.trips[index].EndData) > maximumDate) {
-        maximumDate = new Date(this.trips[index].EndData);
+      if (new Date(this.trips[index].endDate) > maximumDate) {
+        maximumDate = new Date(this.trips[index].endDate);
       }
     }
 

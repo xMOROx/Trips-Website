@@ -1,12 +1,12 @@
 export interface TripJSON {
     name: string;
-    DestinationCountry: string;
-    StartData: string;
-    EndData: string;
+    destinationCountry: string;
+    startDate: string;
+    endDate: string;
     unitPrice: number;
     maxPlace: number;
-    Description: string;
-    ImageSrc: string[];
+    description: string;
+    imageSrc: string[];
     currency: string;
     likes: number;
     dislikes: number;

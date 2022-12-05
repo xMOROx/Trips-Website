@@ -55,7 +55,7 @@ export class SingleTripComponent implements OnInit {
         this.cart = info;
         this.setAmountForReservedTrip();
       });
-      for (const image of this.trip.ImageSrc) {
+      for (const image of this.trip.imageSrc) {
         this.slides.push({ url: image, title: this.trip.name });
       }
     });

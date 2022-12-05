@@ -10,7 +10,7 @@
         <a routerLink="/trips/{{trip.id}}">
           <img
             class="absolute inset-0 left-[50%] -translate-x-[50%] -translate-y-[50%] top-[50%] aspect-square object-cover  transition hover:scale-105 ease-out duration-300 "
-            src="{{trip.ImageSrc[0]}}" alt="{{trip.name}}">
+            src="{{trip.imageSrc[0]}}" alt="{{trip.name}}">
         </a>
       </div>
       <div class="p-4">
@@ -32,7 +32,7 @@
           <span class="info" *ngIf=" trip.maxPlace - trip.amount  == 0">Brak wolnych miejsc</span>
         </div>
         <h2 class="mt-2 mb-2 text-xl  font-bold text-center">{{trip.name | uppercase}}</h2>
-        <h3 class="mt-2 mb-2 text-sm  font-semibold text-center">{{trip.DestinationCountry | uppercase}}</h3>
+        <h3 class="mt-2 mb-2 text-sm  font-semibold text-center">{{trip.destinationCountry | uppercase}}</h3>
         <div class="mt-3   grid grid-cols-2 grid-rows-2 place-items-center">
           <div class="price  col-start-1 col-end-3 row-start-1 row-end-1">
             <span class="text-sm font-semibold"></span>&nbsp;<span
@@ -69,12 +69,12 @@
         <div class="datas">
           <span class="text-center">
             <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Rozpoczęcie wycieczki:
-          </span> <span class="text-center">{{trip.StartData}}</span>
+          </span> <span class="text-center">{{trip.startDate}}</span>
         </div>
         <div class="datas">
           <span class="text-center">
             <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Koniec wycieczki:
-          </span> <span class="text-center">{{trip.EndData}}</span>
+          </span> <span class="text-center">{{trip.endDate}}</span>
         </div>
 
       </div>

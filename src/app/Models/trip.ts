@@ -2,13 +2,14 @@ import { TripStatus } from "./tripStatus.enum";
 
 export interface Trip {
     name: string;
-    DestinationCountry: string;
-    StartData: string;
-    EndData: string;
+    destinationCountry: string;
+    startDate: string;
+    endDate: string;
+    boughtDate: string;
     unitPrice: number;
     maxPlace: number;
-    Description: string;
-    ImageSrc: string[];
+    description: string;
+    imageSrc: string[];
     amount: number;
     currency: string;
     likes: number;

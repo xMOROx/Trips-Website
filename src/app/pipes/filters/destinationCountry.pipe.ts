@@ -10,7 +10,7 @@ export class DestinationCountryPipe implements PipeTransform {
     let selectedTrips: Trip[] = [];
     for (const country of selectedCountries) {
       for (const trip of trips) {
-        if (country.toLocaleLowerCase() === trip.DestinationCountry.toLocaleLowerCase()) {
+        if (country.toLocaleLowerCase() === trip.destinationCountry.toLocaleLowerCase()) {
           selectedTrips.push(trip);
         }
       }

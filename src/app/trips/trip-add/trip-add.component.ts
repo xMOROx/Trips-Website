@@ -37,13 +37,13 @@ export class TripAddComponent implements OnInit {
   handleSubmit(form: NgForm) {
     let trip: Trip = {
       name: form.value.floating_name,
-      DestinationCountry: form.value.floating_Country,
-      StartData: form.value.floating_data_start,
-      EndData: form.value.floating_data_end,
+      destinationCountry: form.value.floating_Country,
+      startDate: form.value.floating_data_start,
+      endDate: form.value.floating_data_end,
       unitPrice: form.value.floating_unit_price,
       maxPlace: form.value.floating_places,
-      Description: form.value.Description,
-      ImageSrc: form.value.floating_Image,
+      description: form.value.Description,
+      imageSrc: form.value.floating_Image,
       amount: 0,
       currency: form.value.floating_currency,
       likes: 0,
