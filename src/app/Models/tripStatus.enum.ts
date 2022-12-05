@@ -4,5 +4,5 @@ export enum TripStatus {
     bought = 1,
     beforeStart = 2,
     inProgress = 3,
-    ended = 4,
+    archival = 4,
 }

@@ -20,9 +20,10 @@ import { FiltersService } from './services/filters.service';
 import { NotificationComponent } from './notification/notification.component';
 
 import { DatePipe } from '@angular/common';
+import { BuyHistoryComponent } from './buyHistory/buyHistory.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     NavBarComponent,
     HomePageComponent,
@@ -30,7 +31,8 @@ import { DatePipe } from '@angular/common';
     PageNotFoundComponent,
     FooterComponent,
     NotificationComponent,
-  ],
+      BuyHistoryComponent
+   ],
   imports: [
     BrowserModule,
     TripsModule,
