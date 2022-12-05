@@ -11,7 +11,7 @@ import { NotificationType } from '../Models/notificationType.enum';
 export class NotificationComponent implements OnInit {
   public value: boolean = false;
   public notifications: INotification[] = [];
-  notificationType: typeof NotificationType = NotificationType;
+  public notificationType: typeof NotificationType = NotificationType;
 
   constructor(private notificationService: NotificationsService) { }
 
@@ -23,5 +23,10 @@ export class NotificationComponent implements OnInit {
       this.notifications = notifications;
     })
   }
+
+  public closeNotification(notification: any): void {
+    this.notificationService.removeNotificationById(notification.id);
+  }
+
 
 }

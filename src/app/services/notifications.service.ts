@@ -22,6 +22,10 @@ export class NotificationsService {
   }
 
   public sendNotification(notification: INotification): void {
+    if (this.notifications.length !== 0) {
+      notification.id = this.notifications[this.notifications.length - 1].id + 1;
+    }
+
     this.notifications.push(notification);
     this.notificationsSender.next(this.notifications);
   }
@@ -36,4 +40,13 @@ export class NotificationsService {
     });
     this.notificationsSender.next(this.notifications);
   }
+
+  public removeNotificationById(id: number): void {
+    this.notifications = this.notifications.filter((notification) => {
+      return notification.id !== id;
+    });
+    this.notificationsSender.next(this.notifications);
+
+  }
+
 }

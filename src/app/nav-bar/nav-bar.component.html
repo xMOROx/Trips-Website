@@ -7,9 +7,10 @@
       </fa-layers>
     </a>
     <div class="flex justify-center   mr-0">
-      <fa-icon [icon]="faBell" class="text-gray-500 text-2xl hover:text-blue-600 hover:cursor-pointer"
+      <fa-icon [icon]="faBell"
+        class="text-gray-500 text-2xl hover:text-blue-600 hover:cursor-pointer origin-top transition-colors delay-75"
         (click)="toggleNotification($event)"
-        [ngClass]="{'animate-bell': notifications.length > 0 && !_toggleNotification}">
+        [ngClass]="{'animate-bell': notifications.length > 0 && !_toggleNotification, 'text-red-600':lastNotification?.type === notificationType.error && !_toggleNotification, 'text-blue-800':lastNotification?.type === notificationType.info && !_toggleNotification, 'text-green-600':lastNotification?.type === notificationType.success && !_toggleNotification, 'text-yellow-500':lastNotification?.type === notificationType.warning && !_toggleNotification}">
       </fa-icon>
     </div>
     <div class="flex items-center md:order-2 ">

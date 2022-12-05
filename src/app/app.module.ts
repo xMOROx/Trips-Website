@@ -19,6 +19,7 @@ import { CurrenciesService } from './services/currencies.service';
 import { FiltersService } from './services/filters.service';
 import { NotificationComponent } from './notification/notification.component';
 
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { NotificationComponent } from './notification/notification.component';
     TripsCartComponent,
     PageNotFoundComponent,
     FooterComponent,
-    NotificationComponent
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +37,9 @@ import { NotificationComponent } from './notification/notification.component';
     AppRoutingModule,
     FontAwesomeModule,
     FormsModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    DatePipe
+
   ],
   providers: [
     CartService,

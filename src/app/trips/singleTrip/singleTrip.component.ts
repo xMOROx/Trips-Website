@@ -99,6 +99,8 @@ export class SingleTripComponent implements OnInit {
       title: title,
       description: description,
       type: NotificationType.error,
+      id: 0,
+      date: new Date(),
     };
   }
 

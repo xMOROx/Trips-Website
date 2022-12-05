@@ -5,6 +5,7 @@ import { ICart } from '../Models/cart';
 import { CartService } from '../services/cart.service';
 import { NotificationsService } from '../services/notifications.service';
 import { INotification } from '../Models/INotification';
+import { NotificationType } from '../Models/notificationType.enum';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -23,6 +24,8 @@ export class NavBarComponent implements OnInit {
     tripsReserved: []
   };
   public _toggleNotification: boolean = false;
+  public notificationType: typeof NotificationType = NotificationType;
+  public lastNotification: INotification | undefined;
 
   constructor(private cartService: CartService, private notificationService: NotificationsService) {
   }
@@ -34,7 +37,14 @@ export class NavBarComponent implements OnInit {
     });
     this.notificationService.getNotifications().subscribe(notifications => {
       this.notifications = notifications;
+      if (this.notifications.length !== 0) {
+        this.lastNotification = this.notifications[this.notifications.length - 1];
+        console.log(this.lastNotification.type);
+      } else {
+        this.lastNotification = undefined;
+      }
     });
+
   }
 
 
@@ -42,9 +52,10 @@ export class NavBarComponent implements OnInit {
     hidden.classList.toggle("hidden");
   }
 
-  public toggleNotification(event: any) {
+  public toggleNotification(event: any): void {
     this.notificationService.emitEventShowNotification(this._toggleNotification)
     this._toggleNotification = !this._toggleNotification;
+
 
   }
 
