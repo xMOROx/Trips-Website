@@ -3,6 +3,7 @@ import { Trip } from 'src/app/Models/trip';
 import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { CartService } from 'src/app/services/cart.service';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
+import { TripStatus } from 'src/app/Models/tripStatus.enum';
 
 @Component({
   selector: 'app-detail-trip',
@@ -47,20 +48,26 @@ export class DetailTripComponent implements OnInit {
 
   public addClick(trip: Trip): void {
     if (trip.amount < trip.maxPlace) {
-      trip.amount += 1
+      if (trip.status === TripStatus.listed) {
+        trip.status = TripStatus.reserved;
+      }
+      trip.amount += 1;
       this.cartService.emitEventAddingPlace(1, trip.currency, trip.unitPrice, trip);
     }
   }
 
   public removeClick(trip: Trip): void {
     if (trip.amount >= 1) {
-      trip.amount -= 1
+      trip.amount -= 1;
+      if (trip.amount === 0) {
+        trip.status = TripStatus.listed;
+      }
       this.cartService.emitEventAddingPlace(-1, trip.currency, -trip.unitPrice, trip);
     }
   }
 
   public onRemove(): void {
-    this.tripParseService.emitTrip(this.trip);
+    this.tripParseService.emitTripRemover(this.trip);
   }
 
 }

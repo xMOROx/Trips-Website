@@ -59,7 +59,6 @@ export class FiltersService {
 
   public emitEventFilteredData(countries: string[], minimumPrice: number, maximumPrice: number, startDate: string, endDate: string, stars?: IStar[]) {
     this.filter = this.generateFilter(countries, minimumPrice, maximumPrice, startDate, endDate, stars);
-
     this.filteredData.next(this.filter);
   }
 

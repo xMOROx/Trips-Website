@@ -16,7 +16,7 @@ export class CartService {
     tripsReserved: []
   }
 
-  private addOnePlace: BehaviorSubject<ICart> = new BehaviorSubject<ICart>(this.cart);
+  private reservedTripHandler: BehaviorSubject<ICart> = new BehaviorSubject<ICart>(this.cart);
 
   constructor(private currenciesService: CurrenciesService) {
 
@@ -51,8 +51,9 @@ export class CartService {
   private removeTripWithZeroAmount(): Trip[] {
     return this.cart.tripsReserved.filter((trip) => {
       return trip.amount !== 0;
-    })
+    });
   }
+
 
   public emitEventAddingPlace(amount: number, symbol: string, price?: number, trip?: Trip): void {
     if (price !== undefined) {
@@ -80,11 +81,26 @@ export class CartService {
     this.cart.tripsReserved = this.removeTripWithZeroAmount();
 
     this.cart.reservedTotalAmount += amount;
-    this.addOnePlace.next(this.cart);
+    this.reservedTripHandler.next(this.cart);
   }
 
   public addingPlaceEventListener(): Observable<ICart> {
-    return this.addOnePlace.asObservable();
+    return this.reservedTripHandler.asObservable();
+  }
+
+  public removeTripById(id: number): void {
+    this.cart.tripsReserved = this.cart.tripsReserved.filter(trip => {
+      if (trip.id === id) {
+        this.cart.reservedTotalAmount -= trip.amount;
+        let symbolCurrency: ICurrency | null = this.currenciesService.getCurrencybySymbol(trip.currency);
+        if (symbolCurrency !== null) {
+          this.cart.priceTotalAmount[symbolCurrency.id] -= trip.unitPrice * trip.amount;
+        }
+        return false;
+      }
+      return true;
+    });
+    this.reservedTripHandler.next(this.cart);
   }
 
 }

@@ -6,6 +6,9 @@ import { CartService } from '../services/cart.service';
 import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { CurrenciesService } from '../services/currencies.service';
 import { ICurrency } from '../Models/currency';
+import { Trip } from '../Models/trip';
+import { BoughtTripsService } from '../services/boughtTrips.service';
+import { TripStatus } from '../Models/tripStatus.enum';
 
 const TITLE = "Koszyk";
 
@@ -30,7 +33,7 @@ export class TripsCartComponent implements OnInit {
   public faMinus: any = faMinus;
   public showDetails: boolean = false;
 
-  constructor(private titleService: Title, private cartService: CartService, private currenciesService: CurrenciesService) {
+  constructor(private titleService: Title, private cartService: CartService, private currenciesService: CurrenciesService, private buyTripService: BoughtTripsService) {
 
   }
 
@@ -44,6 +47,12 @@ export class TripsCartComponent implements OnInit {
 
   public changeView(): void {
     this.showDetails = !this.showDetails;
+  }
+
+  public buyTrip(trip: Trip): void {
+    trip.status = TripStatus.bought;
+    this.buyTripService.addTrip(trip);
+    this.cartService.removeTripById(trip.id);
   }
 
 }

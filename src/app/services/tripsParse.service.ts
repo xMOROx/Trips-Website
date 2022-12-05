@@ -64,12 +64,11 @@ export class TripsParseService {
     return this.http.get<Trip>(`${JSON_URL}/${id}`);
   }
 
-  public emitTrip(trip: Trip): void {
-    console.log("TEST");
-
+  public emitTripRemover(trip: Trip): void {
     this.removeTrip.next(trip);
   }
-  public tripListener(): Observable<Trip> {
+
+  public tripListenerForRemove(): Observable<Trip> {
     return this.removeTrip.asObservable();
   }
 

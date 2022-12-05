@@ -1,3 +1,5 @@
+import { TripStatus } from "./tripStatus.enum";
+
 export interface Trip {
     name: string;
     DestinationCountry: string;
@@ -11,5 +13,6 @@ export interface Trip {
     currency: string;
     likes: number;
     dislikes: number;
+    status: TripStatus;
     id: number;
 }

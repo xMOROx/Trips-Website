@@ -12,6 +12,7 @@ import { IOpinion } from 'src/app/Models/IOpinion';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { INotification } from 'src/app/Models/INotification';
 import { NotificationType } from 'src/app/Models/notificationType.enum';
+import { TripStatus } from 'src/app/Models/tripStatus.enum';
 
 
 @Component({
@@ -114,14 +115,20 @@ export class SingleTripComponent implements OnInit {
 
   public addClick(trip: Trip): void {
     if (trip.amount < trip.maxPlace) {
-      trip.amount += 1
+      if (trip.status === TripStatus.listed) {
+        trip.status = TripStatus.reserved;
+      }
+      trip.amount += 1;
       this.cartService.emitEventAddingPlace(1, trip.currency, trip.unitPrice, trip);
     }
   }
 
   public removeClick(trip: Trip): void {
     if (trip.amount >= 1) {
-      trip.amount -= 1
+      trip.amount -= 1;
+      if (trip.amount === 0) {
+        trip.status = TripStatus.listed;
+      }
       this.cartService.emitEventAddingPlace(-1, trip.currency, -trip.unitPrice, trip);
     }
   }
@@ -167,7 +174,7 @@ export class SingleTripComponent implements OnInit {
 
   public onRemove(): void {
     // this.tripsParseService.deleteTrip() //? Future implementation 
-    this.tripsParseService.emitTrip(this.trip);
+    this.tripsParseService.emitTripRemover(this.trip);
   }
 
 
