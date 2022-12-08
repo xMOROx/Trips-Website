@@ -1,4 +1,77 @@
 <div class="w-[80vw] my-8 min-h-[calc(80vh-50px)] rounded-2xl shadow-md shadow-neutral-900  bg-gray-900 p-2 ">
-  {{boughtTrips | json}}
+  <select name="" id="" multiple [(ngModel)]="selectedValue"
+    class="px-4 py-3 w-full text-center overflow-hidden mb-4 rounded-2xl text-blue-600 shadow-lg  dark:bg-zinc-800 border-transparent focus:border-zinc-500 focus:bg-zinc-800 focus:ring-0 text-sm ">
+    <option value="" disabled class="text-lg disabled:text-blue-600 text-center ">Wybierz status</option>
+    <option [ngValue]="statusType.beforeStart"
+      class="checked:bg-gray-800 text-white checked:text-blue-600 checked:shadow-md checked:shadow-gray-900 m-1 checked:rounded-full px-2">
+      Nierozpoczęta</option>
+    <option [ngValue]="statusType.inProgress"
+      class="checked:bg-gray-800 text-white checked:text-blue-600 checked:shadow-md checked:shadow-gray-900 m-1 checked:rounded-full px-2">
+      W trakcie</option>
+    <option [ngValue]="statusType.archival"
+      class="checked:bg-gray-800 text-white checked:text-blue-600 checked:shadow-md checked:shadow-gray-900 m-1 checked:rounded-full px-2">
+      Archiwalna</option>
+  </select>
+  <div
+    class=" min-h-0 grid grid-cols-1 xl:grid-cols-3  lg:grid-cols-2  md:grid-cols-2 rounded-2xl   sm:w-full  gap-4 w-full p-4 bg-neutral-800 justify-center"
+    *ngIf="boughtTrips.length > 0">
 
+    <div class="flex flex-wrap -mx-4" *ngFor="let trip of boughtTrips | status:selectedValue">
+      <div class="w-full s p-4">
+        <div class="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden"
+          [ngClass]="{'bg-zinc-700 text-zinc-400': trip.status === statusType.archival, 'border-2 border-solid border-green-700 bg-green-600 text-white': trip.status === statusType.inProgress}">
+          <div class="relative pb-48 overflow-hidden z-0">
+            <a routerLink="/trips/{{trip.id}}">
+              <img
+                class="absolute inset-0 left-[50%] -translate-x-[50%] -translate-y-[50%] top-[50%] aspect-square object-cover  transition hover:scale-105 ease-out duration-300 "
+                src="{{trip.imageSrc[0]}}" alt="{{trip.name}}">
+            </a>
+          </div>
+          <div class="p-4">
+            <div class="upperCard flex justify-between">
+              <span class="info shadow-sm"
+                [ngClass]="{'bg-zinc-800 text-zinc-400 shadow-zinc-900': trip.status === statusType.archival, 'bg-green-700 text-white  shadow-green-900': trip.status === statusType.inProgress, 'shadow-blue-800':trip.status === statusType.beforeStart}">{{trip.status === statusType.beforeStart ? "Wycieczka jeszcze się nie rozpoczęła": trip.status === statusType.inProgress? "Wycieczka właśnie trwa": "Wycieczka zakończona" }}
+              </span>
+            </div>
+            <h2 class="mt-2 mb-2 text-xl  font-bold text-center">{{trip.name | uppercase}}</h2>
+            <h3 class="mt-2 mb-2 text-sm  font-semibold text-center">{{trip.destinationCountry | uppercase}}</h3>
+            <div class="mt-3   grid grid-cols-2 grid-rows-2 place-items-center">
+              <div class="price  col-start-1 col-end-3 row-start-1 row-end-1">
+                <span class="text-sm font-semibold"></span>&nbsp;<span
+                  class="font-bold text-xl">{{trip.unitPrice}}</span>&nbsp;<span
+                  class="text-sm font-semibold">{{trip.currency}}</span>
+              </div>
+              <div class="datas  col-span-2">
+                <span class="text-center">
+                  <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Data zakupu wycieczki:
+                </span> <span class="text-center">{{trip.boughtDate}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 border-t border-b text-xs  text-white grid grid-cols-2 grid-rows-2 place-content-center"
+            [ngClass]="{'text-zinc-400 border-zinc-900': trip.status === statusType.archival, ' border-green-700 ': trip.status === statusType.inProgress, 'text-gray-700':trip.status === statusType.beforeStart}">
+            <span class="flex items-center justify-center col-span-2">
+              Liczba biletów: {{trip.amount}}
+            </span>
+            <div class="datas">
+              <span class="text-center">
+                <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Rozpoczęcie wycieczki:
+              </span> <span class="text-center">{{trip.startDate}}</span>
+            </div>
+            <div class="datas">
+              <span class="text-center">
+                <fa-icon [icon]="faClock" class="pr-1"></fa-icon>Koniec wycieczki:
+              </span> <span class="text-center">{{trip.endDate}}</span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="boughtTrips.length == 0"
+    class="w-full min-h-[calc(80vh-50px)] rounded-lg bg-neutral-800 text-white grid place-content-center text-4xl">BRAK
+    HISTORII
+  </div>
 </div>

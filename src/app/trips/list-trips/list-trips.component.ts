@@ -8,6 +8,7 @@ import { faFilter, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FiltersService } from 'src/app/services/filters.service';
 import { IFilter } from 'src/app/Models/filter';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
+import { BoughtTripsService } from 'src/app/services/boughtTrips.service';
 
 @Component({
   selector: 'app-list-trips',
@@ -23,11 +24,13 @@ export class ListTripsComponent implements OnInit {
     tripsReserved: []
   };
 
+  public boughtTrips: Trip[] = []; //TODO REMOVE
+
   public filter!: IFilter;
   public faFilter: IconDefinition = faFilter;
   public isActive: boolean = false;
 
-  public constructor(private titleService: Title, private tripsParseService: TripsParseService, private cartService: CartService, private filterService: FiltersService) {
+  public constructor(private titleService: Title, private tripsParseService: TripsParseService, private cartService: CartService, private filterService: FiltersService, private boughtTripsService: BoughtTripsService) {
   }
 
   public setTitle(newTitle: string): void {
@@ -39,23 +42,49 @@ export class ListTripsComponent implements OnInit {
     this.setTitle("Wycieczki");
 
     this.tripsParseService.getTrips().subscribe((trips: Trip[]) => {
+
+
       for (const trip of trips) {
         trip.amount = 0;
         trip.status = TripStatus.listed;
       }
+
       this.trips = trips;
-      this.cartService.addingPlaceEventListener().subscribe(info => {
-        this.cart = info;
+
+      //TODO remove this when trips will be stored inside data base 
+      this.boughtTripsService.getBoughtTrips().subscribe(boughtTrips => {
+        this.boughtTrips = boughtTrips;
+        this.trips.forEach(trip => {
+          this.boughtTrips.forEach(boughtTrip => {
+            if (boughtTrip.id === trip.id) {
+              trip.maxPlace -= boughtTrip.amount;
+            }
+          });
+          if (trip.maxPlace <= 0) {
+            this.handleRemoveTrip(trip);
+          }
+        });
+      });
+
+
+      //TODO REMOVE
+
+      this.cartService.addingPlaceEventListener().subscribe(cart => {
+        this.cart = cart;
         this.setAmountForReservedTrip();
       });
+
+
     });
-    this.filterService.filteredDataEventListener().subscribe(data => {
-      this.filter = data;
+
+    this.filterService.filteredDataEventListener().subscribe(filter => {
+      this.filter = filter;
     });
 
     this.tripsParseService.tripListenerForRemove().subscribe(trip => {
       this.handleRemoveTrip(trip);
-    })
+    });
+    // this.boughtTripsService.sendReminderNotificationForAll();
   }
 
   public handleRemoveTrip(event: Trip): void {

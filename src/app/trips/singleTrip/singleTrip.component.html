@@ -80,7 +80,8 @@
         <h2 class="text-blue-600">Opinie</h2>
       </div>
     </div>
-    <div class="w-[90%] grid grid-cols-1 xl:grid-cols-3  lg:grid-cols-2  md:grid-cols-2 place-items-center">
+    <div class="w-[90%] grid grid-cols-1 xl:grid-cols-3  lg:grid-cols-2  md:grid-cols-2 place-items-center"
+      *ngIf="opinions.length > 0">
       <div class="flex flex-col items-center p-2 w-full min-h-[200px] " *ngFor="let opinion of opinions">
         <div class="bg-zinc-800 w-full text-blue-600 shadow-md shadow-zinc-900">
           <h2 class="w-full text-center">{{opinion.nick}}</h2>
@@ -94,6 +95,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="opinions.length === 0"
+      class="w-full min-h-[400px] bg-gray-900 text-white grid place-items-center text-4xl">
+      BRAK OPINII
     </div>
 
   </div>
@@ -139,7 +144,7 @@
         <label for="description"
           class=" absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-10 scale-75 top-3 -z-10 origin-[0]  ">
           Opinia</label>
-        {{description.length <= 0 ? " ":description.length}}
+        <span class="text-zinc-500">{{description.length <= 0 ? " ":description.length}}</span>
       </div>
       <div>
         <button type="submit"
@@ -149,5 +154,4 @@
       </div>
     </form>
   </div>
-
 </div>

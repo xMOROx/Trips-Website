@@ -1,6 +1,6 @@
 <aside #notification
-  class="w-[50vw] md:w-[30vw] bg-gray-800 max-h-[calc(100vh-68px)] absolute   transition-all duration-500 ease-in-out shadow-lg shadow-gray-900 flex flex-col items-center gap-y-4 overflow-auto py-4"
-  [ngClass]="{'-left-[50vw] ':!value, 'left-[-300vw] md:left-[-280vw] ':value}">
+  class="w-[50vw] md:w-[30vw] bg-gray-800 max-h-[calc(100vh-68px)] absolute   transition-all duration-500 ease-in-out shadow-lg shadow-gray-900 flex flex-col items-center gap-y-4 overflow-auto"
+  [ngClass]="{'-left-[50vw] ':!hidden, 'left-[-300vw] md:left-[-280vw] ':hidden, 'py-4':notifications.length > 0}">
 
 
   <div *ngFor="let notification of notifications"

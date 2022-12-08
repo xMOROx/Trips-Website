@@ -47,4 +47,7 @@
   .text-shadow-none {
     text-shadow: none;
   }
+  .TheCheapest {
+    @apply bg-green-600 text-slate-100 shadow-green-800 !important;
+  }
 }

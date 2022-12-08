@@ -6,6 +6,7 @@ import { CartService } from '../services/cart.service';
 import { NotificationsService } from '../services/notifications.service';
 import { INotification } from '../Models/INotification';
 import { NotificationType } from '../Models/notificationType.enum';
+import { BoughtTripsService } from '../services/boughtTrips.service';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -27,7 +28,7 @@ export class NavBarComponent implements OnInit {
   public notificationType: typeof NotificationType = NotificationType;
   public lastNotification: INotification | undefined;
 
-  constructor(private cartService: CartService, private notificationService: NotificationsService) {
+  constructor(private cartService: CartService, private notificationService: NotificationsService, private boughtTripsService: BoughtTripsService) {
   }
 
 
@@ -39,12 +40,11 @@ export class NavBarComponent implements OnInit {
       this.notifications = notifications;
       if (this.notifications.length !== 0) {
         this.lastNotification = this.notifications[this.notifications.length - 1];
-        console.log(this.lastNotification.type);
       } else {
         this.lastNotification = undefined;
       }
     });
-
+    this.boughtTripsService.sendReminderNotificationForAll();
   }
 
 

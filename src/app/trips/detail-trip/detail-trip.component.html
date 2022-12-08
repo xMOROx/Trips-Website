@@ -16,20 +16,22 @@
       <div class="p-4">
         <div class="upperCard flex justify-between">
           <span *ngIf="trips.length > 1"
-            class="grid place-content-center px-2 py-1 leading-none bg-orange-200 text-orange-600   rounded-full font-semibold uppercase tracking-wide text-xs"
+            class="grid place-content-center px-2 py-1 leading-none bg-orange-200 text-orange-600 shadow-sm shadow-orange-800  rounded-full font-semibold uppercase tracking-wide text-xs"
             [ngClass]="{
-                  'bg-red-600 text-slate-50': trip.unitPrice == getMaxPriceTrip(),
-                  'bg-green-600 text-slate-100': trip.unitPrice == getMinPriceTrip()
+                  'bg-red-600 text-slate-50 shadow-red-800': trip.unitPrice == getMaxPriceTrip(),
+                  'TheCheapest': trip.unitPrice == getMinPriceTrip()
                 }">
 
             <span>
               {{(trip.unitPrice == getMaxPriceTrip())? "Najdroższa": (trip.unitPrice == getMinPriceTrip()) ? "Najtańsza": "Standardowa"}}
             </span>
           </span>
-          <span class="info" *ngIf="0 <(trip.maxPlace - trip.amount) && (trip.maxPlace - trip.amount) <= 3">Pozostałe
+          <span class="info shadow-sm shadow-blue-800"
+            *ngIf="0 <(trip.maxPlace - trip.amount) && (trip.maxPlace - trip.amount) <= 3">Pozostałe
             miejsca
             {{trip.maxPlace - trip.amount}}</span>
-          <span class="info" *ngIf=" trip.maxPlace - trip.amount  == 0">Brak wolnych miejsc</span>
+          <span class="info shadow-sm shadow-blue-800" *ngIf=" trip.maxPlace - trip.amount  == 0">Brak wolnych
+            miejsc</span>
         </div>
         <h2 class="mt-2 mb-2 text-xl  font-bold text-center">{{trip.name | uppercase}}</h2>
         <h3 class="mt-2 mb-2 text-sm  font-semibold text-center">{{trip.destinationCountry | uppercase}}</h3>
@@ -55,7 +57,6 @@
             *ngIf="trip.amount == 0 " disabled>
             <fa-icon [icon]="faMinus" class="text-stone-400"></fa-icon>
           </button>
-
 
         </div>
       </div>

@@ -9,15 +9,15 @@ import { NotificationType } from '../Models/notificationType.enum';
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-  public value: boolean = false;
+  public hidden: boolean = false;
   public notifications: INotification[] = [];
   public notificationType: typeof NotificationType = NotificationType;
 
   constructor(private notificationService: NotificationsService) { }
 
   ngOnInit() {
-    this.notificationService.showNotificationListener().subscribe(value => {
-      this.value = value;
+    this.notificationService.showNotificationListener().subscribe(flag => {
+      this.hidden = flag;
     });
     this.notificationService.getNotifications().subscribe(notifications => {
       this.notifications = notifications;

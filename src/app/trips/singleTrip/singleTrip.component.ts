@@ -139,10 +139,17 @@ export class SingleTripComponent implements OnInit {
       this.notificationsService.sendNotification(this.sendError("Brak nicku", "Podanie nicku jest wymagane aby wystawić opinie."));
       return;
     }
+
     if (form.value.trip_name === "") {
       this.notificationsService.sendNotification(this.sendError("Brak nazwy wycieczki", "Podanie nazwy wycieczki jest wymagane aby wystawić opinie."));
       return;
     }
+
+    if (form.value.trip_name.toLowerCase() !== this.trip.name.toLowerCase()) {
+      this.notificationsService.sendNotification(this.sendError("Błąd nazwy wycieczki", `Podana nazwa wycieczki nie jest odpowiednia. Poprawna nazwa to: ${this.trip.name}`));
+      return;
+    }
+
     if (form.value.Description === "") {
       this.notificationsService.sendNotification(this.sendError("Brak opisu opini", "Podanie opisu opini jest wymagane aby wystawić opinie."));
       return;
@@ -152,6 +159,7 @@ export class SingleTripComponent implements OnInit {
       this.notificationsService.sendNotification(this.sendError("Za krótka opinia", "Opinia musi zawierać przynajmniej 50 znaków! "));
       return;
     }
+
     if (form.value.Description.length > 500) {
       this.notificationsService.sendNotification(this.sendError("Za długa opinia", "Opinia musi zawierać maksymalnie 500 znaków! "));
       return;

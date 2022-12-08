@@ -42,7 +42,8 @@ export class TripsCartComponent implements OnInit {
     this.cartService.addingPlaceEventListener().subscribe(info => {
       this.cart = info;
     });
-    this.currencies = this.currenciesService.getCurrencies
+    this.currencies = this.currenciesService.getCurrencies;
+    this.buyTripService.sendReminderNotificationForAll();
   }
 
   private formatDate(date: Date): string {
@@ -66,7 +67,7 @@ export class TripsCartComponent implements OnInit {
   public buyTrip(trip: Trip): void {
     trip.status = TripStatus.bought;
     trip.boughtDate = this.formatDate(new Date());
-    this.buyTripService.addTrip(trip);
+    this.buyTripService.addTrip({ ...trip });
     this.cartService.removeTripById(trip.id);
   }
 

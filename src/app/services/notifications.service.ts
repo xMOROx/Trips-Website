@@ -10,7 +10,6 @@ export class NotificationsService {
   private notificationBar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   private notifications: INotification[] = [];
   private notificationsSender: BehaviorSubject<INotification[]> = new BehaviorSubject<INotification[]>(this.notifications);
-
   constructor() { }
 
   public emitEventShowNotification(value: boolean): void {
