@@ -15,5 +15,5 @@ export interface Trip {
     likes: number;
     dislikes: number;
     status: TripStatus;
-    key: string;
+    key?: string;
 }

@@ -22,6 +22,7 @@ export class BoughtTripsService {
     this.getBoughtTrips().subscribe(trips => {
       trips.forEach(trip => {
         this.setStatus(trip);
+        this.updateTripByValue(trip, { status: trip.status });
         this.sendReminderNotification(trip);
       });
     });
@@ -81,6 +82,9 @@ export class BoughtTripsService {
     }
   }
 
+  public updateTripByValue(trip: Trip, value: Object): void {
+    this.fireDataBaseRef.database.ref('BoughtTrips').child(trip.key!).update(value);
+  }
 
 
 }

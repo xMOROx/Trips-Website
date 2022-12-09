@@ -18,7 +18,6 @@ import { FooterComponent } from './footer/footer.component';
 import { NotificationComponent } from './notification/notification.component';
 import { BuyHistoryComponent } from './buyHistory/buyHistory.component';
 
-import { CartService } from './services/cart.service';
 import { CurrenciesService } from './services/currencies.service';
 import { FiltersService } from './services/filters.service';
 
@@ -50,7 +49,6 @@ import { environment } from 'src/environments/environment';
     AngularFireDatabaseModule
   ],
   providers: [
-    CartService,
     CurrenciesService,
     FiltersService
   ],

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ICart } from '../Models/cart';
-import { CartService } from '../services/cart.service';
 
 import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { CurrenciesService } from '../services/currencies.service';
@@ -23,7 +22,7 @@ export class TripsCartComponent implements OnInit {
 
   public cart: ICart = {
     reservedTotalAmount: 0,
-    priceTotalAmount: [0],
+    priceTotalAmount: 0,
     tripsReserved: []
   };
 
@@ -34,17 +33,22 @@ export class TripsCartComponent implements OnInit {
   public faMinus: any = faMinus;
   public showDetails: boolean = false;
 
-  constructor(private titleService: Title, private tripsParseService: TripsParseService, private cartService: CartService, private currenciesService: CurrenciesService, private buyTripService: BoughtTripsService) {
+  constructor(private titleService: Title, private tripsParseService: TripsParseService, private currenciesService: CurrenciesService, private buyTripService: BoughtTripsService) {
 
   }
 
   ngOnInit() {
     this.titleService.setTitle(TITLE);
-    this.cartService.addingPlaceEventListener().subscribe(info => {
-      this.cart = info;
+
+    this.tripsParseService.getTrips().valueChanges().subscribe((trips: Trip[]) => {
+      this.cart.tripsReserved = trips.filter(trip => trip.status === TripStatus.reserved);
     });
+
+    this.tripsParseService.getAmountOfReservedTrips().subscribe(value => {
+      this.cart.reservedTotalAmount = value;
+    });
+
     this.currencies = this.currenciesService.getCurrencies;
-    // this.buyTripService.sendReminderNotificationForAll();
   }
 
   private formatDate(date: Date): string {
@@ -69,8 +73,7 @@ export class TripsCartComponent implements OnInit {
     trip.status = TripStatus.bought;
     trip.boughtDate = this.formatDate(new Date());
     this.buyTripService.addTrip({ ...trip });
-    this.tripsParseService.updateTripSingleValue(trip.key, { maxPlace: trip.maxPlace - trip.amount })
-    this.cartService.removeTripById(trip.key);
+    this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.bought, amount: 0 });
   }
 
 }

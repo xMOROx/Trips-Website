@@ -3,10 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Trip } from 'src/app/Models/trip';
 import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-import { CartService } from 'src/app/services/cart.service';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { RatingService } from 'src/app/services/rating.service';
-import { ICart } from 'src/app/Models/cart';
 import { ISlide } from 'src/app/imageSlider/Models/ISlide';
 import { IOpinion } from 'src/app/Models/IOpinion';
 import { NotificationsService } from 'src/app/services/notifications.service';
@@ -28,11 +26,7 @@ export class SingleTripComponent implements OnInit {
   public faClock: any = faClock;
   public faPlus: any = faPlus;
   public faMinus: any = faMinus;
-  public cart: ICart = {
-    reservedTotalAmount: 0,
-    priceTotalAmount: [0],
-    tripsReserved: []
-  };
+
   public opinions: IOpinion[] = [];
   public slides: ISlide[] = [];
   public description: string = "";
@@ -43,7 +37,7 @@ export class SingleTripComponent implements OnInit {
   private subscription: Subscription | undefined
 
 
-  constructor(private route: ActivatedRoute, private tripsParseService: TripsParseService, private cartService: CartService, private ratingService: RatingService, private notificationsService: NotificationsService) { }
+  constructor(private route: ActivatedRoute, private tripsParseService: TripsParseService, private ratingService: RatingService, private notificationsService: NotificationsService) { }
 
 
   ngOnInit() {
@@ -54,10 +48,6 @@ export class SingleTripComponent implements OnInit {
     this.tripsParseService.getTripUrlByKey(this.key).subscribe(trip => {
       this.trip = trip;
 
-      this.cartService.addingPlaceEventListener().subscribe(info => {
-        this.cart = info;
-        this.setAmountForReservedTrip();
-      });
       if (this.slides.length < this.trip.imageSrc.length) {
         for (const image of this.trip.imageSrc) {
           this.slides.push({ url: image, title: this.trip.name });
@@ -72,7 +62,7 @@ export class SingleTripComponent implements OnInit {
             this.trip.dislikes += 1;
           }
           this.liked = true;
-          this.tripsParseService.updateTrip(this.trip.key, this.trip);
+          this.tripsParseService.updateTrip(this.trip.key!, this.trip);
         });
       }
     });
@@ -82,13 +72,6 @@ export class SingleTripComponent implements OnInit {
 
   }
 
-  private setAmountForReservedTrip(): void {
-    this.cart.tripsReserved.forEach(tripReserved => {
-      if (this.trip.key === tripReserved.key) {
-        this.trip.amount = tripReserved.amount;
-      }
-    });
-  }
 
   private formatDate(date: Date): string {
     var d = new Date(date),
@@ -126,12 +109,11 @@ export class SingleTripComponent implements OnInit {
     if (trip.amount < trip.maxPlace) {
       if (trip.status === TripStatus.listed) {
         trip.status = TripStatus.reserved;
-        this.tripsParseService.updateTripSingleValue(trip.key, { status: trip.status });
+        this.tripsParseService.updateTripSingleValue(trip.key!, { status: trip.status });
 
       }
       trip.amount += 1;
-      this.tripsParseService.updateTripSingleValue(trip.key, { amount: trip.amount });
-      this.cartService.emitEventAddingPlace(1, trip.currency, trip.unitPrice, trip);
+      this.tripsParseService.updateTripSingleValue(trip.key!, { amount: trip.amount });
     }
   }
 
@@ -140,11 +122,10 @@ export class SingleTripComponent implements OnInit {
       trip.amount -= 1;
       if (trip.amount === 0) {
         trip.status = TripStatus.listed;
-        this.tripsParseService.updateTripSingleValue(trip.key, { status: trip.status });
+        this.tripsParseService.updateTripSingleValue(trip.key!, { status: trip.status });
       }
 
-      this.tripsParseService.updateTripSingleValue(trip.key, { amount: trip.amount });
-      this.cartService.emitEventAddingPlace(-1, trip.currency, -trip.unitPrice, trip);
+      this.tripsParseService.updateTripSingleValue(trip.key!, { amount: trip.amount });
     }
   }
 
@@ -160,7 +141,7 @@ export class SingleTripComponent implements OnInit {
       return;
     }
 
-    if (form.value.trip_name.toLowerCase() !== this.trip.name.toLowerCase()) {
+    if (form.value.trip_name.toLowerCase() !== this.trip.name!.toLowerCase()) {
       this.notificationsService.sendNotification(this.sendError("Błąd nazwy wycieczki", `Podana nazwa wycieczki nie jest odpowiednia. Poprawna nazwa to: ${this.trip.name}`));
       return;
     }
@@ -196,7 +177,7 @@ export class SingleTripComponent implements OnInit {
   }
 
   public onRemove(): void {
-    this.tripsParseService.deleteTrip(this!.trip.key)
+    this.tripsParseService.deleteTrip(this.trip.key!);
   }
 
 

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Trip } from 'src/app/Models/trip';
 import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-import { CartService } from 'src/app/services/cart.service';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 
@@ -23,7 +22,7 @@ export class DetailTripComponent implements OnInit {
 
   private tripValue!: number[];
 
-  constructor(private cartService: CartService, private tripsParseService: TripsParseService) {
+  constructor(private tripsParseService: TripsParseService) {
   }
 
   ngOnInit(): void {
@@ -51,11 +50,10 @@ export class DetailTripComponent implements OnInit {
     if (trip.amount < trip.maxPlace) {
       if (trip.status === TripStatus.listed) {
         trip.status = TripStatus.reserved;
-        this.tripsParseService.updateTripSingleValue(trip.key, { status: trip.status });
+        this.tripsParseService.updateTripSingleValue(trip.key!, { status: trip.status });
       }
       trip.amount += 1;
-      this.tripsParseService.updateTripSingleValue(trip.key, { amount: trip.amount });
-      this.cartService.emitEventAddingPlace(1, trip.currency, trip.unitPrice, trip);
+      this.tripsParseService.updateTripSingleValue(trip.key!, { amount: trip.amount });
     }
   }
 
@@ -66,15 +64,14 @@ export class DetailTripComponent implements OnInit {
 
       if (trip.amount === 0) {
         trip.status = TripStatus.listed;
-        this.tripsParseService.updateTripSingleValue(trip.key, { status: trip.status });
+        this.tripsParseService.updateTripSingleValue(trip.key!, { status: trip.status });
       }
-      this.tripsParseService.updateTripSingleValue(trip.key, { amount: trip.amount });
-      this.cartService.emitEventAddingPlace(-1, trip.currency, -trip.unitPrice, trip);
+      this.tripsParseService.updateTripSingleValue(trip.key!, { amount: trip.amount });
     }
   }
 
   public onRemove(): void {
-    this.tripsParseService.deleteTrip(this!.trip.key);
+    this.tripsParseService.deleteTrip(this.trip.key!);
   }
 
 }

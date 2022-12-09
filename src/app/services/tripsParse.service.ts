@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Trip } from '../Models/trip';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { TripStatus } from '../Models/tripStatus.enum';
 
@@ -10,6 +10,7 @@ import { TripStatus } from '../Models/tripStatus.enum';
 })
 export class TripsParseService {
   private refDatabase!: any;
+  private subject: Subject<number> = new Subject<number>();
 
   constructor(private fireDataBaseRef: AngularFireDatabase) {
     this.refDatabase = fireDataBaseRef.list('Trips');
@@ -41,6 +42,19 @@ export class TripsParseService {
 
   public updateTripSingleValue(key: string, value: Object) {
     this.fireDataBaseRef.database.ref('Trips').child(key).update(value);
+  }
+
+  public getAmountOfReservedTrips(): Observable<number> {
+    this.getTrips().valueChanges().subscribe((trips: Trip[]) => {
+      let amount = 0;
+      for (const trip of trips) {
+        if (trip.status === TripStatus.reserved) {
+          amount += trip.amount;
+        }
+      }
+      this.subject.next(amount);
+    });
+    return this.subject.asObservable();
   }
 
 }
