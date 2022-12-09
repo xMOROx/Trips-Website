@@ -10,6 +10,7 @@ import { FiltersComponent } from './filters/filters.component';
 import { PageNotFoundComponent } from './pageNotFound/pageNotFound.component';
 import { SingleTripComponent } from './trips/singleTrip/singleTrip.component';
 import { BuyHistoryComponent } from './buyHistory/buyHistory.component';
+import { PageSettingsComponent } from './pageSettings/pageSettings.component';
 
 const routes: Routes = [
   { path: 'tripAdd', component: TripAddComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'trips', component: ListTripsComponent },
   { path: 'trips/:key', component: SingleTripComponent },
   { path: 'buyHistory', component: BuyHistoryComponent },
+  { path: 'settings', component: PageSettingsComponent },
   { path: '', component: HomePageComponent },
   { path: "**", component: PageNotFoundComponent }
 ]

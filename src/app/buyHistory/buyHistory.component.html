@@ -21,7 +21,7 @@
         <div class="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden"
           [ngClass]="{'bg-zinc-700 text-zinc-400': trip.status === statusType.archival, 'border-2 border-solid border-green-700 bg-green-600 text-white': trip.status === statusType.inProgress}">
           <div class="relative pb-48 overflow-hidden z-0">
-            <a routerLink="/trips/{{trip.id}}">
+            <a routerLink="/trips/{{trip.oldKey!}}">
               <img
                 class="absolute inset-0 left-[50%] -translate-x-[50%] -translate-y-[50%] top-[50%] aspect-square object-cover  transition hover:scale-105 ease-out duration-300 "
                 src="{{trip.imageSrc[0]}}" alt="{{trip.name}}">
@@ -39,7 +39,7 @@
               <div class="price  col-start-1 col-end-3 row-start-1 row-end-1">
                 <span class="text-sm font-semibold"></span>&nbsp;<span
                   class="font-bold text-xl">{{trip.unitPrice}}</span>&nbsp;<span
-                  class="text-sm font-semibold">{{trip.currency}}</span>
+                  class="text-sm font-semibold">{{currency}}</span>
               </div>
               <div class="datas  col-span-2">
                 <span class="text-center">

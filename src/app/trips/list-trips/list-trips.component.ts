@@ -6,6 +6,7 @@ import { faFilter, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FiltersService } from 'src/app/services/filters.service';
 import { IFilter } from 'src/app/Models/filter';
 import { map } from 'rxjs';
+import { Currencies } from 'src/app/Models/Currencies.enum';
 
 @Component({
   selector: 'app-list-trips',
@@ -21,6 +22,7 @@ export class ListTripsComponent implements OnInit {
   public filter!: IFilter;
   public faFilter: IconDefinition = faFilter;
   public isActive: boolean = false;
+  public currency: Currencies = Currencies.PLN;
 
   public constructor(private titleService: Title, private tripsParseService: TripsParseService, private filterService: FiltersService) {
   }
@@ -43,7 +45,6 @@ export class ListTripsComponent implements OnInit {
       this.reservedTotalAmount = value;
     });
 
-    console.log(this.reservedTotalAmount);
 
     this.filterService.filteredDataEventListener().subscribe(filter => {
       this.filter = filter;

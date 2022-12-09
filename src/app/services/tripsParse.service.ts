@@ -10,7 +10,8 @@ import { TripStatus } from '../Models/tripStatus.enum';
 })
 export class TripsParseService {
   private refDatabase!: any;
-  private subject: Subject<number> = new Subject<number>();
+  private subjectAmount: Subject<number> = new Subject<number>();
+  private subjectPrice: Subject<number> = new Subject<number>();
 
   constructor(private fireDataBaseRef: AngularFireDatabase) {
     this.refDatabase = fireDataBaseRef.list('Trips');
@@ -52,9 +53,22 @@ export class TripsParseService {
           amount += trip.amount;
         }
       }
-      this.subject.next(amount);
+      this.subjectAmount.next(amount);
     });
-    return this.subject.asObservable();
+    return this.subjectAmount.asObservable();
+  }
+
+  public getTotalPriceOfReservedTrips(): Observable<number> {
+    this.getTrips().valueChanges().subscribe((trips: Trip[]) => {
+      let priceSum = 0;
+      for (const trip of trips) {
+        if (trip.status === TripStatus.reserved) {
+          priceSum += (trip.unitPrice * trip.amount);
+        }
+      }
+      this.subjectPrice.next(priceSum);
+    });
+    return this.subjectPrice.asObservable();
   }
 
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { INotification } from '../Models/INotification';
 import { NotificationsService } from '../services/notifications.service';
 import { NotificationType } from '../Models/notificationType.enum';
-
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
@@ -12,7 +11,6 @@ export class NotificationComponent implements OnInit {
   public hidden: boolean = false;
   public notifications: INotification[] = [];
   public notificationType: typeof NotificationType = NotificationType;
-
   constructor(private notificationService: NotificationsService) { }
 
   ngOnInit() {
@@ -26,8 +24,16 @@ export class NotificationComponent implements OnInit {
   }
 
   public closeNotification(notification: INotification): void {
-    this.notificationService.updateNotificationByKey(notification.key!, { type: NotificationType.archival });
+    this.notificationService.removeNotificationByKey(notification.key!);
   }
 
+  public closeAllNotifications(): void {
+    this.notificationService.removeAllNotifications();
+  }
+
+  closeWindow(): void {
+    this.hidden = !this.hidden;
+    this.notificationService.emitEventShowNotification(this.hidden);
+  }
 
 }

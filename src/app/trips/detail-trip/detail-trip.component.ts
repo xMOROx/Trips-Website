@@ -3,6 +3,7 @@ import { Trip } from 'src/app/Models/trip';
 import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
+import { SettingsChangeService } from 'src/app/services/settingsChange.service';
 
 @Component({
   selector: 'app-detail-trip',
@@ -22,7 +23,12 @@ export class DetailTripComponent implements OnInit {
 
   private tripValue!: number[];
 
-  constructor(private tripsParseService: TripsParseService) {
+  public currency!: string;
+
+  constructor(private tripsParseService: TripsParseService, private settings: SettingsChangeService) {
+    this.settings.currency.subscribe((currency) => {
+      this.currency = currency;
+    });
   }
 
   ngOnInit(): void {
@@ -60,7 +66,6 @@ export class DetailTripComponent implements OnInit {
   public removeClick(trip: Trip): void {
     if (trip.amount >= 1) {
       trip.amount -= 1;
-      console.log(trip.amount);
 
       if (trip.amount === 0) {
         trip.status = TripStatus.listed;

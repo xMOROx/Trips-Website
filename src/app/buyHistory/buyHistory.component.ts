@@ -4,6 +4,7 @@ import { BoughtTripsService } from '../services/boughtTrips.service';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { Title } from '@angular/platform-browser';
 import { TripStatus } from '../Models/tripStatus.enum';
+import { SettingsChangeService } from '../services/settingsChange.service';
 
 
 
@@ -19,7 +20,8 @@ export class BuyHistoryComponent implements OnInit {
   public faClock: any = faClock;
   public statusType: typeof TripStatus = TripStatus;
   public selectedValue: TripStatus[] = [];
-  constructor(private boughtTripsService: BoughtTripsService, private titleService: Title) { }
+  public currency!: string;
+  constructor(private boughtTripsService: BoughtTripsService, private titleService: Title, private settings: SettingsChangeService) { }
 
 
 
@@ -28,7 +30,9 @@ export class BuyHistoryComponent implements OnInit {
     this.boughtTripsService.getBoughtTrips().subscribe(trips => {
       this.boughtTrips = trips;
     });
-
+    this.settings.getCurrency().subscribe(currency => {
+      this.currency = currency;
+    });
   }
 
 }

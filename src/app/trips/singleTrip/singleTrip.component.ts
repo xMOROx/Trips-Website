@@ -12,6 +12,8 @@ import { INotification } from 'src/app/Models/INotification';
 import { NotificationType } from 'src/app/Models/notificationType.enum';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { ComponentsOfApplication } from 'src/app/Models/componentsOfApplication.enum';
+import { Currencies } from 'src/app/Models/Currencies.enum';
+import { SettingsChangeService } from 'src/app/services/settingsChange.service';
 
 
 @Component({
@@ -33,11 +35,12 @@ export class SingleTripComponent implements OnInit {
   public date: string = "";
   public tripName: string = "";
   public nick: string = "";
+  public currency!: string;
 
   private subscription: Subscription | undefined
 
 
-  constructor(private route: ActivatedRoute, private tripsParseService: TripsParseService, private ratingService: RatingService, private notificationsService: NotificationsService) { }
+  constructor(private route: ActivatedRoute, private tripsParseService: TripsParseService, private ratingService: RatingService, private notificationsService: NotificationsService, private settings: SettingsChangeService) { }
 
 
   ngOnInit() {
@@ -67,7 +70,9 @@ export class SingleTripComponent implements OnInit {
       }
     });
 
-
+    this.settings.getCurrency().subscribe(currency => {
+      this.currency = currency;
+    });
 
 
   }

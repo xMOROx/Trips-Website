@@ -23,7 +23,9 @@ export class BoughtTripsService {
       trips.forEach(trip => {
         this.setStatus(trip);
         this.updateTripByValue(trip, { status: trip.status });
-        this.sendReminderNotification(trip);
+        if (!trip.getNotification) {
+          this.sendReminderNotification(trip);
+        }
       });
     });
   }
@@ -46,10 +48,12 @@ export class BoughtTripsService {
 
   public addTrip(trip: Trip): void {
     const key = this.fireDataBaseRef.database.ref('BoughtTrips').push().key!;
-    trip.key = key;
     trip.maxPlace = -1;
+    trip.oldKey = trip.key ?? '';
+    trip.key = key;
+    trip.getNotification = false;
     this.setStatus(trip);
-    this.fireDataBaseRef.database.ref('BoughtTrips').child(key).set(trip);
+    this.fireDataBaseRef.database.ref('BoughtTrips').child(trip.key!).set(trip);
   }
 
   public getBoughtTrips(): Observable<Trip[]> {
@@ -77,6 +81,8 @@ export class BoughtTripsService {
         date: new Date().toLocaleString(),
         from: ComponentsOfApplication.BuyHistory,
       } as INotification;
+
+      this.updateTripByValue(trip, { getNotification: true });
 
       this.notificationsService.sendNotification(notification);
     }

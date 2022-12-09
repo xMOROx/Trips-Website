@@ -18,12 +18,12 @@ import { FooterComponent } from './footer/footer.component';
 import { NotificationComponent } from './notification/notification.component';
 import { BuyHistoryComponent } from './buyHistory/buyHistory.component';
 
-import { CurrenciesService } from './services/currencies.service';
 import { FiltersService } from './services/filters.service';
 
 import { DatePipe } from '@angular/common';
 import { StatusPipe } from './pipes/filters/status.pipe';
 import { environment } from 'src/environments/environment';
+import { PageSettingsComponent } from './pageSettings/pageSettings.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,8 @@ import { environment } from 'src/environments/environment';
     FooterComponent,
     NotificationComponent,
     BuyHistoryComponent,
-    StatusPipe
+    StatusPipe,
+    PageSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +50,6 @@ import { environment } from 'src/environments/environment';
     AngularFireDatabaseModule
   ],
   providers: [
-    CurrenciesService,
     FiltersService
   ],
   bootstrap: [AppComponent]

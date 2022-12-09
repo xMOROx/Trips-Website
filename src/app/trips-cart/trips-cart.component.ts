@@ -3,12 +3,11 @@ import { Title } from '@angular/platform-browser';
 import { ICart } from '../Models/cart';
 
 import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-import { CurrenciesService } from '../services/currencies.service';
-import { ICurrency } from '../Models/currency';
 import { Trip } from '../Models/trip';
 import { BoughtTripsService } from '../services/boughtTrips.service';
 import { TripStatus } from '../Models/tripStatus.enum';
 import { TripsParseService } from '../services/tripsParse.service';
+import { SettingsChangeService } from '../services/settingsChange.service';
 
 const TITLE = "Koszyk";
 
@@ -26,14 +25,13 @@ export class TripsCartComponent implements OnInit {
     tripsReserved: []
   };
 
-  public currencies!: ICurrency[];
-
+  public currency!: string;
   public faClock: any = faClock;
   public faPlus: any = faPlus;
   public faMinus: any = faMinus;
   public showDetails: boolean = false;
 
-  constructor(private titleService: Title, private tripsParseService: TripsParseService, private currenciesService: CurrenciesService, private buyTripService: BoughtTripsService) {
+  constructor(private titleService: Title, private tripsParseService: TripsParseService, private buyTripService: BoughtTripsService, private setting: SettingsChangeService) {
 
   }
 
@@ -44,11 +42,20 @@ export class TripsCartComponent implements OnInit {
       this.cart.tripsReserved = trips.filter(trip => trip.status === TripStatus.reserved);
     });
 
-    this.tripsParseService.getAmountOfReservedTrips().subscribe(value => {
-      this.cart.reservedTotalAmount = value;
+    this.tripsParseService.getAmountOfReservedTrips().subscribe(reservedAmount => {
+      this.cart.reservedTotalAmount = reservedAmount;
     });
 
-    this.currencies = this.currenciesService.getCurrencies;
+    this.tripsParseService.getTotalPriceOfReservedTrips().subscribe(priceTotal => {
+      this.cart.priceTotalAmount = priceTotal;
+
+    });
+
+    this.setting.currency.subscribe((currency) => {
+      this.currency = currency;
+    });
+
+
   }
 
   private formatDate(date: Date): string {
@@ -73,7 +80,12 @@ export class TripsCartComponent implements OnInit {
     trip.status = TripStatus.bought;
     trip.boughtDate = this.formatDate(new Date());
     this.buyTripService.addTrip({ ...trip });
-    this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.bought, amount: 0 });
+    if (trip.maxPlace - trip.amount === 0) {
+      this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.archival, amount: 0 });
+      return;
+    }
+
+    this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.listed, amount: 0 });
   }
 
 }

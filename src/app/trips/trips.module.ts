@@ -22,6 +22,7 @@ import { PricePipe } from '../pipes/filters/price.pipe';
 import { DatePipe } from '../pipes/filters/date.pipe';
 import { StarsPipe } from '../pipes/filters/stars.pipe';
 import { NotificationsService } from '../services/notifications.service';
+import { SettingsChangeService } from '../services/settingsChange.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { NotificationsService } from '../services/notifications.service';
   ],
   providers: [
     TripsParseService,
-    NotificationsService
+    NotificationsService,
+    SettingsChangeService
   ]
 })
 export class TripsModule { }

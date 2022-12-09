@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { ComponentsOfApplication } from '../Models/componentsOfApplication.enum';
 import { INotification } from '../Models/INotification';
 import { NotificationType } from '../Models/notificationType.enum';
@@ -9,7 +9,7 @@ import { NotificationType } from '../Models/notificationType.enum';
   providedIn: 'root'
 })
 export class NotificationsService {
-  private notificationBar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  private notificationBar: ReplaySubject<boolean> = new ReplaySubject<boolean>();
 
 
   constructor(private fireDataBaseRef: AngularFireDatabase) { }

@@ -3,8 +3,6 @@ import { Trip } from '../../Models/trip';
 import { Title } from '@angular/platform-browser'
 import { NgForm } from '@angular/forms'
 import { TripsParseService } from 'src/app/services/tripsParse.service';
-import { CurrenciesService } from 'src/app/services/currencies.service';
-import { ICurrency } from 'src/app/Models/currency';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,13 +15,12 @@ import { Router } from '@angular/router';
 
 export class TripAddComponent implements OnInit {
 
-  constructor(private titleService: Title, private tripsParseService: TripsParseService, private currenciesService: CurrenciesService, private routeService: Router) {
+  constructor(private titleService: Title, private tripsParseService: TripsParseService, private routeService: Router) {
 
   }
 
   public selectedDefault: string = ""
 
-  currencies!: ICurrency[];
 
   setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
@@ -31,7 +28,6 @@ export class TripAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.setTitle("Dodawanie Wycieczki");
-    this.currencies = this.currenciesService.getCurrencies;
 
   }
   handleSubmit(form: NgForm) {
@@ -46,7 +42,6 @@ export class TripAddComponent implements OnInit {
       description: form.value.Description,
       imageSrc: form.value.floating_Image.split(','),
       amount: 0,
-      currency: form.value.floating_currency,
       likes: 0,
       dislikes: 0
     } as Trip;

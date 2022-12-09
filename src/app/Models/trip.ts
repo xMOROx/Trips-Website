@@ -11,9 +11,10 @@ export interface Trip {
     description: string;
     imageSrc: string[];
     amount: number;
-    currency: string;
     likes: number;
     dislikes: number;
     status: TripStatus;
     key?: string;
+    oldKey?: string;
+    getNotification?: boolean;
 }

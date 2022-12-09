@@ -39,7 +39,9 @@ export class NavBarComponent implements OnInit {
     this.tripsParseService.getAmountOfReservedTrips().subscribe(value => {
       this.reservedTotalAmount = value;
     });
-
+    this.notificationService.showNotificationListener().subscribe(flag => {
+      this._toggleNotification = flag;
+    });
   }
 
 
@@ -48,10 +50,8 @@ export class NavBarComponent implements OnInit {
   }
 
   public toggleNotification(_: any): void {
-    this.notificationService.emitEventShowNotification(this._toggleNotification)
     this._toggleNotification = !this._toggleNotification;
-
-
+    this.notificationService.emitEventShowNotification(this._toggleNotification)
   }
 
 }
