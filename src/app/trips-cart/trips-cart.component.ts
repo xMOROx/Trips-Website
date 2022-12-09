@@ -9,6 +9,7 @@ import { ICurrency } from '../Models/currency';
 import { Trip } from '../Models/trip';
 import { BoughtTripsService } from '../services/boughtTrips.service';
 import { TripStatus } from '../Models/tripStatus.enum';
+import { TripsParseService } from '../services/tripsParse.service';
 
 const TITLE = "Koszyk";
 
@@ -33,7 +34,7 @@ export class TripsCartComponent implements OnInit {
   public faMinus: any = faMinus;
   public showDetails: boolean = false;
 
-  constructor(private titleService: Title, private cartService: CartService, private currenciesService: CurrenciesService, private buyTripService: BoughtTripsService) {
+  constructor(private titleService: Title, private tripsParseService: TripsParseService, private cartService: CartService, private currenciesService: CurrenciesService, private buyTripService: BoughtTripsService) {
 
   }
 
@@ -43,7 +44,7 @@ export class TripsCartComponent implements OnInit {
       this.cart = info;
     });
     this.currencies = this.currenciesService.getCurrencies;
-    this.buyTripService.sendReminderNotificationForAll();
+    // this.buyTripService.sendReminderNotificationForAll();
   }
 
   private formatDate(date: Date): string {
@@ -68,7 +69,8 @@ export class TripsCartComponent implements OnInit {
     trip.status = TripStatus.bought;
     trip.boughtDate = this.formatDate(new Date());
     this.buyTripService.addTrip({ ...trip });
-    this.cartService.removeTripById(trip.id);
+    this.tripsParseService.updateTripSingleValue(trip.key, { maxPlace: trip.maxPlace - trip.amount })
+    this.cartService.removeTripById(trip.key);
   }
 
 }

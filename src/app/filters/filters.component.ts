@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FiltersService } from '../services/filters.service';
 import { TripsParseService } from '../services/tripsParse.service';
 import { IFilter } from '../Models/filter';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-filters',
@@ -29,7 +30,7 @@ export class FiltersComponent implements OnInit {
   constructor(private tripsParserService: TripsParseService, private filterService: FiltersService, private routeService: Router) { }
 
   ngOnInit() {
-    this.tripsParserService.getTrips().subscribe((data) => {
+    this.tripsParserService.getTrips().pipe(map((changes: any) => { return changes.map((c: any) => ({ key: c.payload.key, ...c.payload.val() })); })).subscribe((data: Trip[]) => {
       this.trips = data;
     })
     this.filterService.filteredDataEventListener().subscribe((data) => {

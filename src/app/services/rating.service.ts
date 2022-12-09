@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RatingService {
 
-  private opinion: BehaviorSubject<Number> = new BehaviorSubject<Number>(0);
+  private opinion: ReplaySubject<Number> = new ReplaySubject<Number>();
 
   constructor() { }
 

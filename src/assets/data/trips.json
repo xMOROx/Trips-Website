@@ -12,7 +12,7 @@
       "currency": "€",
       "likes": 24,
       "dislikes": 24,
-      "id": 1
+      "key": 1
     },
     {
       "name": "Wycieczka w Alpy",
@@ -26,7 +26,7 @@
       "currency": "€",
       "likes": 40,
       "dislikes": 1,
-      "id": 2
+      "key": 2
     },
     {
       "name": "Piękne i Ciepłe plaże na Ibizie",
@@ -40,7 +40,7 @@
       "currency": "€",
       "likes": 51,
       "dislikes": 16,
-      "id": 3
+      "key": 3
     },
     {
       "name": "Poznaj bogatą kulturę kraju kwitnącej wiśni",
@@ -49,12 +49,12 @@
       "endDate": "2023-08-22",
       "unitPrice": 2993,
       "maxPlace": 6,
-      "description": "Zwidzanie najstarszych i największych miast Japonii",
+      "description": "Zwkeyzanie najstarszych i największych miast Japonii",
       "imageSrc": ["/assets/Images/Cities/japonia.jpg"],
       "currency": "$",
       "likes": 39,
       "dislikes": 9,
-      "id": 4
+      "key": 4
     },
     {
       "name": "Bogowie i Faraonowie",
@@ -68,7 +68,7 @@
       "currency": "$",
       "likes": 14,
       "dislikes": 37,
-      "id": 5
+      "key": 5
     },
     {
       "name": "Cesarskie Miasta",
@@ -82,7 +82,7 @@
       "currency": "$",
       "likes": 35,
       "dislikes": 15,
-      "id": 6
+      "key": 6
     },
     {
       "name": "Madera - gdzie nogi poniosą",
@@ -96,7 +96,7 @@
       "currency": "€",
       "likes": 25,
       "dislikes": 21,
-      "id": 7
+      "key": 7
     },
     {
       "name": "Dalmatyńska Eskapada",
@@ -110,7 +110,7 @@
       "currency": "$",
       "likes": 33,
       "dislikes": 47,
-      "id": 8
+      "key": 8
     },
     {
       "name": "Bali - Wyspa Bogów de luxe",
@@ -124,7 +124,7 @@
       "currency": "€",
       "likes": 84,
       "dislikes": 12,
-      "id": 9
+      "key": 9
     },
     {
       "name": "Turcja - Smak Orientu",
@@ -138,7 +138,7 @@
       "currency": "$",
       "likes": 50,
       "dislikes": 25,
-      "id": 10
+      "key": 10
     }
   ]
 }

@@ -35,6 +35,7 @@ export class TripAddComponent implements OnInit {
 
   }
   handleSubmit(form: NgForm) {
+
     let trip: Trip = {
       name: form.value.floating_name,
       destinationCountry: form.value.floating_Country,
@@ -43,15 +44,14 @@ export class TripAddComponent implements OnInit {
       unitPrice: form.value.floating_unit_price,
       maxPlace: form.value.floating_places,
       description: form.value.Description,
-      imageSrc: form.value.floating_Image,
+      imageSrc: form.value.floating_Image.split(','),
       amount: 0,
       currency: form.value.floating_currency,
       likes: 0,
       dislikes: 0
     } as Trip;
 
-    this.tripsParseService.saveTrip(trip).subscribe((result) => {
-    });
+    this.tripsParseService.saveTrip(trip);
 
     this.routeService.navigate(['/trips']);
 

@@ -23,10 +23,11 @@ export class DetailTripComponent implements OnInit {
 
   private tripValue!: number[];
 
-  constructor(private cartService: CartService, private tripParseService: TripsParseService) {
+  constructor(private cartService: CartService, private tripsParseService: TripsParseService) {
   }
 
   ngOnInit(): void {
+
   }
 
   private getPrice(trips: Trip[]): number[] {
@@ -50,8 +51,10 @@ export class DetailTripComponent implements OnInit {
     if (trip.amount < trip.maxPlace) {
       if (trip.status === TripStatus.listed) {
         trip.status = TripStatus.reserved;
+        this.tripsParseService.updateTripSingleValue(trip.key, { status: trip.status });
       }
       trip.amount += 1;
+      this.tripsParseService.updateTripSingleValue(trip.key, { amount: trip.amount });
       this.cartService.emitEventAddingPlace(1, trip.currency, trip.unitPrice, trip);
     }
   }
@@ -59,15 +62,19 @@ export class DetailTripComponent implements OnInit {
   public removeClick(trip: Trip): void {
     if (trip.amount >= 1) {
       trip.amount -= 1;
+      console.log(trip.amount);
+
       if (trip.amount === 0) {
         trip.status = TripStatus.listed;
+        this.tripsParseService.updateTripSingleValue(trip.key, { status: trip.status });
       }
+      this.tripsParseService.updateTripSingleValue(trip.key, { amount: trip.amount });
       this.cartService.emitEventAddingPlace(-1, trip.currency, -trip.unitPrice, trip);
     }
   }
 
   public onRemove(): void {
-    this.tripParseService.emitTripRemover(this.trip);
+    this.tripsParseService.deleteTrip(this!.trip.key);
   }
 
 }

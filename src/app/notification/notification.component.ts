@@ -19,13 +19,14 @@ export class NotificationComponent implements OnInit {
     this.notificationService.showNotificationListener().subscribe(flag => {
       this.hidden = flag;
     });
-    this.notificationService.getNotifications().subscribe(notifications => {
-      this.notifications = notifications;
-    })
+    this.notificationService.getNotifications().valueChanges().subscribe((notifications: INotification[]) => {
+      this.notifications = notifications.filter(notification => { return notification.type !== NotificationType.archival });
+    });
+
   }
 
-  public closeNotification(notification: any): void {
-    this.notificationService.removeNotificationById(notification.id);
+  public closeNotification(notification: INotification): void {
+    this.notificationService.updateNotificationByKey(notification.key!, { type: NotificationType.archival });
   }
 
 

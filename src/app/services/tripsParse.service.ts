@@ -1,75 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Trip } from '../Models/trip';
-import { TripJSON } from '../Models/tripJSON';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { TripStatus } from '../Models/tripStatus.enum';
 
-const JSON_URL = 'http://localhost:3000/Trips';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    Authorization: 'my-auth-token'
-  })
-};
 
 @Injectable({
   providedIn: 'root'
 })
 export class TripsParseService {
-  private trip!: Trip;
+  private refDatabase!: any;
 
-  private removeTrip: BehaviorSubject<Trip> = new BehaviorSubject<Trip>(this.trip);
-
-  constructor(private http: HttpClient) { }
-
-  private changeToTripJSON(trip: Trip): TripJSON {
-    return {
-      "name": trip.name,
-      "destinationCountry": trip.destinationCountry,
-      "startDate": trip.startDate,
-      "endDate": trip.endDate,
-      "unitPrice": trip.unitPrice,
-      "maxPlace": trip.maxPlace,
-      "description": trip.description,
-      "imageSrc": trip.imageSrc,
-      "currency": trip.currency,
-      "likes": trip.likes,
-      "dislikes": trip.dislikes,
-      "id": trip.id,
-    } as TripJSON;
+  constructor(private fireDataBaseRef: AngularFireDatabase) {
+    this.refDatabase = fireDataBaseRef.list('Trips');
   }
 
-  public getTrips(): Observable<Trip[]> {
-    return this.http.get<Trip[]>(JSON_URL);
+
+  public getTrips(): any {
+    return this.refDatabase;
   }
 
-  public saveTrip(trip: Trip): Observable<Object> {
-    return this.http.post(JSON_URL, trip, httpOptions);
+  public saveTrip(trip: Trip): void {
+    const key = this.fireDataBaseRef.database.ref('Trips').push().key!;
+    trip.key = key;
+    trip.status = TripStatus.listed;
+    this.fireDataBaseRef.database.ref('Trips').child(key).set(trip);
   }
 
-  public deleteTrip(id: number) {
-    this.http.delete(`${JSON_URL}/${id}`)
-      .subscribe();
+  public deleteTrip(key: string) {
+    this.refDatabase.remove(key);
   }
 
-  public updateTrip(id: number, trip: Trip) {
-    let tripJSON: TripJSON = this.changeToTripJSON(trip);
-
-    this.http.put(`${JSON_URL}/${id}`, tripJSON)
-      .subscribe();
+  public updateTrip(key: string, trip: Trip) {
+    this.fireDataBaseRef.database.ref('Trips').child(key).set(trip);
   }
 
-  public getTripUrlById(id: number): Observable<Trip> {
-    return this.http.get<Trip>(`${JSON_URL}/${id}`);
+  public getTripUrlByKey(key: string): Observable<any> {
+    return this.fireDataBaseRef.object(`Trips/${key}`).valueChanges();
   }
 
-  public emitTripRemover(trip: Trip): void {
-    this.removeTrip.next(trip);
-  }
-
-  public tripListenerForRemove(): Observable<Trip> {
-    return this.removeTrip.asObservable();
+  public updateTripSingleValue(key: string, value: Object) {
+    this.fireDataBaseRef.database.ref('Trips').child(key).update(value);
   }
 
 }

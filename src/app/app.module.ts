@@ -4,7 +4,9 @@ import { TripsModule } from './trips/trips.module';
 import { AppRoutingModule } from './app-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
-import { GoogleMapsModule } from '@angular/google-maps'
+import { GoogleMapsModule } from '@angular/google-maps';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 
 import { AppComponent } from './app.component';
@@ -22,6 +24,7 @@ import { FiltersService } from './services/filters.service';
 
 import { DatePipe } from '@angular/common';
 import { StatusPipe } from './pipes/filters/status.pipe';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,8 @@ import { StatusPipe } from './pipes/filters/status.pipe';
     FormsModule,
     GoogleMapsModule,
     DatePipe,
-
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule
   ],
   providers: [
     CartService,

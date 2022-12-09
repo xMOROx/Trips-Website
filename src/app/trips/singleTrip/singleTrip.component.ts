@@ -13,6 +13,7 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 import { INotification } from 'src/app/Models/INotification';
 import { NotificationType } from 'src/app/Models/notificationType.enum';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
+import { ComponentsOfApplication } from 'src/app/Models/componentsOfApplication.enum';
 
 
 @Component({
@@ -21,8 +22,8 @@ import { TripStatus } from 'src/app/Models/tripStatus.enum';
   styleUrls: ['./singleTrip.component.css']
 })
 export class SingleTripComponent implements OnInit {
-
-  public id = -1;
+  private liked: boolean = false;
+  public key: string = "";
   public trip!: Trip;
   public faClock: any = faClock;
   public faPlus: any = faPlus;
@@ -44,38 +45,46 @@ export class SingleTripComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private tripsParseService: TripsParseService, private cartService: CartService, private ratingService: RatingService, private notificationsService: NotificationsService) { }
 
+
   ngOnInit() {
     this.subscription = this.route.params.subscribe(data => {
-      this.id = data['id'];
+      this.key = data['key'];
     });
-    this.tripsParseService.getTripUrlById(this.id).subscribe(trip => {
+
+    this.tripsParseService.getTripUrlByKey(this.key).subscribe(trip => {
       this.trip = trip;
-      this.trip.amount = 0;
+
       this.cartService.addingPlaceEventListener().subscribe(info => {
         this.cart = info;
         this.setAmountForReservedTrip();
       });
-      for (const image of this.trip.imageSrc) {
-        this.slides.push({ url: image, title: this.trip.name });
+      if (this.slides.length < this.trip.imageSrc.length) {
+        for (const image of this.trip.imageSrc) {
+          this.slides.push({ url: image, title: this.trip.name });
+        }
+      }
+
+      if (!this.liked) {
+        this.ratingService.changeOpinionEventListener().subscribe(data => {
+          if (data === 1) {
+            this.trip.likes += 1;
+          } else if (data === -1) {
+            this.trip.dislikes += 1;
+          }
+          this.liked = true;
+          this.tripsParseService.updateTrip(this.trip.key, this.trip);
+        });
       }
     });
 
 
-    this.ratingService.changeOpinionEventListener().subscribe(data => {
-      if (data === 1) {
-        this.trip.likes += 1;
-      } else if (data === -1) {
-        this.trip.dislikes += 1;
-      }
-      this.tripsParseService.updateTrip(this.trip.id, this.trip);
 
-    });
 
   }
 
   private setAmountForReservedTrip(): void {
     this.cart.tripsReserved.forEach(tripReserved => {
-      if (this.trip.id === tripReserved.id) {
+      if (this.trip.key === tripReserved.key) {
         this.trip.amount = tripReserved.amount;
       }
     });
@@ -100,8 +109,8 @@ export class SingleTripComponent implements OnInit {
       title: title,
       description: description,
       type: NotificationType.error,
-      id: 0,
-      date: new Date(),
+      date: new Date().toLocaleString(),
+      from: ComponentsOfApplication.Single,
     };
   }
 
@@ -117,8 +126,11 @@ export class SingleTripComponent implements OnInit {
     if (trip.amount < trip.maxPlace) {
       if (trip.status === TripStatus.listed) {
         trip.status = TripStatus.reserved;
+        this.tripsParseService.updateTripSingleValue(trip.key, { status: trip.status });
+
       }
       trip.amount += 1;
+      this.tripsParseService.updateTripSingleValue(trip.key, { amount: trip.amount });
       this.cartService.emitEventAddingPlace(1, trip.currency, trip.unitPrice, trip);
     }
   }
@@ -128,7 +140,10 @@ export class SingleTripComponent implements OnInit {
       trip.amount -= 1;
       if (trip.amount === 0) {
         trip.status = TripStatus.listed;
+        this.tripsParseService.updateTripSingleValue(trip.key, { status: trip.status });
       }
+
+      this.tripsParseService.updateTripSingleValue(trip.key, { amount: trip.amount });
       this.cartService.emitEventAddingPlace(-1, trip.currency, -trip.unitPrice, trip);
     }
   }
@@ -171,7 +186,7 @@ export class SingleTripComponent implements OnInit {
       date: form.value.date_buy
     } as IOpinion);
 
-    this.notificationsService.clearErrors();
+    this.notificationsService.clearErrorsFrom(ComponentsOfApplication.Single);
 
     this.resetForm();
   }
@@ -181,8 +196,7 @@ export class SingleTripComponent implements OnInit {
   }
 
   public onRemove(): void {
-    // this.tripsParseService.deleteTrip() //? Future implementation 
-    this.tripsParseService.emitTripRemover(this.trip);
+    this.tripsParseService.deleteTrip(this!.trip.key)
   }
 
 

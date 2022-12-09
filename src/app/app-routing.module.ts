@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'cart', component: TripsCartComponent },
   { path: 'filter', component: FiltersComponent },
   { path: 'trips', component: ListTripsComponent },
-  { path: 'trips/:id', component: SingleTripComponent },
+  { path: 'trips/:key', component: SingleTripComponent },
   { path: 'buyHistory', component: BuyHistoryComponent },
   { path: '', component: HomePageComponent },
   { path: "**", component: PageNotFoundComponent }

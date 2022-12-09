@@ -26,13 +26,13 @@ export class CartService {
     }
   }
 
-  private sameId(id1: number, id2: number): boolean {
-    return id1 === id2;
+  private sameId(key1: string, key2: string): boolean {
+    return key1 === key2;
   }
 
   private includeTrip(trip: Trip): boolean {
     for (const tripReserved of this.cart.tripsReserved) {
-      if (this.sameId(tripReserved.id, trip.id)) {
+      if (this.sameId(tripReserved.key, trip.key)) {
         return true;
       }
     }
@@ -41,7 +41,7 @@ export class CartService {
 
   private hasSameAmount(trip: Trip): boolean {
     for (const tripReserved of this.cart.tripsReserved) {
-      if (this.sameId(tripReserved.id, trip.id) && tripReserved.amount === trip.amount) {
+      if (this.sameId(tripReserved.key, trip.key) && tripReserved.amount === trip.amount) {
         return true;
       }
     }
@@ -71,7 +71,7 @@ export class CartService {
 
       if (!this.hasSameAmount(trip)) {
         for (const index in this.cart.tripsReserved) {
-          if (this.sameId(this.cart.tripsReserved[index].id, trip.id)) {
+          if (this.sameId(this.cart.tripsReserved[index].key, trip.key)) {
             this.cart.tripsReserved[index].amount = trip.amount;
           }
         }
@@ -88,9 +88,9 @@ export class CartService {
     return this.reservedTripHandler.asObservable();
   }
 
-  public removeTripById(id: number): void {
+  public removeTripById(key: string): void {
     this.cart.tripsReserved = this.cart.tripsReserved.filter(trip => {
-      if (trip.id === id) {
+      if (trip.key === key) {
         this.cart.reservedTotalAmount -= trip.amount;
         let symbolCurrency: ICurrency | null = this.currenciesService.getCurrencybySymbol(trip.currency);
         if (symbolCurrency !== null) {

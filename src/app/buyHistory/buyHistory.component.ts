@@ -29,7 +29,6 @@ export class BuyHistoryComponent implements OnInit {
       this.boughtTrips = trips;
     });
 
-    this.boughtTripsService.sendReminderNotificationForAll();
   }
 
 }

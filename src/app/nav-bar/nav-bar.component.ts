@@ -28,7 +28,7 @@ export class NavBarComponent implements OnInit {
   public notificationType: typeof NotificationType = NotificationType;
   public lastNotification: INotification | undefined;
 
-  constructor(private cartService: CartService, private notificationService: NotificationsService, private boughtTripsService: BoughtTripsService) {
+  constructor(private cartService: CartService, private notificationService: NotificationsService) {
   }
 
 
@@ -36,23 +36,22 @@ export class NavBarComponent implements OnInit {
     this.cartService.addingPlaceEventListener().subscribe(info => {
       this.cart = info;
     });
-    this.notificationService.getNotifications().subscribe(notifications => {
-      this.notifications = notifications;
+    this.notificationService.getNotifications().valueChanges().subscribe((notifications: INotification[]) => {
+      this.notifications = notifications.filter(notification => { return notification.type !== NotificationType.archival });
       if (this.notifications.length !== 0) {
         this.lastNotification = this.notifications[this.notifications.length - 1];
       } else {
         this.lastNotification = undefined;
       }
     });
-    this.boughtTripsService.sendReminderNotificationForAll();
   }
 
 
-  public toggleHidden(event: any, hidden: any): void {
+  public toggleHidden(_: any, hidden: any): void {
     hidden.classList.toggle("hidden");
   }
 
-  public toggleNotification(event: any): void {
+  public toggleNotification(_: any): void {
     this.notificationService.emitEventShowNotification(this._toggleNotification)
     this._toggleNotification = !this._toggleNotification;
 
