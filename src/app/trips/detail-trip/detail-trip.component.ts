@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Trip } from 'src/app/Models/trip';
 import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { SettingsChangeService } from 'src/app/services/settingsChange.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModifyFormComponent } from '../modifyForm/modifyForm.component';
 
 @Component({
   selector: 'app-detail-trip',
@@ -25,7 +27,7 @@ export class DetailTripComponent implements OnInit {
 
   public currency!: string;
 
-  constructor(private tripsParseService: TripsParseService, private settings: SettingsChangeService) {
+  constructor(private tripsParseService: TripsParseService, private settings: SettingsChangeService, private MatDialog: MatDialog) {
     this.settings.currency.subscribe((currency) => {
       this.currency = currency;
     });
@@ -77,6 +79,17 @@ export class DetailTripComponent implements OnInit {
 
   public onRemove(): void {
     this.tripsParseService.deleteTrip(this.trip.key!);
+  }
+
+  public modifyTrip(): void {
+    this.MatDialog.open(ModifyFormComponent, {
+      width: '80vw',
+      backdropClass: 'bg-zinc-900',
+      autoFocus: false,
+      data: {
+        trip: this.trip
+      }
+    });
   }
 
 }

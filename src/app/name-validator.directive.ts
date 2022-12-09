@@ -2,7 +2,7 @@ import { Directive } from '@angular/core';
 import { AbstractControl, Validator, NG_VALIDATORS } from '@angular/forms';
 
 
-const NAME_REGEX = /^[A-Z]{1}[\d\w\s-]{1,}$/;
+const NAME_REGEX = /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[\d(\w|ąćęłńóśźż)\s-]{1,}$/;
 
 @Directive({
   selector: '[appNameValidator]',

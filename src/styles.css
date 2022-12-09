@@ -50,4 +50,14 @@
   .TheCheapest {
     @apply bg-green-600 text-slate-100 shadow-green-800 !important;
   }
+  mat-dialog-container {
+    background-color: transparent !important;
+    padding: 0px 0px 0px 0px !important;
+    overflow: hidden !important;
+    border-radius: 0.5rem !important;
+    box-shadow: none !important;
+  }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

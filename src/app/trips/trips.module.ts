@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from '../app-routing.module';
 import { ImageSliderModule } from '../imageSlider/imageSlider/imageSlider.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { ListTripsComponent } from './list-trips/list-trips.component';
 import { DetailTripComponent } from './detail-trip/detail-trip.component';
@@ -13,7 +14,7 @@ import { TripsParseService } from '../services/tripsParse.service';
 import { TripAddComponent } from './trip-add/trip-add.component';
 import { FiltersComponent } from '../filters/filters.component';
 import { SingleTripComponent } from './singleTrip/singleTrip.component';
-
+import { ModifyFormComponent } from './modifyForm/modifyForm.component';
 
 import { NameValidatorDirective } from '../name-validator.directive';
 
@@ -32,6 +33,7 @@ import { SettingsChangeService } from '../services/settingsChange.service';
     TripAddComponent,
     FiltersComponent,
     SingleTripComponent,
+    ModifyFormComponent,
     NameValidatorDirective,
     DestinationCountryPipe,
     PricePipe,
@@ -39,13 +41,16 @@ import { SettingsChangeService } from '../services/settingsChange.service';
     StarsPipe
 
   ],
+  entryComponents: [
+  ],
   imports: [
     FontAwesomeModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ImageSliderModule
+    ImageSliderModule,
+    MatDialogModule,
   ],
   exports: [
     ListTripsComponent,

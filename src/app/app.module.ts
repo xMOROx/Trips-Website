@@ -24,6 +24,7 @@ import { DatePipe } from '@angular/common';
 import { StatusPipe } from './pipes/filters/status.pipe';
 import { environment } from 'src/environments/environment';
 import { PageSettingsComponent } from './pageSettings/pageSettings.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { PageSettingsComponent } from './pageSettings/pageSettings.component';
     GoogleMapsModule,
     DatePipe,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    BrowserAnimationsModule
   ],
   providers: [
     FiltersService
