@@ -6,6 +6,7 @@ import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { SettingsChangeService } from 'src/app/services/settingsChange.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModifyFormComponent } from '../modifyForm/modifyForm.component';
+import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-detail-trip',
@@ -27,7 +28,7 @@ export class DetailTripComponent implements OnInit {
 
   public currency!: string;
 
-  constructor(private tripsParseService: TripsParseService, private settings: SettingsChangeService, private MatDialog: MatDialog) {
+  constructor(private tripsParseService: TripsParseService, private settings: SettingsChangeService, private MatDialog: MatDialog, private sso: ScrollStrategyOptions) {
     this.settings.currency.subscribe((currency) => {
       this.currency = currency;
     });
@@ -84,7 +85,7 @@ export class DetailTripComponent implements OnInit {
   public modifyTrip(): void {
     this.MatDialog.open(ModifyFormComponent, {
       width: '80vw',
-      backdropClass: 'bg-zinc-900',
+      scrollStrategy: this.sso.noop(),
       autoFocus: false,
       data: {
         trip: this.trip

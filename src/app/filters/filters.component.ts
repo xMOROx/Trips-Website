@@ -6,6 +6,7 @@ import { FiltersService } from '../services/filters.service';
 import { TripsParseService } from '../services/tripsParse.service';
 import { IFilter } from '../Models/filter';
 import { map } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-filters',
@@ -27,16 +28,16 @@ export class FiltersComponent implements OnInit {
   ]
 
 
-  constructor(private tripsParserService: TripsParseService, private filterService: FiltersService, private routeService: Router) { }
+  constructor(private tripsParserService: TripsParseService, private filterService: FiltersService, private routeService: Router, private matDialogRef: MatDialogRef<FiltersComponent>) { }
 
   ngOnInit() {
-    this.tripsParserService.getTrips().pipe(map((changes: any) => { return changes.map((c: any) => ({ key: c.payload.key, ...c.payload.val() })); })).subscribe((data: Trip[]) => {
+    this.tripsParserService.getTrips().snapshotChanges().pipe(map((changes: any) => { return changes.map((c: any) => ({ key: c.payload.key, ...c.payload.val() })); })).subscribe((data: Trip[]) => {
       this.trips = data;
-    })
+    });
+
     this.filterService.filteredDataEventListener().subscribe((data) => {
       this.filter = data;
     });
-    console.log(this.filter);
 
   }
 
@@ -132,8 +133,15 @@ export class FiltersComponent implements OnInit {
 
     this.filterService.emitEventFilteredData(form.value.Countries, form.value.minimumPrice
       , form.value.maximumPrice, form.value.startDate, form.value.endDate, stars);
-    this.routeService.navigate(['/trips'])
+    // this.routeService.navigate(['/trips']);
+    this.matDialogRef.close();
+  }
+  public closeDialog(): void {
+    this.matDialogRef.close();
   }
 
+  ngOnDestroy() {
+    this.matDialogRef.close();
+  }
 
 }

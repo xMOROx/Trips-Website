@@ -15,7 +15,7 @@ import { PageSettingsComponent } from './pageSettings/pageSettings.component';
 const routes: Routes = [
   { path: 'tripAdd', component: TripAddComponent },
   { path: 'cart', component: TripsCartComponent },
-  { path: 'filter', component: FiltersComponent },
+  // { path: 'filter', component: FiltersComponent },
   { path: 'trips', component: ListTripsComponent },
   { path: 'trips/:key', component: SingleTripComponent },
   { path: 'buyHistory', component: BuyHistoryComponent },

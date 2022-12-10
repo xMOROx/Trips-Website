@@ -24,7 +24,7 @@ export class TripsCartComponent implements OnInit {
     priceTotalAmount: 0,
     tripsReserved: []
   };
-
+  public statusType: typeof TripStatus = TripStatus;
   public currency!: string;
   public faClock: any = faClock;
   public faPlus: any = faPlus;
@@ -86,6 +86,10 @@ export class TripsCartComponent implements OnInit {
     }
 
     this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.listed, amount: 0 });
+  }
+
+  public onRemove(trip: Trip, value: any): void {
+    this.tripsParseService.updateTripSingleValue(trip.key!, value);
   }
 
 }

@@ -24,6 +24,7 @@ export class ModifyFormComponent implements OnInit {
   ngOnInit() {
     this.setToDefault();
   }
+
   public closeDialog(): void {
     this.matDialogRef.close();
   }
