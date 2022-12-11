@@ -1,22 +1,3 @@
 body {
   overflow-x: hidden;
 }
-
-::-webkit-scrollbar {
-  width: 20px;
-  height: 20px;
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 100vh;
-  @apply bg-white;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 100vh;
-  @apply bg-gray-800 border-white border-[3px] border-solid;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-900;
-}

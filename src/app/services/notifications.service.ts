@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, first, ObjectUnsubscribedError, Observable, ReplaySubject, Subject } from 'rxjs';
 import { ComponentsOfApplication } from '../Models/componentsOfApplication.enum';
 import { INotification } from '../Models/INotification';
 import { NotificationType } from '../Models/notificationType.enum';
@@ -44,13 +44,15 @@ export class NotificationsService {
   }
 
   public clearErrorsFrom(from_: ComponentsOfApplication) {
-    this.getNotifications().snapshotChanges().subscribe((data: any) => {
+    const cleaner = this.getNotifications().snapshotChanges().pipe(first()).subscribe((data: any) => {
       data.forEach((notification: any) => {
         if (notification.payload.val().from === from_) {
           this.updateNotificationByKey(notification.key, { type: NotificationType.archival });
         }
-      })
-    })
+      });
+      cleaner.unsubscribe();
+    });
+
   }
 
 

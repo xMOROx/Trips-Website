@@ -136,6 +136,8 @@ export class SingleTripComponent implements OnInit {
 
 
   public addOpinion(form: any): void {
+
+
     if (form.value.nick === "") {
       this.notificationsService.sendNotification(this.sendError("Brak nicku", "Podanie nicku jest wymagane aby wystawić opinie."));
       return;
@@ -175,6 +177,7 @@ export class SingleTripComponent implements OnInit {
     this.notificationsService.clearErrorsFrom(ComponentsOfApplication.Single);
 
     this.resetForm();
+
   }
 
   public getCurrentDate(): String {

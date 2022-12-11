@@ -12,6 +12,7 @@ export class PageSettingsComponent implements OnInit {
   public currenciesArray: string[] = [];
   public selectedCurrency!: string;
   constructor(private titleService: Title, private settings: SettingsChangeService) { }
+
   ngOnInit() {
     this.titleService.setTitle("Ustawienia");
     this.currenciesArray = Object.values(Currencies);
@@ -19,8 +20,8 @@ export class PageSettingsComponent implements OnInit {
       this.selectedCurrency = currency;
     });
   }
+
   public onCurrencyChange(event: any) {
-    console.log(this.selectedCurrency);
     this.settings.changeCurrency(this.selectedCurrency);
   }
 }
