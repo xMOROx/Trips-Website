@@ -26,6 +26,11 @@ import { environment } from 'src/environments/environment';
 import { PageSettingsComponent } from './pageSettings/pageSettings.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService } from './services/auth.service';
+import { VerifyEmailComponent } from './authentication/verify-email/verify-email.component';
+import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
+import { SignInComponent } from './authentication/sign-in/sign-in.component';
+import { SignUpComponent } from './authentication/sign-up/sign-up.component';
+import { DashboardComponent } from './authentication/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,12 @@ import { AuthService } from './services/auth.service';
     NotificationComponent,
     BuyHistoryComponent,
     StatusPipe,
-    PageSettingsComponent
+    PageSettingsComponent,
+    VerifyEmailComponent,
+    ForgotPasswordComponent,
+    SignInComponent,
+    SignUpComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

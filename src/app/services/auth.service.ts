@@ -58,16 +58,15 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL,
       emailVerified: user.emailVerified
     };
     return userRef.set(userData);
   }
 
-  private sendVerificationEmail(): void {
+  public sendVerificationEmail(): void {
     this.angularFireAuth.currentUser.then(u => u?.sendEmailVerification())
       .then(() => {
-        this.router.navigate(['verify-email']);
+        this.router.navigate(['verify-email-address']);
       });
   }
 

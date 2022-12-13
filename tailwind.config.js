@@ -14,9 +14,19 @@ module.exports = {
         'bouncing-third': 'bouncing 1s ease-in-out .4s 1 alternate backwards;',
         'bouncing-fourth': 'bouncing 1s ease-in-out .6s 1 alternate backwards;',
         'bouncing-fifth': 'bouncing 1s ease-in-out .8s 1 alternate backwards;',
-        'bell': 'belling 6s .7s ease-in-out infinite ;'
+        'bell': 'belling 6s .7s ease-in-out infinite ;',
+        'blob': 'blob 5s  ease-in-out alternate infinite;',
       },
       keyframes: {
+
+        blob: {
+          '0%': { borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' },
+          '25%': { borderRadius: '70% 30% 32% 68% / 30% 30% 70% 70%' },
+          '50%': { borderRadius: '50% 50% 32% 68% / 55% 24% 76% 45%' },
+          '75%': { borderRadius: '28% 72% 57% 43% / 79% 24% 76% 21%' },
+          '100%': { borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }
+
+        },
         bouncing: {
           '0%, 100%': { transform: 'translateY(0%)' },
           '50%': { transform: 'translateY(-25%)' }
