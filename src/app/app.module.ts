@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
-
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -25,6 +25,7 @@ import { StatusPipe } from './pipes/filters/status.pipe';
 import { environment } from 'src/environments/environment';
 import { PageSettingsComponent } from './pageSettings/pageSettings.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -49,10 +50,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DatePipe,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularFireAuthModule
   ],
   providers: [
-    FiltersService
+    FiltersService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
