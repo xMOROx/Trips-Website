@@ -31,7 +31,7 @@ export class BuyHistoryComponent implements OnInit {
       this.boughtTrips = trips;
     });
     this.settings.getCurrency().subscribe(currency => {
-      this.currency = currency;
+      this.currency = currency.value;
     });
   }
 

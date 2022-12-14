@@ -8,6 +8,7 @@ import { BoughtTripsService } from '../services/boughtTrips.service';
 import { TripStatus } from '../Models/tripStatus.enum';
 import { TripsParseService } from '../services/tripsParse.service';
 import { SettingsChangeService } from '../services/settingsChange.service';
+import { ReservedTripsForUserService } from '../services/reservedTripsForUser.service';
 
 const TITLE = "Koszyk";
 
@@ -31,28 +32,35 @@ export class TripsCartComponent implements OnInit {
   public faMinus: any = faMinus;
   public showDetails: boolean = false;
 
-  constructor(private titleService: Title, private tripsParseService: TripsParseService, private buyTripService: BoughtTripsService, private setting: SettingsChangeService) {
+  constructor(private titleService: Title,
+    private tripsParseService: TripsParseService,
+    private buyTripService: BoughtTripsService,
+    private setting: SettingsChangeService,
+    private reservedTripsForUserService: ReservedTripsForUserService
+  ) {
 
   }
 
   ngOnInit() {
     this.titleService.setTitle(TITLE);
 
-    this.tripsParseService.getTrips().valueChanges().subscribe((trips: Trip[]) => {
-      this.cart.tripsReserved = trips.filter(trip => trip.status === TripStatus.reserved);
+
+    this.reservedTripsForUserService.getReservedTripsForUser().subscribe((trips: Trip[]) => {
+      this.cart.tripsReserved = trips;
     });
 
-    this.tripsParseService.getAmountOfReservedTrips().subscribe(reservedAmount => {
-      this.cart.reservedTotalAmount = reservedAmount;
+    this.reservedTripsForUserService.getAmountOfReservedTripsForUser().subscribe((amount: number) => {
+      this.cart.reservedTotalAmount = amount;
     });
 
-    this.tripsParseService.getTotalPriceOfReservedTrips().subscribe(priceTotal => {
-      this.cart.priceTotalAmount = priceTotal;
+    this.reservedTripsForUserService.getTotalPriceOfReservedTripsForUser().subscribe((price: number) => {
+      this.cart.priceTotalAmount = price;
 
     });
 
-    this.setting.currency.subscribe((currency) => {
-      this.currency = currency;
+
+    this.setting.getCurrency().subscribe((currency) => {
+      this.currency = currency.value;
     });
 
 
