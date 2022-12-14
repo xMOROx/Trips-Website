@@ -1,25 +1,30 @@
 <nav class="bg-white border-gray-200  w-screen md:px-4 py-2.5 dark:bg-gray-900 ">
   <div class="flex flex-wrap justify-center gap-x-4 items-center mx-auto w-full">
     <a routerLink="/" class=" md:m-0 mr-auto w-[2.25rem] ">
-      <fa-layers [fixedWidth]="true" class="grid w-[2.25rem] h-full">
+      <fa-layers [fixedWidth]="true" class="grid w-[2.25rem] h-full ml-2 md:ml-0">
         <fa-icon [icon]="faCircle" class="text-blue-600 text-4xl "></fa-icon>
         <fa-icon [icon]="faPlane" [inverse]="true" class="text-center " size="lg"></fa-icon>
       </fa-layers>
     </a>
     <div class="flex justify-center   mr-0">
-      <fa-icon [icon]="faBell"
+      <fa-icon [icon]="faBell" *ngIf="authService.isLoggedIn"
         class="text-gray-500 text-2xl hover:text-blue-600 hover:cursor-pointer origin-top transition-colors delay-75"
         (click)="toggleNotification($event)"
         [ngClass]="{'animate-bell': notifications.length > 0 && !_toggleNotification, 'text-red-600':lastNotification?.type === notificationType.error && !_toggleNotification, 'text-blue-800':lastNotification?.type === notificationType.info && !_toggleNotification, 'text-green-600':lastNotification?.type === notificationType.success && !_toggleNotification, 'text-yellow-500':lastNotification?.type === notificationType.warning && !_toggleNotification}">
       </fa-icon>
     </div>
     <div class="flex items-center md:order-2 ">
-      <a routerLink="/sign-in"
+      <span routerLink="/sign-in" *ngIf="!authService.isLoggedIn"
         class="cursor-pointer text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 ">Zaloguj
-        się</a>
-      <a routerLink="/register-user"
+        się</span>
+      <span routerLink="/register-user" *ngIf="!authService.isLoggedIn"
         class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Zarejestruj
-        się</a>
+        się</span>
+      <span routerLink="/user-profile" *ngIf="authService.isLoggedIn && authService.userData as User "
+        class="hidden md:block cursor-pointer text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 ">Profil
+        użytkownika {{User.displayName}}</span>
+      <span *ngIf="authService.isLoggedIn " (click)="authService.singOut()"
+        class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Wyloguj</span>
       <button data-collapse-toggle="mega-menu" type="button" (click)="toggleHidden($event, megaMenu)"
         class="inline-flex items-center p-2 ml-1 mr-4 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         aria-controls="mega-menu" aria-expanded="false">
@@ -40,9 +45,14 @@
             class="block py-2 pr-4 pl-3 text-blue-600 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-blue-500 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
             aria-current="page">Strona Główna</a>
         </li>
+        <li class="block md:hidden">
+          <span routerLink="/user-profile" *ngIf="authService.isLoggedIn && authService.userData as User "
+            class="block md:hidden cursor-pointer  py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 md:w-auto hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">Profil
+            użytkownika <span class="text-blue-600">{{User.displayName}}</span></span>
+        </li>
         <li>
           <button id="mega-menu-dropdown-button" data-dropdown-toggle="mega-menu-dropdown"
-            (click)="toggleHidden($event, hiddenDropDown)"
+            *ngIf="authService.isLoggedIn" (click)="toggleHidden($event, hiddenDropDown)"
             class="flex justify-between items-center py-2 pr-4 pl-3 w-full font-medium text-gray-700 border-b border-gray-100 md:w-auto hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">
             Opcje <svg aria-hidden="true" class="ml-1 w-5 h-5 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg">
@@ -126,7 +136,7 @@
             class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">Oferta</a>
         </li>
         <li>
-          <a routerLink="/cart"
+          <a routerLink="/cart" *ngIf="authService.isLoggedIn"
             class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">
             <fa-layers [fixedWidth]="true" class="text-3xl">
               <fa-icon [icon]="faCartArrowDown"

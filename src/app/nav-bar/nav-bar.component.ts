@@ -5,6 +5,9 @@ import { NotificationsService } from '../services/notifications.service';
 import { INotification } from '../Models/INotification';
 import { NotificationType } from '../Models/notificationType.enum';
 import { TripsParseService } from '../services/tripsParse.service';
+import { AuthGuard } from '../authentication/guard/auth.guard';
+import { AuthService } from '../services/auth.service';
+import { ReservedTripsForUserService } from '../services/reservedTripsForUser.service';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -22,7 +25,12 @@ export class NavBarComponent implements OnInit {
   public lastNotification: INotification | undefined;
   public reservedTotalAmount = 0;
 
-  constructor(private tripsParseService: TripsParseService, private notificationService: NotificationsService) {
+  constructor(
+    private tripsParseService: TripsParseService,
+    private notificationService: NotificationsService,
+    private reservedTripsForUserService: ReservedTripsForUserService,
+    public authGuard: AuthGuard,
+    public authService: AuthService) {
   }
 
 
@@ -36,9 +44,11 @@ export class NavBarComponent implements OnInit {
       }
     });
 
-    this.tripsParseService.getAmountOfReservedTrips().subscribe(value => {
-      this.reservedTotalAmount = value;
+    this.reservedTripsForUserService.getAmountOfReservedTripsForUser().subscribe(reservedAmount => {
+      this.reservedTotalAmount = reservedAmount;
     });
+
+
     this.notificationService.showNotificationListener().subscribe(flag => {
       this._toggleNotification = flag;
     });
