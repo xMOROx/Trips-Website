@@ -1,24 +1,27 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { User } from '../Models/User';
 import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
-
+import { SettingsChangeService } from './settingsChange.service';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  userData: any;
+  public userData: any;
   constructor(
     private angularFireAuth: AngularFireAuth,
     private angularFireDatabase: AngularFireDatabase,
     private router: Router,
-    private ngZone: NgZone
+    private settings: SettingsChangeService
   ) {
+
     this.angularFireAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;
+
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user')!);
       } else {
@@ -28,23 +31,47 @@ export class AuthService {
     });
   }
 
-  public signIn(email: string, password: string): void {
-    this.angularFireAuth.signInWithEmailAndPassword(email, password)
-      .then(result => {
-        this.setUserData(result.user);
-        this.angularFireAuth.authState.subscribe(user => {
-          if (user) {
-            this.router.navigate(['dashboard']);
-          }
-        });
-      }).catch(error => {
-        window.alert(error.message);
-      });
+  public get user(): Observable<any> {
+    if (this.userData != null) {
+      return this.angularFireDatabase.object(`Users/${this.userData.uid}`).valueChanges();
+    }
+    return new Observable();
   }
 
-  public signUp(email: string, password: string): void {
+  public updateUserData(user: User): void {
+    this.angularFireDatabase.object(`Users/${user.uid}`).update(user);
+  }
+
+  public signIn(email: string, password: string): void {
+    this.settings.getPersistance().subscribe((persistance: any) => {
+      this.angularFireAuth.setPersistence(persistance.value).then(() => {
+        this.angularFireAuth.signInWithEmailAndPassword(email, password)
+          .then(result => {
+            this.setUserData(result.user);
+            this.angularFireAuth.authState.subscribe(user => {
+              if (user!.emailVerified == false) {
+                window.alert('Zweryfikuj swój adres email!');
+              }
+              else if (user) {
+                this.router.navigate(['dashboard']);
+              } else {
+                window.alert('Niepoprawny email lub hasło!');
+              }
+            });
+          }).catch(error => {
+            window.alert(error.message);
+          });
+      });
+    });
+
+
+
+  }
+
+  public signUp(email: string, password: string, displayName: string): void {
     this.angularFireAuth.createUserWithEmailAndPassword(email, password)
       .then(result => {
+        result.user?.updateProfile({ displayName: displayName });
         this.setUserData(result.user);
         this.sendVerificationEmail();
       }).catch(error => {
@@ -57,6 +84,12 @@ export class AuthService {
     const userData: User = {
       uid: user.uid,
       email: user.email,
+      roles: {
+        guess: true,
+        customer: true,
+        manager: false,
+        admin: false
+      },
       displayName: user.displayName,
       emailVerified: user.emailVerified
     };
@@ -64,7 +97,8 @@ export class AuthService {
   }
 
   public sendVerificationEmail(): void {
-    this.angularFireAuth.currentUser.then(u => u?.sendEmailVerification())
+    this.angularFireAuth.currentUser
+      .then(u => u?.sendEmailVerification())
       .then(() => {
         this.router.navigate(['verify-email-address']);
       });
@@ -81,7 +115,7 @@ export class AuthService {
 
   public get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
-    return user !== null && user.emailVerified !== false;
+    return (user !== null && user.emailVerified !== false) ? true : false;
   }
 
   public authLogin(provider: auth.AuthProvider): Promise<void> {
@@ -104,8 +138,45 @@ export class AuthService {
   public singOut(): void {
     this.angularFireAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['sign-in']);
+      this.router.navigate(['home']);
+      window.alert('Wylogowano!');
     });
+  }
+
+  public canRead(user: User): boolean {
+    const allowed = ['admin', 'manager', 'customer'];
+    return this.checkAuthorization(user, allowed);
+  }
+
+
+  public canEdit(user: User): boolean {
+    const allowed = ['admin', 'manager'];
+    return this.checkAuthorization(user, allowed);
+  }
+
+  public canDelete(user: User): boolean {
+    const allowed = ['admin'];
+    return this.checkAuthorization(user, allowed);
+  }
+
+  public canRate(user: User): boolean {
+    const allowed = ['admin', 'customer'];
+    return this.checkAuthorization(user, allowed);
+  }
+
+  public canCommentAll(user: User): boolean {
+    const allowed = ['admin', 'manager'];
+    return this.checkAuthorization(user, allowed);
+  }
+
+  private checkAuthorization(user: User, allowedRoles: string[]): boolean {
+    if (!user) return false;
+    for (const role of allowedRoles) {
+      if ((user.roles as any)[role]) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

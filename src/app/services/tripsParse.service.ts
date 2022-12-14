@@ -45,30 +45,5 @@ export class TripsParseService {
     this.fireDataBaseRef.database.ref('Trips').child(key).update(value);
   }
 
-  public getAmountOfReservedTrips(): Observable<number> {
-    this.getTrips().valueChanges().subscribe((trips: Trip[]) => {
-      let amount = 0;
-      for (const trip of trips) {
-        if (trip.status === TripStatus.reserved) {
-          amount += trip.amount;
-        }
-      }
-      this.subjectAmount.next(amount);
-    });
-    return this.subjectAmount.asObservable();
-  }
-
-  public getTotalPriceOfReservedTrips(): Observable<number> {
-    this.getTrips().valueChanges().subscribe((trips: Trip[]) => {
-      let priceSum = 0;
-      for (const trip of trips) {
-        if (trip.status === TripStatus.reserved) {
-          priceSum += (trip.unitPrice * trip.amount);
-        }
-      }
-      this.subjectPrice.next(priceSum);
-    });
-    return this.subjectPrice.asObservable();
-  }
 
 }

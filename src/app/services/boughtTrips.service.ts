@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { User } from 'firebase/auth';
 import { Observable } from 'rxjs';
 import { ComponentsOfApplication } from '../Models/componentsOfApplication.enum';
 import { INotification } from '../Models/INotification';
 import { NotificationType } from '../Models/notificationType.enum';
 import { Trip } from '../Models/trip';
 import { TripStatus } from '../Models/tripStatus.enum';
+import { AuthService } from './auth.service';
 import { NotificationsService } from './notifications.service';
 
+
+const URL = "BoughtTrips";
 const DAY_BEFORE_TRIP_START_REMINDER = 400; //zmienione w celach testowych
 @Injectable({
   providedIn: 'root'
@@ -15,10 +19,18 @@ const DAY_BEFORE_TRIP_START_REMINDER = 400; //zmienione w celach testowych
 export class BoughtTripsService {
 
   public statusType: typeof TripStatus = TripStatus;
+
+  public user!: User;
   private boughtTripsRef: any;
 
-  constructor(private notificationsService: NotificationsService, private fireDataBaseRef: AngularFireDatabase) {
-    this.boughtTripsRef = fireDataBaseRef.list('BoughtTrips');
+  constructor(private notificationsService: NotificationsService, private fireDataBaseRef: AngularFireDatabase, public auth: AuthService) {
+
+
+    if (localStorage.getItem('user') !== null) {
+      this.user = JSON.parse(localStorage.getItem('user')!);
+    }
+
+    this.boughtTripsRef = fireDataBaseRef.list(URL + `/${this.user.uid}`);
     this.getBoughtTrips().subscribe(trips => {
       trips.forEach(trip => {
         this.setStatus(trip);
@@ -28,6 +40,7 @@ export class BoughtTripsService {
         }
       });
     });
+
   }
 
   private setStatus(trip: Trip): void {
@@ -47,13 +60,13 @@ export class BoughtTripsService {
 
 
   public addTrip(trip: Trip): void {
-    const key = this.fireDataBaseRef.database.ref('BoughtTrips').push().key!;
+    const key = this.fireDataBaseRef.database.ref(URL + `/${this.user.uid}`).push().key!;
     trip.maxPlace = -1;
     trip.oldKey = trip.key ?? '';
     trip.key = key;
     trip.getNotification = false;
     this.setStatus(trip);
-    this.fireDataBaseRef.database.ref('BoughtTrips').child(trip.key!).set(trip);
+    this.fireDataBaseRef.database.ref(URL + `/${this.user.uid}`).child(trip.key!).set(trip);
   }
 
   public getBoughtTrips(): Observable<Trip[]> {
@@ -89,7 +102,7 @@ export class BoughtTripsService {
   }
 
   public updateTripByValue(trip: Trip, value: Object): void {
-    this.fireDataBaseRef.database.ref('BoughtTrips').child(trip.key!).update(value);
+    this.fireDataBaseRef.database.ref(URL + `/${this.user.uid}`).child(trip.key!).update(value);
   }
 
 
