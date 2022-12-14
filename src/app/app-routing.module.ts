@@ -15,19 +15,23 @@ import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { DashboardComponent } from './authentication/dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './authentication/verify-email/verify-email.component';
+import { AuthGuard } from './authentication/guard/auth.guard';
+import { AdminGuard } from './authentication/guard/admin.guard';
+import { CanReadGuard } from './authentication/guard/can-read.guard';
 
 const routes: Routes = [
-  { path: 'tripAdd', component: TripAddComponent },
-  { path: 'cart', component: TripsCartComponent },
+  { path: 'cart', component: TripsCartComponent, canActivate: [AuthGuard, CanReadGuard] },
+  { path: 'tripAdd', component: TripAddComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'trips', component: ListTripsComponent },
-  { path: 'trips/:key', component: SingleTripComponent },
-  { path: 'buyHistory', component: BuyHistoryComponent },
-  { path: 'settings', component: PageSettingsComponent },
+  { path: 'trips/:key', component: SingleTripComponent, canActivate: [AuthGuard, CanReadGuard] },
+  { path: 'buyHistory', component: BuyHistoryComponent, canActivate: [AuthGuard, CanReadGuard] },
+  { path: 'settings', component: PageSettingsComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'sign-in', component: SignInComponent },
   { path: 'register-user', component: SignUpComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, CanReadGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email-address', component: VerifyEmailComponent },
+  { path: 'home', redirectTo: '', pathMatch: 'full' },
   { path: '', component: HomePageComponent },
   { path: "**", component: PageNotFoundComponent }
 ]
