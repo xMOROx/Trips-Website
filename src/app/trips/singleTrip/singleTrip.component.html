@@ -62,8 +62,9 @@
 
         </div>
         <div class="bottom flex flex-wrap justify-center px-5 py-2.5">
-          <app-trip-rating [likes]="trip.likes" [disLikes]="trip.dislikes"></app-trip-rating>
-          <button type="button"
+          <app-trip-rating *ngIf="boughtByUser && trip !== undefined && auth.canRate(user)" [likes]="trip.likes"
+            [disLikes]="trip.dislikes" [tripKey]="trip.key!"></app-trip-rating>
+          <button type="button" *ngIf="auth.canDelete(user) || auth.canEdit(user)"
             class="buttons text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300  dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
             (click)="onRemove()" routerLink="/trips">Usuń
             Wycieczke</button>
@@ -103,12 +104,17 @@
 
   </div>
   <div class="w-[50vw]">
-    <form
-      class="flex flex-col items-center border-2 bg-gray-800 rounded-lg shadow-md shadow-gray-900 border-none p-10 relative mt-[25px]"
+    <div
+      class="min-h-[400px] w-full grid place-content-center  border-2 bg-gray-800 rounded-lg  shadow-md shadow-gray-900 border-none p-10 relative mt-[25px]"
+      *ngIf="!boughtByUser && !auth.canCommentAll(user)">
+      <p class="text-2xl text-gray-500">Nie zakupiłeś wycieczki więc nie możesz dodawać opinii o niej!</p>
+    </div>
+    <form *ngIf="boughtByUser || auth.canCommentAll(user)"
+      class="flex flex-col items-center border-2 bg-gray-800 rounded-lg  shadow-md shadow-gray-900 border-none p-10 relative mt-[25px]"
       #form="ngForm" (ngSubmit)="addOpinion(form)">
       <div
         class="flex items-center absolute w-[80%] h-[50px] bg-zinc-900 -top-[25px] left-[50%] -translate-x-[50%] rounded-lg shadow-inner shadow-zinc-800">
-        <div class="grid place-content-center w-full h-[30px] bg-zinc-800 shadow-inner shadow-zinc-900">
+        <div class="grid place-content-center w-full h-[30px] z-10 bg-zinc-800 shadow-inner shadow-zinc-900">
           <h2 class="text-blue-600">Dodaj opinie</h2>
         </div>
       </div>

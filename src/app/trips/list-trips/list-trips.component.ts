@@ -9,7 +9,9 @@ import { map } from 'rxjs';
 import { Currencies } from 'src/app/Models/Currencies.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { FiltersComponent } from 'src/app/filters/filters.component';
-import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
+import { TripStatus } from 'src/app/Models/tripStatus.enum';
 
 @Component({
   selector: 'app-list-trips',
@@ -27,7 +29,13 @@ export class ListTripsComponent implements OnInit {
   public isActive: boolean = false;
   public currency: Currencies = Currencies.PLN;
 
-  public constructor(private titleService: Title, private tripsParseService: TripsParseService, private filterService: FiltersService, private MatDialog: MatDialog, private sso: ScrollStrategyOptions) {
+  public constructor(
+    private titleService: Title,
+    private tripsParseService: TripsParseService,
+    private filterService: FiltersService,
+    private MatDialog: MatDialog,
+    private reservedTripsForUserService: ReservedTripsForUserService,
+    private sso: ScrollStrategyOptions) {
   }
 
   public setTitle(newTitle: string): void {
@@ -42,10 +50,20 @@ export class ListTripsComponent implements OnInit {
       .pipe(map((changes: any) => { return changes.map((c: any) => ({ key: c.payload.key, ...c.payload.val() })); }))
       .subscribe((trips: Trip[]) => {
         this.trips = trips.filter(trip => trip.maxPlace > 0);
+        this.reservedTripsForUserService.getReservedTripsForUser().subscribe((tripsReserved: Trip[]) => {
+          for (const trip of this.trips) {
+            for (const reservedTrip of tripsReserved) {
+              if (trip.key === reservedTrip.key) {
+                trip.status = TripStatus.reserved;
+                trip.amount = reservedTrip.amount;
+              }
+            }
+          }
+        });
       });
 
-    this.tripsParseService.getAmountOfReservedTrips().subscribe(value => {
-      this.reservedTotalAmount = value;
+    this.reservedTripsForUserService.getAmountOfReservedTripsForUser().subscribe((amount: number) => {
+      this.reservedTotalAmount = amount;
     });
 
 

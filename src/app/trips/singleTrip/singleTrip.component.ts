@@ -12,9 +12,11 @@ import { INotification } from 'src/app/Models/INotification';
 import { NotificationType } from 'src/app/Models/notificationType.enum';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { ComponentsOfApplication } from 'src/app/Models/componentsOfApplication.enum';
-import { Currencies } from 'src/app/Models/Currencies.enum';
 import { SettingsChangeService } from 'src/app/services/settingsChange.service';
-
+import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
+import { BoughtTripsService } from 'src/app/services/boughtTrips.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/Models/User';
 
 @Component({
   selector: 'app-singleTrip',
@@ -25,6 +27,8 @@ export class SingleTripComponent implements OnInit {
   private liked: boolean = false;
   public key: string = "";
   public trip!: Trip;
+  public user!: User;
+  public boughtByUser: boolean = false;
   public faClock: any = faClock;
   public faPlus: any = faPlus;
   public faMinus: any = faMinus;
@@ -40,16 +44,40 @@ export class SingleTripComponent implements OnInit {
   private subscription: Subscription | undefined
 
 
-  constructor(private route: ActivatedRoute, private tripsParseService: TripsParseService, private ratingService: RatingService, private notificationsService: NotificationsService, private settings: SettingsChangeService) { }
+  constructor(private route: ActivatedRoute,
+    private tripsParseService: TripsParseService,
+    private ratingService: RatingService,
+    private notificationsService: NotificationsService,
+    private boughtTripsForUserService: BoughtTripsService,
+    private reservedTripsForUserService: ReservedTripsForUserService,
+    private settings: SettingsChangeService,
+    public auth: AuthService
+  ) { }
 
 
   ngOnInit() {
+
+    this.auth.user.subscribe((user: User) => {
+      if (user) {
+        this.user = user;
+      }
+    });
+
     this.subscription = this.route.params.subscribe(data => {
       this.key = data['key'];
     });
 
     this.tripsParseService.getTripUrlByKey(this.key).subscribe(trip => {
       this.trip = trip;
+
+      this.reservedTripsForUserService.getReservedTripsForUser().subscribe(trips => {
+        for (const tripReserved of trips) {
+          if (tripReserved.key === this.trip.key) {
+            this.trip.amount = tripReserved.amount;
+            this.trip.status = tripReserved.status;
+          }
+        }
+      });
 
       if (this.slides.length < this.trip.imageSrc.length) {
         for (const image of this.trip.imageSrc) {
@@ -71,12 +99,20 @@ export class SingleTripComponent implements OnInit {
     });
 
     this.settings.getCurrency().subscribe(currency => {
-      this.currency = currency;
+      this.currency = currency.value;
     });
 
+    this.boughtTripsForUserService.getBoughtTrips().subscribe(trips => {
+      if (trips.length > 0) {
 
+        for (const trip of trips) {
+          if (trip.oldKey === this.trip.key) {
+            this.boughtByUser = true;
+          }
+        }
+      }
+    });
   }
-
 
   private formatDate(date: Date): string {
     var d = new Date(date),
@@ -114,11 +150,11 @@ export class SingleTripComponent implements OnInit {
     if (trip.amount < trip.maxPlace) {
       if (trip.status === TripStatus.listed) {
         trip.status = TripStatus.reserved;
-        this.tripsParseService.updateTripSingleValue(trip.key!, { status: trip.status });
 
       }
       trip.amount += 1;
-      this.tripsParseService.updateTripSingleValue(trip.key!, { amount: trip.amount });
+      this.reservedTripsForUserService.setReservedTripsForUser(trip);
+
     }
   }
 
@@ -127,10 +163,9 @@ export class SingleTripComponent implements OnInit {
       trip.amount -= 1;
       if (trip.amount === 0) {
         trip.status = TripStatus.listed;
-        this.tripsParseService.updateTripSingleValue(trip.key!, { status: trip.status });
       }
+      this.reservedTripsForUserService.setReservedTripsForUser(trip);
 
-      this.tripsParseService.updateTripSingleValue(trip.key!, { amount: trip.amount });
     }
   }
 

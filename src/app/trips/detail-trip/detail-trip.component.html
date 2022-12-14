@@ -42,19 +42,19 @@
               class="text-sm font-semibold">{{currency}}</span>
           </div>
 
-          <button type="button"
+          <button type="button" *ngIf="auth.isLoggedIn"
             class="buttons justify-self-end   bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 "
             (click)="addClick(trip)" [ngClass]="{'invisible': (trip.amount >= trip.maxPlace) }">
             <fa-icon [icon]="faPlus" class="text-stone-900"></fa-icon>
           </button>
           <button type="button"
             class="buttons justify-self-start    bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 "
-            (click)="removeClick(trip)" *ngIf="trip.amount > 0">
+            (click)="removeClick(trip)" *ngIf="trip.amount > 0 && auth.isLoggedIn">
             <fa-icon [icon]="faMinus" class="text-stone-900"></fa-icon>
           </button>
 
           <button type="button" class="buttons justify-self-start  r bg-stone-800  cursor-not-allowed "
-            *ngIf="trip.amount == 0 " disabled>
+            *ngIf="trip.amount === 0  && auth.isLoggedIn" disabled>
             <fa-icon [icon]="faMinus" class="text-stone-400"></fa-icon>
           </button>
 
@@ -79,12 +79,13 @@
         </div>
 
       </div>
-      <div class="bottom flex flex-wrap justify-center px-5 py-2.5  shadow-inner ">
-        <button type="button"
+      <div class="bottom flex flex-wrap justify-center px-5 py-2.5  shadow-inner "
+        *ngIf="auth.canDelete(user) || auth.canEdit(user)">
+        <button type="button" *ngIf="auth.canDelete(user)"
           class="buttons text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300  dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
           (click)="onRemove()">Usuń
           Wycieczke</button>
-        <button type="button"
+        <button type="button" *ngIf="auth.canEdit(user)"
           class="buttons text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300  dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-900"
           (click)="modifyTrip()">Modyfikuj</button>
       </div>

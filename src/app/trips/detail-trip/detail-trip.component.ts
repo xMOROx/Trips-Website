@@ -6,7 +6,10 @@ import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { SettingsChangeService } from 'src/app/services/settingsChange.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModifyFormComponent } from '../modifyForm/modifyForm.component';
-import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/Models/User';
+import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
 
 @Component({
   selector: 'app-detail-trip',
@@ -28,13 +31,30 @@ export class DetailTripComponent implements OnInit {
 
   public currency!: string;
 
-  constructor(private tripsParseService: TripsParseService, private settings: SettingsChangeService, private MatDialog: MatDialog, private sso: ScrollStrategyOptions) {
-    this.settings.currency.subscribe((currency) => {
-      this.currency = currency;
-    });
+  public user!: User;
+
+  constructor(
+    private tripsParseService: TripsParseService,
+    private settings: SettingsChangeService,
+    private MatDialog: MatDialog,
+    private sso: ScrollStrategyOptions,
+    private reservedTripsForUserService: ReservedTripsForUserService,
+    public auth: AuthService,
+
+  ) {
+
   }
 
   ngOnInit(): void {
+    this.settings.getCurrency().subscribe((currency: any) => {
+      this.currency = currency.value;
+    });
+
+    this.auth.user.subscribe((user: User) => {
+      if (user) {
+        this.user = user;
+      }
+    });
 
   }
 
@@ -59,38 +79,40 @@ export class DetailTripComponent implements OnInit {
     if (trip.amount < trip.maxPlace) {
       if (trip.status === TripStatus.listed) {
         trip.status = TripStatus.reserved;
-        this.tripsParseService.updateTripSingleValue(trip.key!, { status: trip.status });
       }
       trip.amount += 1;
-      this.tripsParseService.updateTripSingleValue(trip.key!, { amount: trip.amount });
+      this.reservedTripsForUserService.setReservedTripsForUser(trip);
     }
   }
 
   public removeClick(trip: Trip): void {
     if (trip.amount >= 1) {
       trip.amount -= 1;
-
       if (trip.amount === 0) {
         trip.status = TripStatus.listed;
-        this.tripsParseService.updateTripSingleValue(trip.key!, { status: trip.status });
       }
-      this.tripsParseService.updateTripSingleValue(trip.key!, { amount: trip.amount });
+      this.reservedTripsForUserService.setReservedTripsForUser(trip);
     }
   }
 
   public onRemove(): void {
-    this.tripsParseService.deleteTrip(this.trip.key!);
+    if (this.auth.canDelete(this.user)) {
+      this.tripsParseService.deleteTrip(this.trip.key!);
+    }
   }
 
   public modifyTrip(): void {
-    this.MatDialog.open(ModifyFormComponent, {
-      width: '80vw',
-      scrollStrategy: this.sso.noop(),
-      autoFocus: false,
-      data: {
-        trip: this.trip
-      }
-    });
+    if (this.auth.canEdit(this.user)) {
+      this.MatDialog.open(ModifyFormComponent, {
+        width: '80vw',
+        scrollStrategy: this.sso.noop(),
+        autoFocus: false,
+        data: {
+          trip: this.trip
+        }
+      });
+    }
   }
+
 
 }
