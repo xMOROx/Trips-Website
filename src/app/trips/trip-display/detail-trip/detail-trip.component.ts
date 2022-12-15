@@ -5,7 +5,7 @@ import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { SettingsChangeService } from 'src/app/services/settingsChange.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModifyFormComponent } from '../modifyForm/modifyForm.component';
+import { ModifyFormComponent } from '../../modifyForm/modifyForm.component';
 import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/Models/User';
@@ -22,6 +22,8 @@ export class DetailTripComponent implements OnInit {
   public trip!: Trip;
   @Input()
   public trips!: Trip[];
+  @Input()
+  public insideAdminPanel: boolean = false;
 
   public faClock: any = faClock;
   public faPlus: any = faPlus;

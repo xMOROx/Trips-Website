@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Trip } from '../../Models/trip';
 import { Title } from '@angular/platform-browser'
 import { NgForm } from '@angular/forms'
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { Router } from '@angular/router';
+import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
+import { TripStatus } from 'src/app/Models/tripStatus.enum';
+import { map } from 'rxjs/operators';
+import { faList, faArrowUp, faArrowDown, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-manage-trips',
@@ -12,11 +16,22 @@ import { Router } from '@angular/router';
 })
 export class ManageTripsComponent implements OnInit {
 
-  constructor(private titleService: Title, private tripsParseService: TripsParseService, private routeService: Router) {
-
+  constructor(
+    private titleService: Title,
+    private tripsParseService: TripsParseService,
+    private reservedTripsForUserService: ReservedTripsForUserService,
+    private routeService: Router) {
   }
 
   public selectedDefault: string = ""
+  public trips!: Trip[];
+  public faList = faList;
+  public faArrowUp = faArrowUp;
+  public faArrowDown = faArrowDown;
+  public faPlus = faPlusSquare;
+
+  @ViewChild('tripsList') public tripsList!: ElementRef<HTMLElement>;
+  @ViewChild('addTrip') public addTrip!: ElementRef<HTMLElement>;
 
 
   setTitle(newTitle: string) {
@@ -25,6 +40,23 @@ export class ManageTripsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setTitle("Zarządzanie Wycieczkami");
+
+    this.tripsParseService.getTrips().snapshotChanges()
+      .pipe(map((changes: any) => { return changes.map((c: any) => ({ key: c.payload.key, ...c.payload.val() })); }))
+      .subscribe((trips: Trip[]) => {
+        this.trips = trips.filter(trip => trip.maxPlace > 0);
+        this.reservedTripsForUserService.getReservedTripsForUser().subscribe((tripsReserved: Trip[]) => {
+          for (const trip of this.trips) {
+            for (const reservedTrip of tripsReserved) {
+              if (trip.key === reservedTrip.key) {
+                trip.status = TripStatus.reserved;
+                trip.amount = reservedTrip.amount;
+              }
+            }
+          }
+        });
+      });
+
 
   }
   handleSubmit(form: NgForm) {
@@ -48,5 +80,19 @@ export class ManageTripsComponent implements OnInit {
     this.routeService.navigate(['/trips']);
 
   }
+
+  public scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  public scrollToBottom() {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  public scrollToElement(element: HTMLElement) {
+
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+
 
 }

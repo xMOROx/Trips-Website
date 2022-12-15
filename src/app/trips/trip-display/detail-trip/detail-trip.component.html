@@ -42,29 +42,30 @@
               class="text-sm font-semibold">{{currency}}</span>
           </div>
 
-          <button type="button" *ngIf="auth.isLoggedIn"
+          <button type="button" *ngIf="auth.isLoggedIn && !insideAdminPanel"
             class="buttons justify-self-end   bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 "
             (click)="addClick(trip)" [ngClass]="{'invisible': (trip.amount >= trip.maxPlace) }">
             <fa-icon [icon]="faPlus" class="text-stone-900"></fa-icon>
           </button>
           <button type="button"
             class="buttons justify-self-start    bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 "
-            (click)="removeClick(trip)" *ngIf="trip.amount > 0 && auth.isLoggedIn">
+            (click)="removeClick(trip)" *ngIf="trip.amount > 0 && auth.isLoggedIn && !insideAdminPanel">
             <fa-icon [icon]="faMinus" class="text-stone-900"></fa-icon>
           </button>
 
           <button type="button" class="buttons justify-self-start  r bg-stone-800  cursor-not-allowed "
-            *ngIf="trip.amount === 0  && auth.isLoggedIn" disabled>
+            *ngIf="trip.amount === 0  && auth.isLoggedIn && !insideAdminPanel" disabled>
             <fa-icon [icon]="faMinus" class="text-stone-400"></fa-icon>
           </button>
 
         </div>
       </div>
       <div class="p-4 border-t border-b text-xs text-gray-700 grid grid-cols-2 grid-rows-2 place-content-center">
-        <span class="flex items-center justify-center">
+        <span class="flex items-center justify-center"
+          [ngClass]="{'col-span-2': insideAdminPanel, 'col-span-1': !insideAdminPanel}">
           Liczba miejsc: {{trip.maxPlace}}
         </span>
-        <span class="flex items-center justify-center">
+        <span class="flex items-center justify-center" *ngIf="!insideAdminPanel">
           Ilosc: {{trip.amount}}
         </span>
         <div class="datas">
@@ -80,7 +81,7 @@
 
       </div>
       <div class="bottom flex flex-wrap justify-center px-5 py-2.5  shadow-inner "
-        *ngIf="auth.canDelete(user) || auth.canEdit(user)">
+        *ngIf="(auth.canDelete(user) || auth.canEdit(user)) && insideAdminPanel">
         <button type="button" *ngIf="auth.canDelete(user)"
           class="buttons text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300  dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
           (click)="onRemove()">Usuń

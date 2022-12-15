@@ -1,89 +1,135 @@
-<div class="form-wrapper w-screen min-h-[80vh] flex justify-center items-center mt-8">
-  <form class="lg:w-[50%] w-[80%] xl:w-[90%]" #form="ngForm" (ngSubmit)="handleSubmit(form)" name="addTrip">
-    <div class="relative z-0 mb-6 w-full group">
-      <input type="text" name="floating_name" id="floating_name" ngModel appNameValidator #name="ngModel"
-        class=" block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder=" " required />
+<div class="relative w-screen min-h-[80vh] flex justify-center items-center flex-col gap-y-10  px-10 pb-10">
 
-      <label for="floating_name"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nazwa
-        Wycieczki</label>
-      <small *ngIf="(name.touched || name.dirty) && name.errors?.['nameInvalid']" class="text-red-600">Podaj nazwę z
-        wielkiej
-        litery o minimalnej
-        długości 2</small>
+  <nav
+    class="fixed flex flex-col items-center left-0 top-40 h-40 w-10 bg-zinc-900 z-20 rounded-tr-lg rounded-br-lg shadow-md shadow-zinc-900 border-solid border-l-zinc-600 border-l-2 ">
+    <fa-icon class="text-center h-10 m-2 w-full cursor-pointer hover:text-blue-600 text-gray-500" [icon]="faArrowUp"
+      (click)="scrollToTop()"></fa-icon>
+    <fa-icon class="text-center h-10 m-2 w-full cursor-pointer hover:text-blue-600 text-orange-600" [icon]="faList"
+      (click)="scrollToElement(this.tripsList.nativeElement)">
+    </fa-icon>
+    <fa-icon class="text-center h-10 m-2 w-full cursor-pointer hover:text-blue-600 text-green-500" [icon]="faPlus"
+      (click)="scrollToElement(this.addTrip)">
+    </fa-icon>
+    <fa-icon class="text-center h-10 m-2 w-full cursor-pointer hover:text-blue-600 text-gray-500" [icon]="faArrowDown"
+      (click)="scrollToBottom()">
+    </fa-icon>
+  </nav>
+
+
+  <div *ngIf="trips !== undefined" class="relative" #tripsList ngModel>
+    <div class="w-full my-8 min-h-[calc(80vh-50px)] rounded-2xl shadow-md shadow-neutral-900  bg-gray-900 p-2 ">
+
+      <div
+        class=" min-h-0 grid grid-cols-1 xl:grid-cols-3  lg:grid-cols-2  md:grid-cols-2 rounded-2xl   sm:w-full  gap-4 w-full p-4 bg-neutral-800 justify-center">
+
+        <div class=" mx-auto w-full" *ngFor="let trip of trips">
+          <app-detail-trip [trip]="trip" [trips]="trips" [insideAdminPanel]="true"></app-detail-trip>
+        </div>
+      </div>
     </div>
-    <div class="relative z-0 mb-6 w-full group">
-      <input type="text" name="floating_Country" id="floating_Country" ngModel appNameValidator #country="ngModel"
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder=" " required />
-      <label for="floating_Country"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Kraj
-        podróży</label>
-      <small *ngIf="(country.touched || country.dirty) && country.errors?.['nameInvalid']" class="text-red-600">Podaj
-        nazwę z wielkiej litery o minimalnej
-        długości 2</small>
+
+  </div>
+
+  <div #addTrip ngModel
+    class="form-wrapper w-full flex justify-center bg-gray-800 rounded-lg shadow-lg shadow-zinc-900 p-6 pt-12 relative">
+    <div
+      class="absolute flex justify-center items-center w-[80%] mx-auto -top-[2rem]  bg-zinc-900 h-16 z-10 rounded-lg shadow-md shadow-zinc-900 ">
+      <div class="h-10 w-full bg-zinc-800 shadow-inner shadow-zinc-900">
+        <div class="flex justify-center items-center h-full">
+          <h1 class="text-2xl font-bold text-blue-600">Dodaj nową wycieczkę</h1>
+        </div>
+      </div>
     </div>
-    <div class="relative z-0 mb-6 w-full group">
-      <textarea name="Description" id="floating_Description" ngModel
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder=" "> </textarea>
-      <label for="floating_Description"
-        class=" absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]  ">
-        Opis wycieczki</label>
-    </div>
-    <div class="grid md:grid-cols-2 md:gap-6">
+
+    <form class="lg:w-[50%] w-[80%] xl:w-[90%]" #form="ngForm" (ngSubmit)="handleSubmit(form)" name="addTrip">
       <div class="relative z-0 mb-6 w-full group">
-        <input type="date" name="floating_data_start" id="floating_data_start" #dataStart="ngModel" ngModel
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        <input type="text" name="floating_name" id="floating_name" ngModel appNameValidator #name="ngModel"
+          class=" block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " required />
 
-        <label for="floating_data_start"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Data
-          rozpoczęcia wycieczki</label>
+        <label for="floating_name"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nazwa
+          Wycieczki</label>
+        <small *ngIf="(name.touched || name.dirty) && name.errors?.['nameInvalid']" class="text-red-600">Podaj nazwę z
+          wielkiej
+          litery o minimalnej
+          długości 2</small>
       </div>
-
       <div class="relative z-0 mb-6 w-full group">
-        <input type="date" name="floating_data_end" id="floating_data_end" ngModel min="{{dataStart.value}}"
-          [disabled]="dataStart.value === '' "
+        <input type="text" name="floating_Country" id="floating_Country" ngModel appNameValidator #country="ngModel"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " required />
-        <label for="floating_data_end"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Data
-          zakończenia wycieczki</label>
+        <label for="floating_Country"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Kraj
+          podróży</label>
+        <small *ngIf="(country.touched || country.dirty) && country.errors?.['nameInvalid']" class="text-red-600">Podaj
+          nazwę z wielkiej litery o minimalnej
+          długości 2</small>
       </div>
-    </div>
-    <div class="grid md:grid-cols-4 md:gap-6 ">
-      <div class="relative z-0 mb-6 w-full group md:col-span-2">
-        <input type="number" name="floating_places" id="floating_places" min="1" ngModel
+      <div class="relative z-0 mb-6 w-full group">
+        <textarea name="Description" id="floating_Description" ngModel
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=" " required number />
-        <label for="floating_places"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Liczba
-          miejsc</label>
+          placeholder=" "> </textarea>
+        <label for="floating_Description"
+          class=" absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]  ">
+          Opis wycieczki</label>
       </div>
+      <div class="grid md:grid-cols-2 md:gap-6">
+        <div class="relative z-0 mb-6 w-full group">
+          <input type="date" name="floating_data_start" id="floating_data_start" #dataStart="ngModel" ngModel
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" " required />
 
-      <div class="relative z-0 mb-6 w-full group md:col-span-2">
-        <input type="number" name="floating_unit_price" id="floating_unit_price" min="1" ngModel
+          <label for="floating_data_start"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Data
+            rozpoczęcia wycieczki</label>
+        </div>
+
+        <div class="relative z-0 mb-6 w-full group">
+          <input type="date" name="floating_data_end" id="floating_data_end" ngModel min="{{dataStart.value}}"
+            [disabled]="dataStart.value === '' "
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" " required />
+          <label for="floating_data_end"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Data
+            zakończenia wycieczki</label>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-4 md:gap-6 ">
+        <div class="relative z-0 mb-6 w-full group md:col-span-2">
+          <input type="number" name="floating_places" id="floating_places" min="1" ngModel
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" " required number />
+          <label for="floating_places"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Liczba
+            miejsc</label>
+        </div>
+
+        <div class="relative z-0 mb-6 w-full group md:col-span-2">
+          <input type="number" name="floating_unit_price" id="floating_unit_price" min="1" ngModel
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" " required />
+          <label for="floating_unit_price"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cena</label>
+        </div>
+
+      </div>
+      <div class="relative z-0 mb-6 w-full group">
+        <input type="text" name="floating_Image" id="floating_Image" ngModel
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" " required />
-        <label for="floating_unit_price"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Cena</label>
+        <label for="floating_Image"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Image</label>
       </div>
+      <button type="submit" *ngIf="!form.valid" disabled
+        class="text-white bg-red-700 hover:bg-red-800 mr-4 md:mr-0 focus:ring-4 cursor-not-allowed  focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 }">Wyłączony</button>
+      <button type="submit" *ngIf="form.valid"
+        class="text-white bg-blue-700 hover:bg-blue-800 mr-4 md:mr-0 focus:ring-4 cursor-pointer  focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Dodaj</button>
+      <button type="reset"
+        class="md:ml-4 mt-4  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 cursor-pointer  focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reset</button>
+    </form>
 
-    </div>
-    <div class="relative z-0 mb-6 w-full group">
-      <input type="text" name="floating_Image" id="floating_Image" ngModel
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder=" " required />
-      <label for="floating_Image"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Image</label>
-    </div>
-    <button type="submit" *ngIf="!form.valid" disabled
-      class="text-white bg-red-700 hover:bg-red-800 mr-4 md:mr-0 focus:ring-4 cursor-not-allowed  focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 }">Wyłączony</button>
-    <button type="submit" *ngIf="form.valid"
-      class="text-white bg-blue-700 hover:bg-blue-800 mr-4 md:mr-0 focus:ring-4 cursor-pointer  focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Dodaj</button>
-    <button type="reset"
-      class="md:ml-4 mt-4  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 cursor-pointer  focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reset</button>
-  </form>
+
+  </div>
+
 </div>

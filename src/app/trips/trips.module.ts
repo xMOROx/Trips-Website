@@ -7,8 +7,8 @@ import { AppRoutingModule } from '../app-routing.module';
 import { ImageSliderModule } from '../imageSlider/imageSlider/imageSlider.module';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { ListTripsComponent } from './list-trips/list-trips.component';
-import { DetailTripComponent } from './detail-trip/detail-trip.component';
+import { ListTripsComponent } from './trip-display/list-trips/list-trips.component';
+import { DetailTripComponent } from './trip-display/detail-trip/detail-trip.component';
 import { TripRatingComponent } from './trip-rating/trip-rating.component';
 import { TripsParseService } from '../services/tripsParse.service';
 import { ManageTripsComponent } from './manage-trips/manage-trips.component';
