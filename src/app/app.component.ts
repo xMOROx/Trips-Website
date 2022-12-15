@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { BoughtTripsService } from './services/boughtTrips.service';
 
 @Component({
   selector: 'app-root',
