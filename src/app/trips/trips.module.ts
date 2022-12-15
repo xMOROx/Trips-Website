@@ -11,7 +11,7 @@ import { ListTripsComponent } from './list-trips/list-trips.component';
 import { DetailTripComponent } from './detail-trip/detail-trip.component';
 import { TripRatingComponent } from './trip-rating/trip-rating.component';
 import { TripsParseService } from '../services/tripsParse.service';
-import { TripAddComponent } from './trip-add/trip-add.component';
+import { ManageTripsComponent } from './manage-trips/manage-trips.component';
 import { FiltersComponent } from '../filters/filters.component';
 import { SingleTripComponent } from './singleTrip/singleTrip.component';
 import { ModifyFormComponent } from './modifyForm/modifyForm.component';
@@ -30,10 +30,10 @@ import { SettingsChangeService } from '../services/settingsChange.service';
     ListTripsComponent,
     DetailTripComponent,
     TripRatingComponent,
-    TripAddComponent,
     FiltersComponent,
     SingleTripComponent,
     ModifyFormComponent,
+    ManageTripsComponent,
     NameValidatorDirective,
     DestinationCountryPipe,
     PricePipe,
@@ -56,7 +56,7 @@ import { SettingsChangeService } from '../services/settingsChange.service';
     ListTripsComponent,
     DetailTripComponent,
     TripRatingComponent,
-    TripAddComponent,
+    ManageTripsComponent,
     NameValidatorDirective
   ],
   providers: [

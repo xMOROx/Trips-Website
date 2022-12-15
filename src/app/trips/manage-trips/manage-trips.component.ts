@@ -6,14 +6,11 @@ import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-trip-add',
-  templateUrl: './trip-add.component.html',
-  styleUrls: ['./trip-add.component.css']
+  selector: 'app-manage-trips',
+  templateUrl: './manage-trips.component.html',
+  styleUrls: ['./manage-trips.component.css']
 })
-
-
-
-export class TripAddComponent implements OnInit {
+export class ManageTripsComponent implements OnInit {
 
   constructor(private titleService: Title, private tripsParseService: TripsParseService, private routeService: Router) {
 
@@ -27,7 +24,7 @@ export class TripAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setTitle("Dodawanie Wycieczki");
+    this.setTitle("Zarządzanie Wycieczkami");
 
   }
   handleSubmit(form: NgForm) {

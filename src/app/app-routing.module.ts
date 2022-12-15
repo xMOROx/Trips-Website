@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { HomePageComponent } from './home-page/home-page.component';
 import { ListTripsComponent } from './trips/list-trips/list-trips.component';
-import { TripAddComponent } from './trips/trip-add/trip-add.component';
+import { ManageTripsComponent } from './trips/manage-trips/manage-trips.component';
 import { TripsCartComponent } from './trips-cart/trips-cart.component';
 import { PageNotFoundComponent } from './pageNotFound/pageNotFound.component';
 import { SingleTripComponent } from './trips/singleTrip/singleTrip.component';
@@ -21,7 +21,7 @@ import { CanReadGuard } from './authentication/guard/can-read.guard';
 
 const routes: Routes = [
   { path: 'cart', component: TripsCartComponent, canActivate: [AuthGuard, CanReadGuard] },
-  { path: 'tripAdd', component: TripAddComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'manage', component: ManageTripsComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'trips', component: ListTripsComponent },
   { path: 'trips/:key', component: SingleTripComponent, canActivate: [AuthGuard, CanReadGuard] },
   { path: 'buyHistory', component: BuyHistoryComponent, canActivate: [AuthGuard, CanReadGuard] },
