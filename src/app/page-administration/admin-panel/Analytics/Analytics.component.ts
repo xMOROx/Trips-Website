@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { faChartArea, faList, faServer, faTasks, faUserPlus, faUsers, faWallet, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
-const TITLE = "Panel administratora";
 
 @Component({
-  selector: 'app-admin-panel',
-  templateUrl: './admin-panel.component.html',
-  styleUrls: ['./admin-panel.component.css']
+  selector: 'app-Analytics',
+  templateUrl: './Analytics.component.html',
+  styleUrls: ['./Analytics.component.css']
 })
-export class AdminPanelComponent implements OnInit {
+export class AnalyticsComponent implements OnInit {
+
   public faTasks: IconDefinition = faTasks;
   public faChartArea: IconDefinition = faChartArea;
   public faList: IconDefinition = faList;
@@ -18,13 +16,13 @@ export class AdminPanelComponent implements OnInit {
   public faUsers: IconDefinition = faUsers;
   public faUserPlus: IconDefinition = faUserPlus;
   public faServer: IconDefinition = faServer;
-  constructor(
-    private titleService: Title,
-    private router: Router
-  ) { }
+
+
+  constructor() { }
 
   ngOnInit() {
-    this.titleService.setTitle(TITLE);
+
+
   }
 
 }
