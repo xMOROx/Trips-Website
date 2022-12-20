@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Trip } from '../Models/trip';
-import { Observable, Subject } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { Observable } from 'rxjs';
+import { Trip } from '../Models/trip';
 import { TripStatus } from '../Models/tripStatus.enum';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class TripsParseService {
   private refDatabase!: any;
-  private subjectAmount: Subject<number> = new Subject<number>();
-  private subjectPrice: Subject<number> = new Subject<number>();
+
 
   constructor(private fireDataBaseRef: AngularFireDatabase) {
     this.refDatabase = fireDataBaseRef.list('Trips');

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { User } from '../Models/User';
-import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
-import { SettingsChangeService } from './settingsChange.service';
+import * as auth from 'firebase/auth';
 import { Observable } from 'rxjs';
+import { User } from '../Models/User';
+import { SettingsChangeService } from './settingsChange.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -85,13 +85,14 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       roles: {
-        guess: true,
+        guest: true,
         customer: true,
         manager: false,
         admin: false
       },
       displayName: user.displayName,
-      emailVerified: user.emailVerified
+      emailVerified: user.emailVerified,
+      banned: false
     };
     return userRef.set(userData);
   }

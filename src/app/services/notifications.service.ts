@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { BehaviorSubject, first, ObjectUnsubscribedError, Observable, ReplaySubject, Subject } from 'rxjs';
+import { first, Observable, ReplaySubject } from 'rxjs';
 import { ComponentsOfApplication } from '../Models/componentsOfApplication.enum';
 import { INotification } from '../Models/INotification';
 import { NotificationType } from '../Models/notificationType.enum';
