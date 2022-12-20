@@ -8,9 +8,9 @@ describe('DetailTripComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DetailTripComponent ]
+      declarations: [DetailTripComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(DetailTripComponent);
     component = fixture.componentInstance;

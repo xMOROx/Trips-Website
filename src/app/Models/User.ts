@@ -1,5 +1,5 @@
 export interface Roles {
-    guess?: boolean;
+    guest?: boolean;
     customer?: boolean;
     manager?: boolean;
     admin?: boolean;
@@ -13,4 +13,5 @@ export interface User {
     roles: Roles;
     emailVerified: boolean;
     keysOfLikedTrips?: string[];
+    banned?: boolean;
 }

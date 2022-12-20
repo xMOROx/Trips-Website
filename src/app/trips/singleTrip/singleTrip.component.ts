@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { faClock, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
-import { Trip } from 'src/app/Models/trip';
-import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-import { TripsParseService } from 'src/app/services/tripsParse.service';
-import { RatingService } from 'src/app/services/rating.service';
 import { ISlide } from 'src/app/imageSlider/Models/ISlide';
-import { IOpinion } from 'src/app/Models/IOpinion';
-import { NotificationsService } from 'src/app/services/notifications.service';
-import { INotification } from 'src/app/Models/INotification';
-import { NotificationType } from 'src/app/Models/notificationType.enum';
-import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { ComponentsOfApplication } from 'src/app/Models/componentsOfApplication.enum';
-import { SettingsChangeService } from 'src/app/services/settingsChange.service';
-import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
-import { BoughtTripsService } from 'src/app/services/boughtTrips.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { INotification } from 'src/app/Models/INotification';
+import { IOpinion } from 'src/app/Models/IOpinion';
+import { NotificationType } from 'src/app/Models/notificationType.enum';
+import { Trip } from 'src/app/Models/trip';
+import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { User } from 'src/app/Models/User';
+import { AuthService } from 'src/app/services/auth.service';
+import { BoughtTripsService } from 'src/app/services/boughtTrips.service';
+import { NotificationsService } from 'src/app/services/notifications.service';
+import { RatingService } from 'src/app/services/rating.service';
+import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
+import { SettingsChangeService } from 'src/app/services/settingsChange.service';
+import { TripsParseService } from 'src/app/services/tripsParse.service';
 
 @Component({
   selector: 'app-singleTrip',

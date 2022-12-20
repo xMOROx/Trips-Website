@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 
 @Component({
@@ -17,7 +17,11 @@ export class ModifyFormComponent implements OnInit {
   public unitPricePassed: number = 0;
   public placesPassed: number = 0;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private matDialogRef: MatDialogRef<ModifyFormComponent>, private tripsParseService: TripsParseService) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private matDialogRef: MatDialogRef<ModifyFormComponent>,
+    private tripsParseService: TripsParseService
+  ) { }
 
 
 

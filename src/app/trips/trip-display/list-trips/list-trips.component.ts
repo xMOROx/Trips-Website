@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { Trip } from 'src/app/Models/trip';
-import { TripsParseService } from 'src/app/services/tripsParse.service';
-import { faFilter, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FiltersService } from 'src/app/services/filters.service';
-import { IFilter } from 'src/app/Models/filter';
-import { map } from 'rxjs';
-import { Currencies } from 'src/app/Models/Currencies.enum';
-import { MatDialog } from '@angular/material/dialog';
-import { FiltersComponent } from 'src/app/filters/filters.component';
 import { ScrollStrategyOptions } from '@angular/cdk/overlay';
-import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
+import { faFilter, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { map } from 'rxjs';
+import { FiltersComponent } from 'src/app/filters/filters.component';
+import { Currencies } from 'src/app/Models/Currencies.enum';
+import { IFilter } from 'src/app/Models/filter';
+import { Trip } from 'src/app/Models/trip';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
+import { FiltersService } from 'src/app/services/filters.service';
+import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
+import { TripsParseService } from 'src/app/services/tripsParse.service';
 
 @Component({
   selector: 'app-list-trips',

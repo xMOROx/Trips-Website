@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ImageSliderComponent } from '../components/imageSlider/imageSlider.component';
+import { NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ImageSliderComponent } from '../components/imageSlider/imageSlider.component';
 
 @NgModule({
   imports: [

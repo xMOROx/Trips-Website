@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { INotification } from '../../Models/INotification';
-import { NotificationsService } from '../../services/notifications.service';
 import { NotificationType } from '../../Models/notificationType.enum';
+import { NotificationsService } from '../../services/notifications.service';
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',

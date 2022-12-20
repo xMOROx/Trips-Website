@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsDown, faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { User } from 'src/app/Models/User';
 import { AuthService } from 'src/app/services/auth.service';
 import { RatingService } from 'src/app/services/rating.service';

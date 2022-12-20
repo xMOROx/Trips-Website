@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ISlide } from '../../Models/ISlide';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { ISlide } from '../../Models/ISlide';
 
 @Component({
   selector: 'app-imageSlider',

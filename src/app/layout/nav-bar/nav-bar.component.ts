@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { faPlane, faCircle, faCartArrowDown, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { faBell } from '@fortawesome/free-regular-svg-icons';
-import { NotificationsService } from '../../services/notifications.service';
+import { faCartArrowDown, faCircle, faPlane, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { AuthGuard } from '../../authentication/guard/auth.guard';
 import { INotification } from '../../Models/INotification';
 import { NotificationType } from '../../Models/notificationType.enum';
-import { TripsParseService } from '../../services/tripsParse.service';
-import { AuthGuard } from '../../authentication/guard/auth.guard';
 import { AuthService } from '../../services/auth.service';
+import { NotificationsService } from '../../services/notifications.service';
 import { ReservedTripsForUserService } from '../../services/reservedTripsForUser.service';
+import { TripsParseService } from '../../services/tripsParse.service';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',

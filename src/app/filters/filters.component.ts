@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { map } from 'rxjs';
+import { IFilter } from '../Models/filter';
 import { IStar } from '../Models/star';
 import { Trip } from '../Models/trip';
-import { Router } from '@angular/router';
 import { FiltersService } from '../services/filters.service';
 import { TripsParseService } from '../services/tripsParse.service';
-import { IFilter } from '../Models/filter';
-import { map } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-filters',

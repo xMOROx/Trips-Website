@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Trip } from '../../Models/trip';
-import { Title } from '@angular/platform-browser'
-import { NgForm } from '@angular/forms'
-import { TripsParseService } from 'src/app/services/tripsParse.service';
+import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
-import { TripStatus } from 'src/app/Models/tripStatus.enum';
+import { faArrowDown, faArrowUp, faList, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs/operators';
-import { faList, faArrowUp, faArrowDown, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+import { TripStatus } from 'src/app/Models/tripStatus.enum';
+import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
+import { TripsParseService } from 'src/app/services/tripsParse.service';
+import { Trip } from '../../Models/trip';
 
 @Component({
   selector: 'app-manage-trips',

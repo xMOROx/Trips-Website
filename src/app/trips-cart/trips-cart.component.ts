@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ICart } from '../Models/cart';
 
-import { faClock, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faClock, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Trip } from '../Models/trip';
-import { BoughtTripsService } from '../services/boughtTrips.service';
 import { TripStatus } from '../Models/tripStatus.enum';
-import { TripsParseService } from '../services/tripsParse.service';
-import { SettingsChangeService } from '../services/settingsChange.service';
+import { BoughtTripsService } from '../services/boughtTrips.service';
 import { ReservedTripsForUserService } from '../services/reservedTripsForUser.service';
+import { SettingsChangeService } from '../services/settingsChange.service';
+import { TripsParseService } from '../services/tripsParse.service';
 
 const TITLE = "Koszyk";
 

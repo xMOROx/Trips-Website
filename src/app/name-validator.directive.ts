@@ -1,5 +1,5 @@
 import { Directive } from '@angular/core';
-import { AbstractControl, Validator, NG_VALIDATORS } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 
 const NAME_REGEX = /^[A-ZĄĆĘŁŃÓŚŹŻ]{1}[\d(\w|ąćęłńóśźż)\s-]{1,}$/;

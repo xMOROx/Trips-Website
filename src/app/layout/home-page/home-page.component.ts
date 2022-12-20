@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { Title } from '@angular/platform-browser';
 import { faBars, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
