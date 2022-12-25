@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 import { BoughtTripsService } from './services/boughtTrips.service';
 
 @Component({
@@ -12,10 +13,19 @@ export class AppComponent {
   constructor
     (
       private router: Router,
+      private authService: AuthService,
       private boughtTripsService: BoughtTripsService,
     ) { }
 
   ngOnInit() {
+    this.authService.user.subscribe(user => {
+      if (user) {
+        console.log(user);
+      } else {
+        console.log('user is null');
+      }
+    });
+
     if (localStorage.getItem('user') != null) {
       this.boughtTripsService.getBoughtTrips().subscribe(trips => {
         trips.forEach(trip => {

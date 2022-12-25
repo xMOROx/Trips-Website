@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faCartArrowDown, faCircle, faPlane, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { AuthGuard } from '../../authentication/guard/auth.guard';
 import { INotification } from '../../Models/Notification';
 import { NotificationType } from '../../Models/notificationType.enum';
+import { User } from '../../Models/User';
 import { AuthService } from '../../services/auth.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { ReservedTripsForUserService } from '../../services/reservedTripsForUser.service';
-import { HostListener } from "@angular/core";
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-
+  public user!: User;
   public notifications: INotification[] = [];
   public lastNotification: INotification | undefined;
   public notificationType: typeof NotificationType = NotificationType;
@@ -32,11 +32,13 @@ export class NavBarComponent implements OnInit {
   public faCircle: IconDefinition = faCircle;
   public faCartArrowDown: IconDefinition = faCartArrowDown;
 
-  constructor(
-    private notificationService: NotificationsService,
-    private reservedTripsForUserService: ReservedTripsForUserService,
-    public authGuard: AuthGuard,
-    public authService: AuthService) {
+  constructor
+    (
+      public authGuard: AuthGuard,
+      public authService: AuthService,
+      private notificationService: NotificationsService,
+      private reservedTripsForUserService: ReservedTripsForUserService,
+    ) {
     this.getScreenSize();
   }
 
@@ -57,10 +59,12 @@ export class NavBarComponent implements OnInit {
     this.notificationService.showNotificationListener().subscribe(flag => {
       this._toggleNotification = flag;
     });
+
+
   }
 
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?: any) {
+  getScreenSize(_?: any) {
     this.screenWidth = window.innerWidth;
     if (this.screenWidth >= 1024) {
       this.isMenuOpenDropDown = true;
@@ -84,7 +88,6 @@ export class NavBarComponent implements OnInit {
   public clickedOutsideDropDown(): void {
     if (this.screenWidth < 1024) {
       this.isMenuOpenDropDown = false;
-
     }
   }
 

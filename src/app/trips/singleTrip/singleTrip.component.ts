@@ -100,22 +100,23 @@ export class SingleTripComponent implements OnInit {
           this.tripsParseService.updateTrip(this.trip.key!, this.trip);
         });
       }
+
+      this.boughtTripsForUserService.getBoughtTrips().subscribe(trips => {
+        if (trips.length > 0) {
+          for (const trip of trips) {
+            if (trip.oldKey === this.trip.key) {
+              this.boughtByUser = true;
+            }
+          }
+        }
+      });
     });
 
     this.settings.getCurrency().subscribe(currency => {
       this.currency = currency.value;
     });
 
-    this.boughtTripsForUserService.getBoughtTrips().subscribe(trips => {
-      if (trips.length > 0) {
 
-        for (const trip of trips) {
-          if (trip.oldKey === this.trip.key) {
-            this.boughtByUser = true;
-          }
-        }
-      }
-    });
   }
 
   private formatDate(date: Date): string {

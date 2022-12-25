@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
 import * as auth from 'firebase/auth';
-import { Observable, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../Models/User';
 import { ReservedTripsForUserService } from './reservedTripsForUser.service';
 import { SettingsChangeService } from './settingsChange.service';
@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   public get user(): Observable<any> {
-    if (this.userData != null) {
+    if (this.userData !== undefined) {
       return this.angularFireDatabase.object(`Users/${this.userData.uid}`).valueChanges();
     }
     return new Observable();
@@ -151,7 +151,7 @@ export class AuthService {
   }
 
   public canDelete(user: User): boolean {
-    const allowed = ['admin'];
+    const allowed = ['admin', 'manager'];
     return this.checkAuthorization(user, allowed);
   }
 
@@ -164,6 +164,12 @@ export class AuthService {
     const allowed = ['admin', 'manager'];
     return this.checkAuthorization(user, allowed);
   }
+
+  public adminAccess(user: User): boolean {
+    const allowed = ['admin'];
+    return this.checkAuthorization(user, allowed);
+  }
+
 
   private checkAuthorization(user: User, allowedRoles: string[]): boolean {
     if (!user) return false;
