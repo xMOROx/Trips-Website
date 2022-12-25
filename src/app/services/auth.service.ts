@@ -49,13 +49,12 @@ export class AuthService {
       this.angularFireAuth.setPersistence(persistance.value).then(() => {
         this.angularFireAuth.signInWithEmailAndPassword(email, password)
           .then(result => {
-            // this.setUserData(result.user);
             this.angularFireAuth.authState.subscribe(user => {
               if (user!.emailVerified == false) {
                 window.alert('Zweryfikuj swój adres email!');
               }
               else if (user) {
-                this.router.navigate(['dashboard']);
+                location.reload();
               } else {
                 window.alert('Niepoprawny email lub hasło!');
               }
@@ -80,7 +79,6 @@ export class AuthService {
         window.alert(error.message);
       });
   }
-
 
 
 
@@ -125,7 +123,6 @@ export class AuthService {
     return this.angularFireAuth.signInWithPopup(provider)
       .then(result => {
         this.router.navigate(['dashboard']);
-        // this.setUserData(result.user);
       }).catch(error => {
         window.alert(error);
       });
@@ -134,16 +131,15 @@ export class AuthService {
   public googleAuth(): Promise<void> {
     return this.authLogin(new auth.GoogleAuthProvider()).then(() => {
       this.router.navigate(['dashboard']);
-      // this.setUserData(this.userData);
     });
   }
 
   public singOut(): void {
     this.angularFireAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['home']);
       window.alert('Wylogowano!');
       this.reservedTripsForUserService.clearReservedTripsForUser();
+      this.router.navigate(['home']);
     });
   }
 

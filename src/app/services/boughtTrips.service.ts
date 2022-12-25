@@ -3,7 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { User } from 'firebase/auth';
 import { Observable } from 'rxjs';
 import { ComponentsOfApplication } from '../Models/componentsOfApplication.enum';
-import { INotification } from '../Models/INotification';
+import { INotification } from '../Models/Notification';
 import { NotificationType } from '../Models/notificationType.enum';
 import { Trip } from '../Models/trip';
 import { TripStatus } from '../Models/tripStatus.enum';
@@ -23,7 +23,10 @@ export class BoughtTripsService {
   public user!: User;
   private boughtTripsRef: any;
 
-  constructor(private notificationsService: NotificationsService, private fireDataBaseRef: AngularFireDatabase, public auth: AuthService) {
+  constructor(
+    private notificationsService: NotificationsService,
+    private fireDataBaseRef: AngularFireDatabase,
+    public auth: AuthService) {
 
 
     if (localStorage.getItem('user') !== null) {
@@ -31,19 +34,10 @@ export class BoughtTripsService {
     }
 
     this.boughtTripsRef = fireDataBaseRef.list(URL + `/${this.user.uid}`);
-    this.getBoughtTrips().subscribe(trips => {
-      trips.forEach(trip => {
-        this.setStatus(trip);
-        this.updateTripByValue(trip, { status: trip.status });
-        if (!trip.getNotification) {
-          this.sendReminderNotification(trip);
-        }
-      });
-    });
 
   }
 
-  private setStatus(trip: Trip): void {
+  public setStatus(trip: Trip): void {
     const currentDate = new Date();
     const startDate = new Date(trip.startDate);
     const endDate = new Date(trip.endDate);
@@ -73,7 +67,7 @@ export class BoughtTripsService {
     return this.boughtTripsRef.valueChanges();
   }
 
-  private sendReminderNotification(trip: Trip): void {
+  public sendReminderNotification(trip: Trip): void {
     const one_day: number = 1000 * 60 * 60 * 24;
     const currentDate: Date = new Date();
     const startDate: Date = new Date(trip.startDate);
@@ -95,7 +89,6 @@ export class BoughtTripsService {
         from: ComponentsOfApplication.BuyHistory,
       } as INotification;
 
-      this.updateTripByValue(trip, { getNotification: true });
 
       this.notificationsService.sendNotification(notification);
     }

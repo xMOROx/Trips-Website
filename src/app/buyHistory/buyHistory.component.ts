@@ -21,9 +21,12 @@ export class BuyHistoryComponent implements OnInit {
   public statusType: typeof TripStatus = TripStatus;
   public selectedValue: TripStatus[] = [];
   public currency!: string;
-  constructor(private boughtTripsService: BoughtTripsService, private titleService: Title, private settings: SettingsChangeService) { }
-
-
+  constructor
+    (
+      private boughtTripsService: BoughtTripsService,
+      private titleService: Title,
+      private settings: SettingsChangeService
+    ) { }
 
   ngOnInit() {
     this.titleService.setTitle("Historia zakupow")

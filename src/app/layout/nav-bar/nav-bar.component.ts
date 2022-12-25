@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faCartArrowDown, faCircle, faPlane, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { AuthGuard } from '../../authentication/guard/auth.guard';
-import { INotification } from '../../Models/INotification';
+import { INotification } from '../../Models/Notification';
 import { NotificationType } from '../../Models/notificationType.enum';
 import { AuthService } from '../../services/auth.service';
 import { NotificationsService } from '../../services/notifications.service';

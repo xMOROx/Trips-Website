@@ -100,12 +100,15 @@ export class TripsCartComponent implements OnInit {
     trip.status = TripStatus.bought;
     trip.boughtDate = this.formatDate(new Date());
     this.buyTripService.addTrip({ ...trip });
+
     if (trip.maxPlace - trip.amount === 0) {
-      this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.archival, amount: 0 });
+      this.tripsParseService.updateTripSingleValue(trip.key!,
+        { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.archival, amount: 0 });
       return;
     }
     this.removeTrip(trip);
-    this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.listed, amount: 0 });
+    this.tripsParseService.updateTripSingleValue(trip.key!,
+      { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.listed, amount: 0 });
   }
 
   public onRemove(trip: Trip, value: number): void {
