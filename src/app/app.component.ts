@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,12 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'Wycieczki';
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
+
     this.router.navigate(['/home']);
   }
 }

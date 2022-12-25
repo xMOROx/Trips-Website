@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Trip } from '../Models/trip';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class ReservedTripsForUserService {
   private reservedTripsForUser: Trip[] = [];
   private handleReservedTripsForUser: BehaviorSubject<Trip[]> = new BehaviorSubject<Trip[]>(this.reservedTripsForUser);
 
-  constructor(public auth: AuthService) { }
+  constructor() { }
 
   public getReservedTripsForUser(): Observable<Trip[]> {
     return this.handleReservedTripsForUser.asObservable();
@@ -24,6 +23,13 @@ export class ReservedTripsForUserService {
     return this.reservedTripsForUser.find((tripFromList: Trip) => {
       return tripFromList.key === trip.key;
     });
+  }
+
+  public removeTrip(trip: Trip): void {
+    this.reservedTripsForUser = this.reservedTripsForUser.filter((tripFromList: Trip) => {
+      return tripFromList.key !== trip.key;
+    });
+    this.handleReservedTripsForUser.next(this.reservedTripsForUser);
   }
 
   private removeTripWithKey(trip: Trip): void {
@@ -67,4 +73,8 @@ export class ReservedTripsForUserService {
     return this.subjectPrice.asObservable();
   }
 
+  public clearReservedTripsForUser(): void {
+    this.reservedTripsForUser = [];
+    this.handleReservedTripsForUser.next(this.reservedTripsForUser);
+  }
 }

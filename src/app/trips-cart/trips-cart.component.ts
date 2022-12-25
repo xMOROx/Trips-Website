@@ -55,15 +55,12 @@ export class TripsCartComponent implements OnInit {
 
     this.reservedTripsForUserService.getTotalPriceOfReservedTripsForUser().subscribe((price: number) => {
       this.cart.priceTotalAmount = price;
-
     });
 
 
     this.setting.getCurrency().subscribe((currency) => {
       this.currency = currency.value;
     });
-
-
   }
 
   private formatDate(date: Date): string {
@@ -84,6 +81,21 @@ export class TripsCartComponent implements OnInit {
     this.showDetails = !this.showDetails;
   }
 
+  private removeTripFromCart(trip: Trip): void {
+    this.reservedTripsForUserService.removeTrip(trip);
+  }
+
+  private removeTripFromLocalCart(trip: Trip): void {
+    this.cart.tripsReserved = this.cart.tripsReserved.filter((tripReserved: Trip) => tripReserved.key !== trip.key);
+    this.cart.priceTotalAmount -= trip.unitPrice;
+    this.cart.reservedTotalAmount -= trip.amount;
+  }
+
+  private removeTrip(trip: Trip): void {
+    this.removeTripFromCart(trip);
+    this.removeTripFromLocalCart(trip);
+  }
+
   public buyTrip(trip: Trip): void {
     trip.status = TripStatus.bought;
     trip.boughtDate = this.formatDate(new Date());
@@ -92,12 +104,12 @@ export class TripsCartComponent implements OnInit {
       this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.archival, amount: 0 });
       return;
     }
-
+    this.removeTrip(trip);
     this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.listed, amount: 0 });
   }
 
   public onRemove(trip: Trip, value: any): void {
-    this.tripsParseService.updateTripSingleValue(trip.key!, value);
+    // this.tripsParseService.updateTripSingleValue(trip.key!, value);
   }
 
 }

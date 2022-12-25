@@ -42,18 +42,19 @@ export class TripRatingComponent implements OnInit {
       }
     });
 
+
   }
 
   rattingApplied(option: string) {
-    if (this.user.keysOfLikedTrips !== undefined) {
-      for (const likedTripKey of this.user.keysOfLikedTrips!) {
+    if (this.user!.keysOfLikedTrips !== undefined) {
+      for (const likedTripKey of this.user!.keysOfLikedTrips!) {
         if (likedTripKey === this.tripKey) {
 
           return;
         }
       }
     } else {
-      this.user.keysOfLikedTrips = [];
+      this.user!.keysOfLikedTrips = [];
     }
 
 
@@ -65,8 +66,8 @@ export class TripRatingComponent implements OnInit {
     }
 
 
-    this.user.keysOfLikedTrips!.push(this.tripKey);
-    this.auth.updateUserData(this.user);
+    this.user!.keysOfLikedTrips!.push(this.tripKey);
+    this.auth.updateUserData(this.user!);
     this.rating = (this.likes) / (this.disLikes + this.likes) * 100;
   }
 

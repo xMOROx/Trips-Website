@@ -16,10 +16,11 @@
       <div class="p-4">
         <div class="upperCard flex justify-between">
           <span *ngIf="trips.length > 1"
-            class="grid place-content-center px-2 py-1 leading-none bg-orange-200 text-orange-600 shadow-sm shadow-orange-800  rounded-full font-semibold uppercase tracking-wide text-xs"
+            class="grid place-content-center px-2 py-1 leading-none  shadow-sm   rounded-full font-semibold uppercase tracking-wide text-xs"
             [ngClass]="{
                   'bg-red-600 text-slate-50 shadow-red-800': trip.unitPrice == getMaxPriceTrip(),
-                  'TheCheapest': trip.unitPrice == getMinPriceTrip()
+                  'TheCheapest': trip.unitPrice == getMinPriceTrip(),
+                  'bg-orange-200 text-orange-600  shadow-orange-800': trip.unitPrice != getMaxPriceTrip() && trip.unitPrice != getMinPriceTrip()
                 }">
 
             <span>

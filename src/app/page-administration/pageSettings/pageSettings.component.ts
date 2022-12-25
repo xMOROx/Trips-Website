@@ -14,15 +14,19 @@ export class PageSettingsComponent implements OnInit {
   public persistanceArray: string[] = [];
   public selectedCurrency!: string;
   public selectedPersistance!: string;
-  constructor(private titleService: Title, private settings: SettingsChangeService) { }
+  constructor(
+    private titleService: Title,
+    private settings: SettingsChangeService) { }
 
   ngOnInit() {
     this.titleService.setTitle("Ustawienia");
     this.currenciesArray = Object.values(Currencies);
     this.persistanceArray = Object.values(SessionOptions);
+
     this.settings.getCurrency().subscribe((currency: any) => {
       this.selectedCurrency = currency.value;
     });
+
     this.settings.getPersistance().subscribe((persistance: any) => {
       this.selectedPersistance = persistance.value;
     });

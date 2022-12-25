@@ -3,8 +3,9 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
 import * as auth from 'firebase/auth';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { User } from '../Models/User';
+import { ReservedTripsForUserService } from './reservedTripsForUser.service';
 import { SettingsChangeService } from './settingsChange.service';
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class AuthService {
     private angularFireAuth: AngularFireAuth,
     private angularFireDatabase: AngularFireDatabase,
     private router: Router,
-    private settings: SettingsChangeService
+    private settings: SettingsChangeService,
+    private reservedTripsForUserService: ReservedTripsForUserService
   ) {
 
     this.angularFireAuth.authState.subscribe(user => {
@@ -47,7 +49,7 @@ export class AuthService {
       this.angularFireAuth.setPersistence(persistance.value).then(() => {
         this.angularFireAuth.signInWithEmailAndPassword(email, password)
           .then(result => {
-            this.setUserData(result.user);
+            // this.setUserData(result.user);
             this.angularFireAuth.authState.subscribe(user => {
               if (user!.emailVerified == false) {
                 window.alert('Zweryfikuj swój adres email!');
@@ -79,6 +81,9 @@ export class AuthService {
       });
   }
 
+
+
+
   private setUserData(user: any): Promise<void> {
     const userRef = this.angularFireDatabase.object(`Users/${user.uid}`);
     const userData: User = {
@@ -87,14 +92,11 @@ export class AuthService {
       roles: {
         guest: true,
         customer: true,
-        manager: false,
-        admin: false
       },
       displayName: user.displayName,
       emailVerified: user.emailVerified,
-      banned: false
     };
-    return userRef.set(userData);
+    return userRef.update(userData);
   }
 
   public sendVerificationEmail(): void {
@@ -123,7 +125,7 @@ export class AuthService {
     return this.angularFireAuth.signInWithPopup(provider)
       .then(result => {
         this.router.navigate(['dashboard']);
-        this.setUserData(result.user);
+        // this.setUserData(result.user);
       }).catch(error => {
         window.alert(error);
       });
@@ -132,7 +134,7 @@ export class AuthService {
   public googleAuth(): Promise<void> {
     return this.authLogin(new auth.GoogleAuthProvider()).then(() => {
       this.router.navigate(['dashboard']);
-      this.setUserData(this.userData);
+      // this.setUserData(this.userData);
     });
   }
 
@@ -141,6 +143,7 @@ export class AuthService {
       localStorage.removeItem('user');
       this.router.navigate(['home']);
       window.alert('Wylogowano!');
+      this.reservedTripsForUserService.clearReservedTripsForUser();
     });
   }
 
