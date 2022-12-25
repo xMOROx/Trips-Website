@@ -8,8 +8,12 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class VerifyEmailComponent implements OnInit {
 
-  constructor(public authService: AuthService, private router: Router,
-    private activeRoute: ActivatedRoute) { }
+  constructor
+    (
+      private router: Router,
+      public authService: AuthService,
+      private activeRoute: ActivatedRoute
+    ) { }
 
   ngOnInit() {
   }
@@ -17,6 +21,4 @@ export class VerifyEmailComponent implements OnInit {
   public gotoSignIn(): void {
     this.router.navigate(['../sign-in'], { relativeTo: this.activeRoute });
   }
-
-
 }

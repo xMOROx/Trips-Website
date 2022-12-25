@@ -1,8 +1,8 @@
 export enum TripStatus {
+    bought = 1,
     listed = -1,
     reserved = 0,
-    bought = 1,
-    beforeStart = 2,
-    inProgress = 3,
     archival = 4,
+    inProgress = 3,
+    beforeStart = 2,
 }

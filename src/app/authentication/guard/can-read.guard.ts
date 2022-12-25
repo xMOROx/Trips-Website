@@ -18,6 +18,7 @@ export class CanReadGuard implements CanActivate {
       map(user => user && this.auth.canRead(user) ? true : false),
       tap(canRead => {
         if (!canRead) {
+          window.alert('Access denied - Read only');
           console.error('Access denied - Read only');
         }
       }));

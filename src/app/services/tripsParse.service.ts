@@ -11,8 +11,13 @@ export class TripsParseService {
   private refDatabase!: any;
 
 
-  constructor(private fireDataBaseRef: AngularFireDatabase) {
+  constructor
+    (
+      private fireDataBaseRef: AngularFireDatabase
+    ) {
+
     this.refDatabase = fireDataBaseRef.list('Trips');
+
   }
 
 
@@ -42,6 +47,4 @@ export class TripsParseService {
   public updateTripSingleValue(key: string, value: Object) {
     this.fireDataBaseRef.database.ref('Trips').child(key).update(value);
   }
-
-
 }

@@ -15,17 +15,22 @@ import { HostListener } from "@angular/core";
 })
 export class NavBarComponent implements OnInit {
 
+  public notifications: INotification[] = [];
+  public lastNotification: INotification | undefined;
+  public notificationType: typeof NotificationType = NotificationType;
+
+  public isMenuOpen: boolean = false;
+  public isMenuOpenDropDown: boolean = false;
+  public _toggleNotification: boolean = false;
+
+  public screenWidth!: number;
+  public screenHeight!: number;
+  public reservedTotalAmount: number = 0;
+
+  public faBell: IconDefinition = faBell;
   public faPlane: IconDefinition = faPlane;
   public faCircle: IconDefinition = faCircle;
   public faCartArrowDown: IconDefinition = faCartArrowDown;
-  public faBell: IconDefinition = faBell;
-  public notifications: INotification[] = [];
-  public _toggleNotification: boolean = false;
-  public notificationType: typeof NotificationType = NotificationType;
-  public lastNotification: INotification | undefined;
-  public reservedTotalAmount = 0;
-  public isMenuOpen: boolean = false;
-  public isMenuOpenDropDown: boolean = false;
 
   constructor(
     private notificationService: NotificationsService,
@@ -34,7 +39,6 @@ export class NavBarComponent implements OnInit {
     public authService: AuthService) {
     this.getScreenSize();
   }
-
 
   ngOnInit(): void {
     this.notificationService.getNotifications().subscribe((notifications: INotification[]) => {
@@ -50,13 +54,10 @@ export class NavBarComponent implements OnInit {
       this.reservedTotalAmount = reservedAmount;
     });
 
-
     this.notificationService.showNotificationListener().subscribe(flag => {
       this._toggleNotification = flag;
     });
   }
-  public screenHeight!: number;
-  public screenWidth!: number;
 
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: any) {
@@ -68,12 +69,10 @@ export class NavBarComponent implements OnInit {
     }
   }
 
-
   public toggleNotification(_: any): void {
     this._toggleNotification = !this._toggleNotification;
     this.notificationService.emitEventShowNotification(this._toggleNotification)
   }
-
 
   public toggleHidden(): void {
     this.isMenuOpen = !this.isMenuOpen;

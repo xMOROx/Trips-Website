@@ -10,7 +10,6 @@ import { TripStatus } from '../Models/tripStatus.enum';
 import { AuthService } from './auth.service';
 import { NotificationsService } from './notifications.service';
 
-
 const URL = "BoughtTrips";
 const DAY_BEFORE_TRIP_START_REMINDER = 400; //zmienione w celach testowych
 @Injectable({
@@ -18,23 +17,22 @@ const DAY_BEFORE_TRIP_START_REMINDER = 400; //zmienione w celach testowych
 })
 export class BoughtTripsService {
 
+  public user!: User;
   public statusType: typeof TripStatus = TripStatus;
 
-  public user!: User;
   private boughtTripsRef: any;
 
-  constructor(
-    private notificationsService: NotificationsService,
-    private fireDataBaseRef: AngularFireDatabase,
-    public auth: AuthService) {
-
+  constructor
+    (
+      public auth: AuthService,
+      private fireDataBaseRef: AngularFireDatabase,
+      private notificationsService: NotificationsService,
+    ) {
 
     if (localStorage.getItem('user') !== null) {
       this.user = JSON.parse(localStorage.getItem('user')!);
     }
-
     this.boughtTripsRef = fireDataBaseRef.list(URL + `/${this.user.uid}`);
-
   }
 
   public setStatus(trip: Trip): void {
@@ -49,9 +47,7 @@ export class BoughtTripsService {
     } else if (currentDate > endDate) {
       trip.status = TripStatus.archival;
     }
-
   }
-
 
   public addTrip(trip: Trip): void {
     const key = this.fireDataBaseRef.database.ref(URL + `/${this.user.uid}`).push().key!;
@@ -88,8 +84,6 @@ export class BoughtTripsService {
         date: new Date().toLocaleString(),
         from: ComponentsOfApplication.BuyHistory,
       } as INotification;
-
-
       this.notificationsService.sendNotification(notification);
     }
   }
@@ -97,6 +91,4 @@ export class BoughtTripsService {
   public updateTripByValue(trip: Trip, value: Object): void {
     this.fireDataBaseRef.database.ref(URL + `/${this.user.uid}`).child(trip.key!).update(value);
   }
-
-
 }

@@ -1,9 +1,9 @@
+import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/Models/User';
 import { AdminUsersService } from 'src/app/services/adminUsers.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { ScrollStrategyOptions } from '@angular/cdk/overlay';
-import { MatDialog } from '@angular/material/dialog';
 import { EditFormComponent } from '../editForm/editForm.component';
 
 @Component({
@@ -12,14 +12,17 @@ import { EditFormComponent } from '../editForm/editForm.component';
   styleUrls: ['./list-users.component.css']
 })
 export class ListUsersComponent implements OnInit {
-  public users: User[] = [];
+
   public user!: User;
-  constructor(
-    private adminUsersService: AdminUsersService,
-    private auth: AuthService,
-    private MatDialog: MatDialog,
-    private sso: ScrollStrategyOptions,
-  ) { }
+  public users: User[] = [];
+
+  constructor
+    (
+      private auth: AuthService,
+      private MatDialog: MatDialog,
+      private sso: ScrollStrategyOptions,
+      private adminUsersService: AdminUsersService,
+    ) { }
 
   ngOnInit() {
     this.adminUsersService.getUsers().valueChanges().subscribe((users: User[]) => {

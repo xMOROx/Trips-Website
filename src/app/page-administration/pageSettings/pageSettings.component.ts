@@ -10,13 +10,15 @@ import { SettingsChangeService } from '../../services/settingsChange.service';
   styleUrls: ['./pageSettings.component.css']
 })
 export class PageSettingsComponent implements OnInit {
-  public currenciesArray: string[] = [];
-  public persistanceArray: string[] = [];
   public selectedCurrency!: string;
   public selectedPersistance!: string;
-  constructor(
-    private titleService: Title,
-    private settings: SettingsChangeService) { }
+  public currenciesArray: string[] = [];
+  public persistanceArray: string[] = [];
+  constructor
+    (
+      private titleService: Title,
+      private settings: SettingsChangeService
+    ) { }
 
   ngOnInit() {
     this.titleService.setTitle("Ustawienia");
@@ -35,6 +37,7 @@ export class PageSettingsComponent implements OnInit {
   public onCurrencyChange(_: any) {
     this.settings.changeValueByKey('currency', { value: this.selectedCurrency });
   }
+
   public onPersistanceChange(_: any) {
     this.settings.changeValueByKey('persistance', { value: this.selectedPersistance });
   }

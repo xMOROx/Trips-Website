@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { faClock, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faMinus, faPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { ISlide } from 'src/app/imageSlider/Models/ISlide';
 import { ComponentsOfApplication } from 'src/app/Models/componentsOfApplication.enum';
 import { INotification } from 'src/app/Models/Notification';
-import { IOpinion } from 'src/app/Models/Opinion';
 import { NotificationType } from 'src/app/Models/notificationType.enum';
+import { IOpinion } from 'src/app/Models/Opinion';
 import { Trip } from 'src/app/Models/trip';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { User } from 'src/app/Models/User';
@@ -24,17 +24,19 @@ import { TripsParseService } from 'src/app/services/tripsParse.service';
   styleUrls: ['./singleTrip.component.css']
 })
 export class SingleTripComponent implements OnInit {
-  private liked: boolean = false;
-  public key: string = "";
-  public trip!: Trip;
   public user!: User;
-  public boughtByUser: boolean = false;
-  public faClock: any = faClock;
-  public faPlus: any = faPlus;
-  public faMinus: any = faMinus;
-
+  public trip!: Trip;
   public opinions: IOpinion[] = [];
   public slides: ISlide[] = [];
+
+  public faClock: IconDefinition = faClock;
+  public faPlus: IconDefinition = faPlus;
+  public faMinus: IconDefinition = faMinus;
+
+  public boughtByUser: boolean = false;
+  private liked: boolean = false;
+
+  public key: string = "";
   public description: string = "";
   public date: string = "";
   public tripName: string = "";
@@ -44,15 +46,17 @@ export class SingleTripComponent implements OnInit {
   private subscription: Subscription | undefined
 
 
-  constructor(private route: ActivatedRoute,
-    private tripsParseService: TripsParseService,
-    private ratingService: RatingService,
-    private notificationsService: NotificationsService,
-    private boughtTripsForUserService: BoughtTripsService,
-    private reservedTripsForUserService: ReservedTripsForUserService,
-    private settings: SettingsChangeService,
-    public auth: AuthService
-  ) { }
+  constructor
+    (
+      public auth: AuthService,
+      private route: ActivatedRoute,
+      private settings: SettingsChangeService,
+      private ratingService: RatingService,
+      private tripsParseService: TripsParseService,
+      private notificationsService: NotificationsService,
+      private boughtTripsForUserService: BoughtTripsService,
+      private reservedTripsForUserService: ReservedTripsForUserService,
+    ) { }
 
 
   ngOnInit() {
@@ -150,11 +154,9 @@ export class SingleTripComponent implements OnInit {
     if (trip.amount < trip.maxPlace) {
       if (trip.status === TripStatus.listed) {
         trip.status = TripStatus.reserved;
-
       }
       trip.amount += 1;
       this.reservedTripsForUserService.setReservedTripsForUser(trip);
-
     }
   }
 
@@ -165,7 +167,6 @@ export class SingleTripComponent implements OnInit {
         trip.status = TripStatus.listed;
       }
       this.reservedTripsForUserService.setReservedTripsForUser(trip);
-
     }
   }
 
@@ -212,7 +213,6 @@ export class SingleTripComponent implements OnInit {
     this.notificationsService.clearErrorsFrom(ComponentsOfApplication.Single);
 
     this.resetForm();
-
   }
 
   public getCurrentDate(): String {
@@ -225,9 +225,8 @@ export class SingleTripComponent implements OnInit {
 
 
   ngOnDestroy(): void {
-    if (this.subscription)
+    if (this.subscription) {
       this.subscription.unsubscribe()
+    }
   }
-
-
 }

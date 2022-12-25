@@ -10,18 +10,19 @@ import { TripsParseService } from 'src/app/services/tripsParse.service';
 export class ModifyFormComponent implements OnInit {
 
   public namePassed: string = "";
-  public descriptionPassed: string = "";
-  public dateStartPassed: string = "";
+  public placesPassed: number = 0;
   public dateEndPassed: string = "";
   public countryPassed: string = "";
+  public dateStartPassed: string = "";
   public unitPricePassed: number = 0;
-  public placesPassed: number = 0;
+  public descriptionPassed: string = "";
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private matDialogRef: MatDialogRef<ModifyFormComponent>,
-    private tripsParseService: TripsParseService
-  ) { }
+  constructor
+    (
+      @Inject(MAT_DIALOG_DATA) public data: any,
+      private tripsParseService: TripsParseService,
+      private matDialogRef: MatDialogRef<ModifyFormComponent>,
+    ) { }
 
 
 
@@ -36,24 +37,24 @@ export class ModifyFormComponent implements OnInit {
   public handleSubmit(): void {
     this.tripsParseService.updateTripSingleValue(this.data.trip.key!, {
       name: this.namePassed,
-      description: this.descriptionPassed,
-      startDate: this.dateStartPassed,
       endDate: this.dateEndPassed,
-      destinationCountry: this.countryPassed,
-      unitPrice: this.unitPricePassed,
       maxPlace: this.placesPassed,
+      startDate: this.dateStartPassed,
+      unitPrice: this.unitPricePassed,
+      description: this.descriptionPassed,
+      destinationCountry: this.countryPassed,
     });
     this.closeDialog()
   }
 
   public setToDefault(): void {
     this.namePassed = this.data.trip.name;
-    this.descriptionPassed = this.data.trip.description;
-    this.dateStartPassed = this.data.trip.startDate;
     this.dateEndPassed = this.data.trip.endDate;
-    this.countryPassed = this.data.trip.destinationCountry;
-    this.unitPricePassed = this.data.trip.unitPrice;
     this.placesPassed = this.data.trip.maxPlace;
+    this.dateStartPassed = this.data.trip.startDate;
+    this.unitPricePassed = this.data.trip.unitPrice;
+    this.descriptionPassed = this.data.trip.description;
+    this.countryPassed = this.data.trip.destinationCountry;
   }
 
   ngOnDestroy() {

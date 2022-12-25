@@ -2,10 +2,10 @@ import { ComponentsOfApplication } from "./componentsOfApplication.enum";
 import { NotificationType } from "./notificationType.enum";
 
 export interface INotification {
-    type?: NotificationType;
+    key?: string;
+    date?: string;
     title?: string;
     description?: string;
-    date?: string;
-    key?: string;
+    type?: NotificationType;
     from?: ComponentsOfApplication;
 }

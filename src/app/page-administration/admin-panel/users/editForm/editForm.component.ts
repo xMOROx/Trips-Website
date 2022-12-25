@@ -12,16 +12,16 @@ export class EditFormComponent implements OnInit {
   public emailPassed: string = '';
   public namePassed: string = '';
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private matDialogRef: MatDialogRef<EditFormComponent>,
-    private adminUsersService: AdminUsersService,
-  ) { }
+  constructor
+    (
+      @Inject(MAT_DIALOG_DATA) public data: any,
+      private matDialogRef: MatDialogRef<EditFormComponent>,
+      private adminUsersService: AdminUsersService,
+    ) { }
 
   ngOnInit() {
     this.setToDefault();
   }
-
 
   public setToDefault(): void {
     this.emailPassed = this.data.user.email;
@@ -39,8 +39,6 @@ export class EditFormComponent implements OnInit {
   public closeDialog(): void {
     this.matDialogRef.close();
   }
-
-
 
   ngOnDestroy() {
     this.closeDialog();

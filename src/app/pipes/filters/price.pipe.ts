@@ -13,11 +13,9 @@ export class PricePipe implements PipeTransform {
     if (!minimumPrice && !maximumPrice) {
       return trips;
     } else if (minimumPrice && !maximumPrice) {
-
       return trips.filter((trip) => {
         return trip.unitPrice >= minimumPrice;
       });
-
     } else if (!minimumPrice && maximumPrice) {
       return trips.filter((trip) => {
         return trip.unitPrice <= maximumPrice;
@@ -27,5 +25,4 @@ export class PricePipe implements PipeTransform {
       return minimumPrice <= trip.unitPrice && trip.unitPrice <= maximumPrice;
     });
   }
-
 }

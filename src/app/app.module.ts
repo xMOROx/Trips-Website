@@ -66,24 +66,24 @@ import { AuthService } from './services/auth.service';
 
   ],
   imports: [
-    BrowserModule,
+    DatePipe,
+    FormsModule,
     TripsModule,
+    BrowserModule,
+    GoogleMapsModule,
     AppRoutingModule,
     FontAwesomeModule,
-    FormsModule,
-    GoogleMapsModule,
-    DatePipe,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     BrowserAnimationsModule,
-    AngularFireAuthModule
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [
-    FiltersService,
     AuthService,
+    FiltersService,
     AdminUsersService,
-    AdminGuard,
     AuthGuard,
+    AdminGuard,
     CanReadGuard
   ],
   bootstrap: [AppComponent]

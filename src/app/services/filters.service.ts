@@ -7,6 +7,7 @@ import { IStar } from '../Models/star';
   providedIn: 'root'
 })
 export class FiltersService {
+
   private filter: IFilter = {
     stars: [
       { startValue: 0, endValue: 0 },
@@ -26,7 +27,16 @@ export class FiltersService {
 
   constructor() { }
 
-  private generateFilter(countries: string[], minimumPrice: number, maximumPrice: number, startDate: string, endDate: string, stars?: IStar[]): IFilter {
+  private generateFilter
+    (
+      countries: string[],
+      minimumPrice: number,
+      maximumPrice: number,
+      startDate: string,
+      endDate: string,
+      stars?: IStar[]
+    ): IFilter {
+
     if (countries === null) {
       countries = [];
     }
@@ -42,7 +52,6 @@ export class FiltersService {
     if (endDate === null) {
       endDate = "";
     }
-
     if (stars === null) {
       stars = [];
     }
@@ -57,7 +66,16 @@ export class FiltersService {
     } as IFilter;
   }
 
-  public emitEventFilteredData(countries: string[], minimumPrice: number, maximumPrice: number, startDate: string, endDate: string, stars?: IStar[]) {
+  public emitEventFilteredData
+    (
+      countries: string[],
+      minimumPrice: number,
+      maximumPrice: number,
+      startDate: string,
+      endDate: string,
+      stars?: IStar[]
+    ) {
+
     this.filter = this.generateFilter(countries, minimumPrice, maximumPrice, startDate, endDate, stars);
     this.filteredData.next(this.filter);
   }
@@ -65,5 +83,4 @@ export class FiltersService {
   public filteredDataEventListener(): Observable<IFilter> {
     return this.filteredData.asObservable();
   }
-
 }

@@ -7,16 +7,17 @@ import { Trip } from '../Models/trip';
 })
 export class ReservedTripsForUserService {
 
+  private reservedTripsForUser: Trip[] = [];
   private subjectAmount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   private subjectPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
-  private reservedTripsForUser: Trip[] = [];
   private handleReservedTripsForUser: BehaviorSubject<Trip[]> = new BehaviorSubject<Trip[]>(this.reservedTripsForUser);
 
   constructor() { }
 
-  public getReservedTripsForUser(): Observable<Trip[]> {
-    return this.handleReservedTripsForUser.asObservable();
+  private removeTripWithKey(trip: Trip): void {
+    this.reservedTripsForUser = this.reservedTripsForUser.filter((tripFromList: Trip) => {
+      return tripFromList.key !== trip.key;
+    });
   }
 
   private findTripWithKey(trip: Trip): Trip | undefined {
@@ -25,19 +26,16 @@ export class ReservedTripsForUserService {
     });
   }
 
+  public getReservedTripsForUser(): Observable<Trip[]> {
+    return this.handleReservedTripsForUser.asObservable();
+  }
+
   public removeTrip(trip: Trip): void {
     this.reservedTripsForUser = this.reservedTripsForUser.filter((tripFromList: Trip) => {
       return tripFromList.key !== trip.key;
     });
     this.handleReservedTripsForUser.next(this.reservedTripsForUser);
   }
-
-  private removeTripWithKey(trip: Trip): void {
-    this.reservedTripsForUser = this.reservedTripsForUser.filter((tripFromList: Trip) => {
-      return tripFromList.key !== trip.key;
-    });
-  }
-
 
   public setReservedTripsForUser(trip: Trip): void {
     const tripFromList: Trip | undefined = this.findTripWithKey(trip);

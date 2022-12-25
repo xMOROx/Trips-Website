@@ -9,10 +9,11 @@ import { BoughtTripsService } from './services/boughtTrips.service';
 })
 export class AppComponent {
   title = 'Wycieczki';
-  constructor(
-    private router: Router,
-    private boughtTripsService: BoughtTripsService,
-  ) { }
+  constructor
+    (
+      private router: Router,
+      private boughtTripsService: BoughtTripsService,
+    ) { }
 
   ngOnInit() {
     if (localStorage.getItem('user') != null) {

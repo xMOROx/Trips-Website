@@ -1,17 +1,16 @@
 export interface Roles {
     guest?: boolean;
-    customer?: boolean;
-    manager?: boolean;
     admin?: boolean;
+    manager?: boolean;
+    customer?: boolean;
 }
-
 
 export interface User {
     uid: string;
-    email: string;
-    displayName: string;
     roles: Roles;
+    email: string;
+    banned?: boolean;
+    displayName: string;
     emailVerified: boolean;
     keysOfLikedTrips?: string[];
-    banned?: boolean;
 }

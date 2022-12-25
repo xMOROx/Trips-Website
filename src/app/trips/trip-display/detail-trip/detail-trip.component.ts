@@ -1,7 +1,7 @@
 import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { faClock, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faMinus, faPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Trip } from 'src/app/Models/trip';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { User } from 'src/app/Models/User';
@@ -25,23 +25,22 @@ export class DetailTripComponent implements OnInit {
   @Input()
   public insideAdminPanel: boolean = false;
 
-  public faClock: any = faClock;
-  public faPlus: any = faPlus;
-  public faMinus: any = faMinus;
-
-  private tripValue!: number[];
-
-  public currency!: string;
-
   public user!: User;
 
+  public faPlus: IconDefinition = faPlus;
+  public faClock: IconDefinition = faClock;
+  public faMinus: IconDefinition = faMinus;
+
+  public currency!: string;
+  private tripValue!: number[];
+
   constructor(
-    private tripsParseService: TripsParseService,
-    private settings: SettingsChangeService,
+    public auth: AuthService,
     private MatDialog: MatDialog,
     private sso: ScrollStrategyOptions,
+    private settings: SettingsChangeService,
+    private tripsParseService: TripsParseService,
     private reservedTripsForUserService: ReservedTripsForUserService,
-    public auth: AuthService,
 
   ) {
 
@@ -57,7 +56,6 @@ export class DetailTripComponent implements OnInit {
         this.user = user;
       }
     });
-
   }
 
   private getPrice(trips: Trip[]): number[] {
@@ -115,6 +113,4 @@ export class DetailTripComponent implements OnInit {
       });
     }
   }
-
-
 }

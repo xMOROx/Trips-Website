@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faThumbsDown, faThumbsUp } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsDown, faThumbsUp, IconDefinition } from '@fortawesome/free-regular-svg-icons';
 import { User } from 'src/app/Models/User';
 import { AuthService } from 'src/app/services/auth.service';
 import { RatingService } from 'src/app/services/rating.service';
@@ -11,22 +11,23 @@ import { RatingService } from 'src/app/services/rating.service';
 })
 export class TripRatingComponent implements OnInit {
 
-  constructor(
-    private opinionChangeService: RatingService,
-    public auth: AuthService
-  ) { }
+  constructor
+    (
+      public auth: AuthService,
+      private opinionChangeService: RatingService,
+    ) { }
 
-  @Input() likes: number = 0;
-  @Input() disLikes: number = 0;
-  @Input() tripKey!: string;
+  @Input() public tripKey!: string;
+  @Input() public likes: number = 0;
+  @Input() public disLikes: number = 0;
 
-  public faThumbUp: any = faThumbsUp;
-  public faThumbDown: any = faThumbsDown;
+  public faThumbUp: IconDefinition = faThumbsUp;
+  public faThumbDown: IconDefinition = faThumbsDown;
 
   public user!: User;
 
-  rating!: number;
-  alreadyVoted: boolean = false;
+  public rating!: number;
+  public alreadyVoted: boolean = false;
 
 
   ngOnInit(): void {
@@ -41,22 +42,18 @@ export class TripRatingComponent implements OnInit {
         this.user = user;
       }
     });
-
-
   }
 
   rattingApplied(option: string) {
     if (this.user!.keysOfLikedTrips !== undefined) {
       for (const likedTripKey of this.user!.keysOfLikedTrips!) {
         if (likedTripKey === this.tripKey) {
-
           return;
         }
       }
     } else {
       this.user!.keysOfLikedTrips = [];
     }
-
 
     if (option === "+") {
       this.opinionChangeService.eventEmitChangeOpinion(1);
@@ -65,10 +62,8 @@ export class TripRatingComponent implements OnInit {
       this.opinionChangeService.eventEmitChangeOpinion(-1);
     }
 
-
     this.user!.keysOfLikedTrips!.push(this.tripKey);
     this.auth.updateUserData(this.user!);
     this.rating = (this.likes) / (this.disLikes + this.likes) * 100;
   }
-
 }

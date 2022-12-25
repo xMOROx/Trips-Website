@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { Observable } from '@firebase/util';
 import { User } from '../Models/User';
 
 
@@ -10,7 +9,10 @@ import { User } from '../Models/User';
 export class AdminUsersService {
   private refDatabase!: any;
 
-  constructor(private fireDataBaseRef: AngularFireDatabase) {
+  constructor
+    (
+      private fireDataBaseRef: AngularFireDatabase
+    ) {
     this.refDatabase = fireDataBaseRef.list('Users');
   }
 
@@ -37,7 +39,4 @@ export class AdminUsersService {
   public getUserUrlByKey(key: string): any {
     return this.fireDataBaseRef.object(`Users/${key}`).valueChanges();
   }
-
-
-
 }

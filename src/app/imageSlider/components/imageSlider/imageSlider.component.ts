@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ISlide } from '../../Models/ISlide';
 
 @Component({
@@ -12,8 +12,8 @@ export class ImageSliderComponent implements OnInit {
   @Input() slides: ISlide[] = [];
 
   public currentIndex: number = 0;
-  public arrowLeft = faAngleLeft;
-  public arrowRight = faAngleRight;
+  public arrowLeft: IconDefinition = faAngleLeft;
+  public arrowRight: IconDefinition = faAngleRight;
 
   constructor() { }
 
@@ -39,5 +39,4 @@ export class ImageSliderComponent implements OnInit {
   public goToSlide(index: number): void {
     this.currentIndex = index;
   }
-
 }

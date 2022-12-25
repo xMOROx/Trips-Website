@@ -27,5 +27,4 @@ export class DestinationCountryPipe implements PipeTransform {
     }
     return this.filterTripByCountry(trips, selectedCountries);
   }
-
 }

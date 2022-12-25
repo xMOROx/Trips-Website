@@ -27,11 +27,11 @@ const routes: Routes = [
   { path: 'manage', component: ManageTripsComponent, canActivate: [AuthGuard, AdminGuard] },
   {
     path: 'admin-panel', component: AdminPanelComponent, canActivate: [AuthGuard, AdminGuard],
-    children: [
-      { path: 'analytics', component: AnalyticsComponent, pathMatch: 'full', canActivate: [AuthGuard, AdminGuard] },
-      { path: 'users', component: ListUsersComponent, pathMatch: 'full', canActivate: [AuthGuard, AdminGuard] },
-
-    ]
+    children:
+      [
+        { path: 'analytics', component: AnalyticsComponent, pathMatch: 'full', canActivate: [AuthGuard, AdminGuard] },
+        { path: 'users', component: ListUsersComponent, pathMatch: 'full', canActivate: [AuthGuard, AdminGuard] },
+      ]
   },
   { path: 'trips', component: ListTripsComponent },
   { path: 'trips/:key', component: SingleTripComponent, canActivate: [AuthGuard, CanReadGuard] },
@@ -53,9 +53,9 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forRoot(routes, {
-      scrollPositionRestoration: "enabled",
       scrollOffset: [0, 0],
       anchorScrolling: "enabled",
+      scrollPositionRestoration: "enabled",
     })
   ],
   exports: [

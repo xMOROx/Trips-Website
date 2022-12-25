@@ -1,20 +1,20 @@
 import { TripStatus } from "./tripStatus.enum";
 
 export interface Trip {
-    name: string;
-    destinationCountry: string;
-    startDate: string;
-    endDate: string;
-    boughtDate: string;
-    unitPrice: number;
-    maxPlace: number;
-    description: string;
-    imageSrc: string[];
-    amount: number;
-    likes: number;
-    dislikes: number;
-    status: TripStatus;
     key?: string;
+    name: string;
+    likes: number;
+    amount: number;
     oldKey?: string;
+    endDate: string;
+    dislikes: number;
+    maxPlace: number;
+    unitPrice: number;
+    startDate: string;
+    status: TripStatus;
+    imageSrc: string[];
+    boughtDate: string;
+    description: string;
     getNotification?: boolean;
+    destinationCountry: string;
 }

@@ -7,7 +7,11 @@ import { Observable } from 'rxjs';
 })
 export class SettingsChangeService {
   private refDatabase!: any;
-  constructor(private fireDataBaseRef: AngularFireDatabase) {
+  constructor
+    (
+      private fireDataBaseRef: AngularFireDatabase
+    ) {
+
     this.refDatabase = fireDataBaseRef.list('settings');
   }
 

@@ -18,5 +18,4 @@ export class RatingService {
   public changeOpinionEventListener(): Observable<Number> {
     return this.opinion.asObservable();
   }
-
 }

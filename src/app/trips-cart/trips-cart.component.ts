@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ICart } from '../Models/cart';
 
-import { faClock, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faMinus, faPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Trip } from '../Models/trip';
 import { TripStatus } from '../Models/tripStatus.enum';
 import { BoughtTripsService } from '../services/boughtTrips.service';
@@ -25,25 +25,27 @@ export class TripsCartComponent implements OnInit {
     priceTotalAmount: 0,
     tripsReserved: []
   };
-  public statusType: typeof TripStatus = TripStatus;
+
   public currency!: string;
-  public faClock: any = faClock;
-  public faPlus: any = faPlus;
-  public faMinus: any = faMinus;
   public showDetails: boolean = false;
 
-  constructor(private titleService: Title,
-    private tripsParseService: TripsParseService,
-    private buyTripService: BoughtTripsService,
-    private setting: SettingsChangeService,
-    private reservedTripsForUserService: ReservedTripsForUserService
-  ) {
+  public faPlus: IconDefinition = faPlus;
+  public faClock: IconDefinition = faClock;
+  public faMinus: IconDefinition = faMinus;
 
-  }
+  public statusType: typeof TripStatus = TripStatus;
+
+  constructor
+    (
+      private titleService: Title,
+      private tripsParseService: TripsParseService,
+      private buyTripService: BoughtTripsService,
+      private setting: SettingsChangeService,
+      private reservedTripsForUserService: ReservedTripsForUserService
+    ) { }
 
   ngOnInit() {
     this.titleService.setTitle(TITLE);
-
 
     this.reservedTripsForUserService.getReservedTripsForUser().subscribe((trips: Trip[]) => {
       this.cart.tripsReserved = trips;
@@ -57,7 +59,6 @@ export class TripsCartComponent implements OnInit {
       this.cart.priceTotalAmount = price;
     });
 
-
     this.setting.getCurrency().subscribe((currency) => {
       this.currency = currency.value;
     });
@@ -69,16 +70,11 @@ export class TripsCartComponent implements OnInit {
       day = '' + d.getDate(),
       year = d.getFullYear();
 
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
+    if (month.length < 2) { month = '0' + month; }
+
+    if (day.length < 2) { day = '0' + day; }
 
     return [year, month, day].join('-');
-  }
-
-  public changeView(): void {
-    this.showDetails = !this.showDetails;
   }
 
   private removeTripFromCart(trip: Trip): void {
@@ -94,6 +90,10 @@ export class TripsCartComponent implements OnInit {
   private removeTrip(trip: Trip): void {
     this.removeTripFromCart(trip);
     this.removeTripFromLocalCart(trip);
+  }
+
+  public changeView(): void {
+    this.showDetails = !this.showDetails;
   }
 
   public buyTrip(trip: Trip): void {
@@ -114,14 +114,11 @@ export class TripsCartComponent implements OnInit {
   public onRemove(trip: Trip, value: number): void {
     trip.amount = value;
     this.reservedTripsForUserService.setReservedTripsForUser(trip);
-
   }
 
   public onRemoveWithStatus(trip: Trip): void {
     trip.status = TripStatus.listed;
     trip.amount = 0;
     this.reservedTripsForUserService.setReservedTripsForUser(trip);
-
   }
-
 }

@@ -27,30 +27,29 @@ import { SettingsChangeService } from '../services/settingsChange.service';
 
 @NgModule({
   declarations: [
+    DatePipe,
+    PricePipe,
+    StarsPipe,
+    FiltersComponent,
     ListTripsComponent,
     DetailTripComponent,
     TripRatingComponent,
-    FiltersComponent,
     SingleTripComponent,
     ModifyFormComponent,
     ManageTripsComponent,
     NameValidatorDirective,
     DestinationCountryPipe,
-    PricePipe,
-    DatePipe,
-    StarsPipe
-
   ],
   entryComponents: [
   ],
   imports: [
-    FontAwesomeModule,
-    CommonModule,
     FormsModule,
+    CommonModule,
+    MatDialogModule,
     HttpClientModule,
     AppRoutingModule,
     ImageSliderModule,
-    MatDialogModule,
+    FontAwesomeModule,
   ],
   exports: [
     ListTripsComponent,

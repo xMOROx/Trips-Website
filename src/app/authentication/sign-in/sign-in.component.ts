@@ -8,8 +8,12 @@ import { AuthService } from '../../services/auth.service';
 })
 export class SignInComponent implements OnInit {
 
-  constructor(public authService: AuthService, private router: Router,
-    private activeRoute: ActivatedRoute) { }
+  constructor
+    (
+      private router: Router,
+      public authService: AuthService,
+      private activeRoute: ActivatedRoute
+    ) { }
 
   ngOnInit() {
   }

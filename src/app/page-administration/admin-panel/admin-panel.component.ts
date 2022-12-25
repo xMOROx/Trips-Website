@@ -11,20 +11,19 @@ const TITLE = "Panel administratora";
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
-  public faTasks: IconDefinition = faTasks;
-  public faChartArea: IconDefinition = faChartArea;
   public faList: IconDefinition = faList;
-  public faWallet: IconDefinition = faWallet;
+  public faTasks: IconDefinition = faTasks;
   public faUsers: IconDefinition = faUsers;
-  public faUserPlus: IconDefinition = faUserPlus;
+  public faWallet: IconDefinition = faWallet;
   public faServer: IconDefinition = faServer;
-  constructor(
-    private titleService: Title,
-    private router: Router
-  ) { }
+  public faUserPlus: IconDefinition = faUserPlus;
+  public faChartArea: IconDefinition = faChartArea;
+  constructor
+    (
+      private titleService: Title,
+    ) { }
 
   ngOnInit() {
     this.titleService.setTitle(TITLE);
   }
-
 }

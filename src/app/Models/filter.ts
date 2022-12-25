@@ -2,9 +2,9 @@ import { IStar } from "./star";
 
 export interface IFilter {
     stars: IStar[];
+    dateEnd: string;
+    dateStart: string;
     minimumUnitPrice: number;
     maximumUnitPrice: number;
-    dateStart: string;
-    dateEnd: string;
     destinationCountry: string[];
 }

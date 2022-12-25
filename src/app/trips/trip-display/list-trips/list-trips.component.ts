@@ -21,22 +21,21 @@ import { TripsParseService } from 'src/app/services/tripsParse.service';
 export class ListTripsComponent implements OnInit {
 
   public trips!: Trip[];
-  public reservedTotalAmount = 0;
-
-
   public filter!: IFilter;
   public faFilter: IconDefinition = faFilter;
-  public isActive: boolean = false;
   public currency: Currencies = Currencies.PLN;
+
+  public isActive: boolean = false;
+  public reservedTotalAmount: number = 0;
 
   public constructor(
     private titleService: Title,
-    private tripsParseService: TripsParseService,
-    private filterService: FiltersService,
     private MatDialog: MatDialog,
+    private sso: ScrollStrategyOptions,
+    private filterService: FiltersService,
+    private tripsParseService: TripsParseService,
     private reservedTripsForUserService: ReservedTripsForUserService,
-    private sso: ScrollStrategyOptions) {
-  }
+  ) { }
 
   public setTitle(newTitle: string): void {
     this.titleService.setTitle(newTitle);

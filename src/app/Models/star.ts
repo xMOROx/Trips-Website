@@ -1,4 +1,4 @@
 export interface IStar {
-    startValue: number;
     endValue: number;
+    startValue: number;
 }

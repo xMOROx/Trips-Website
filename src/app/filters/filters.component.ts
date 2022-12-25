@@ -16,19 +16,22 @@ import { TripsParseService } from '../services/tripsParse.service';
 export class FiltersComponent implements OnInit {
 
   public trips!: Trip[];
-
   public filter!: IFilter;
 
   public stars = [
-    { name: "5", value: 90 },
-    { name: "4", value: 80 },
-    { name: "3", value: 60 },
+    { name: "1", value: 20 },
     { name: "2", value: 40 },
-    { name: "1", value: 20 }
+    { name: "3", value: 60 },
+    { name: "4", value: 80 },
+    { name: "5", value: 90 },
   ]
 
-
-  constructor(private tripsParserService: TripsParseService, private filterService: FiltersService, private routeService: Router, private matDialogRef: MatDialogRef<FiltersComponent>) { }
+  constructor
+    (
+      private tripsParserService: TripsParseService,
+      private filterService: FiltersService,
+      private matDialogRef: MatDialogRef<FiltersComponent>
+    ) { }
 
   ngOnInit() {
     this.tripsParserService.getTrips().snapshotChanges().pipe(map((changes: any) => { return changes.map((c: any) => ({ key: c.payload.key, ...c.payload.val() })); })).subscribe((data: Trip[]) => {
@@ -38,7 +41,6 @@ export class FiltersComponent implements OnInit {
     this.filterService.filteredDataEventListener().subscribe((data) => {
       this.filter = data;
     });
-
   }
 
   private formatDate(date: Date): string {
@@ -47,11 +49,8 @@ export class FiltersComponent implements OnInit {
       day = '' + d.getDate(),
       year = d.getFullYear();
 
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-
+    if (month.length < 2) { month = '0' + month; }
+    if (day.length < 2) { day = '0' + day; }
     return [year, month, day].join('-');
   }
 
@@ -133,7 +132,6 @@ export class FiltersComponent implements OnInit {
 
     this.filterService.emitEventFilteredData(form.value.Countries, form.value.minimumPrice
       , form.value.maximumPrice, form.value.startDate, form.value.endDate, stars);
-    // this.routeService.navigate(['/trips']);
     this.matDialogRef.close();
   }
   public closeDialog(): void {
@@ -143,5 +141,4 @@ export class FiltersComponent implements OnInit {
   ngOnDestroy() {
     this.matDialogRef.close();
   }
-
 }

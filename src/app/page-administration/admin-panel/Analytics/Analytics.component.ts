@@ -9,20 +9,16 @@ import { faChartArea, faList, faServer, faTasks, faUserPlus, faUsers, faWallet, 
 })
 export class AnalyticsComponent implements OnInit {
 
-  public faTasks: IconDefinition = faTasks;
-  public faChartArea: IconDefinition = faChartArea;
   public faList: IconDefinition = faList;
-  public faWallet: IconDefinition = faWallet;
+  public faTasks: IconDefinition = faTasks;
   public faUsers: IconDefinition = faUsers;
-  public faUserPlus: IconDefinition = faUserPlus;
   public faServer: IconDefinition = faServer;
-
+  public faWallet: IconDefinition = faWallet;
+  public faUserPlus: IconDefinition = faUserPlus;
+  public faChartArea: IconDefinition = faChartArea;
 
   constructor() { }
 
   ngOnInit() {
-
-
   }
-
 }

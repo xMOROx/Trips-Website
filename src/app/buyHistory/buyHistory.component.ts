@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { faClock, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Trip } from '../Models/trip';
 import { TripStatus } from '../Models/tripStatus.enum';
 import { BoughtTripsService } from '../services/boughtTrips.service';
 import { SettingsChangeService } from '../services/settingsChange.service';
-
-
-
 
 @Component({
   selector: 'app-buyHistory',
@@ -17,10 +14,10 @@ import { SettingsChangeService } from '../services/settingsChange.service';
 export class BuyHistoryComponent implements OnInit {
 
   public boughtTrips: Trip[] = [];
-  public faClock: any = faClock;
-  public statusType: typeof TripStatus = TripStatus;
-  public selectedValue: TripStatus[] = [];
   public currency!: string;
+  public faClock: IconDefinition = faClock;
+  public selectedValue: TripStatus[] = [];
+  public statusType: typeof TripStatus = TripStatus;
   constructor
     (
       private boughtTripsService: BoughtTripsService,
@@ -37,5 +34,4 @@ export class BuyHistoryComponent implements OnInit {
       this.currency = currency.value;
     });
   }
-
 }

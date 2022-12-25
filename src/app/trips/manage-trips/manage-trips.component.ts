@@ -16,12 +16,13 @@ import { Trip } from '../../Models/trip';
 })
 export class ManageTripsComponent implements OnInit {
 
-  constructor(
-    private titleService: Title,
-    private tripsParseService: TripsParseService,
-    private reservedTripsForUserService: ReservedTripsForUserService,
-    private routeService: Router) {
-  }
+  constructor
+    (
+      private titleService: Title,
+      private tripsParseService: TripsParseService,
+      private reservedTripsForUserService: ReservedTripsForUserService,
+      private routeService: Router
+    ) { }
 
   public selectedDefault: string = ""
   public trips!: Trip[];
@@ -56,11 +57,9 @@ export class ManageTripsComponent implements OnInit {
           }
         });
       });
-
-
   }
-  handleSubmit(form: NgForm) {
 
+  handleSubmit(form: NgForm) {
     let trip: Trip = {
       name: form.value.floating_name,
       destinationCountry: form.value.floating_Country,
@@ -78,7 +77,6 @@ export class ManageTripsComponent implements OnInit {
     this.tripsParseService.saveTrip(trip);
 
     this.routeService.navigate(['/trips']);
-
   }
 
   public scrollToTop() {
@@ -90,9 +88,6 @@ export class ManageTripsComponent implements OnInit {
   }
 
   public scrollToElement(element: HTMLElement) {
-
     element.scrollIntoView({ behavior: 'smooth' });
   }
-
-
 }

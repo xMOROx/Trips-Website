@@ -9,13 +9,12 @@ import { NotificationType } from '../Models/notificationType.enum';
   providedIn: 'root'
 })
 export class NotificationsService {
+  private user?: User;
+  private URL = "Notifications"
+  private notifications: INotification[] = [];
   private notificationBar: ReplaySubject<boolean> = new ReplaySubject<boolean>();
   private noticiationsRef: ReplaySubject<INotification[]> = new ReplaySubject<INotification[]>();
-  private user?: User;
-  private notifications: INotification[] = [];
-  private URL = "Notifications"
-  constructor(
-  ) {
+  constructor() {
     if (localStorage.getItem('user') !== null) {
       this.user = JSON.parse(localStorage.getItem('user')!);
       this.URL += `/${this.user!.uid}`;
@@ -33,36 +32,28 @@ export class NotificationsService {
   public sendNotification(notification: INotification): void {
     this.notifications.push(notification);
     this.noticiationsRef.next(this.notifications);
-
   }
 
   public removeNotificationByKey(key: string): void {
     this.notifications = this.notifications.filter((notification: INotification) => notification.key !== key);
     this.noticiationsRef.next(this.notifications);
-
   }
 
   public removeAllNotifications(): void {
     this.notifications = [];
     this.noticiationsRef.next(this.notifications);
-
   }
 
   public updateNotificationByKey(key: string, value: INotification): void {
     this.notifications.find((notification: INotification) => notification.key === key)!.type = value.type;
-
     this.noticiationsRef.next(this.notifications);
-
   }
 
   public getNotifications(): any {
     return this.noticiationsRef.asObservable();
-
   }
 
-
   public clearErrorsFrom(from_: ComponentsOfApplication) {
-
     this.notifications.forEach((notification: INotification) => {
       if (notification.from === from_) {
         this.updateNotificationByKey(notification.key!, { type: NotificationType.archival });
@@ -70,11 +61,7 @@ export class NotificationsService {
     });
   }
 
-
-
   ngOnDestroy(): void {
     this.notificationBar.unsubscribe();
   }
-
-
 }

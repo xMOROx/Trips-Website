@@ -10,11 +10,9 @@ export class StarsPipe implements PipeTransform {
   private filterTripByStars(trips: Trip[], stars: IStar[]): Trip[] {
     let selectedTrips: Trip[] = [];
     for (const star of stars) {
-
       for (const trip of trips) {
         let rating = (trip.likes) / (trip.dislikes + trip.likes) * 100;
         if (star.startValue <= rating && star.endValue >= rating) {
-
           selectedTrips.push(trip);
         }
       }
@@ -31,5 +29,4 @@ export class StarsPipe implements PipeTransform {
     }
     return this.filterTripByStars(trips, stars);
   }
-
 }

@@ -11,9 +11,11 @@ export class NotificationComponent implements OnInit {
   public showed: boolean = false;
   public notifications: INotification[] = [];
   public notificationType: typeof NotificationType = NotificationType;
-  constructor(
-    private notificationService: NotificationsService,
-  ) { }
+
+  constructor
+    (
+      private notificationService: NotificationsService,
+    ) { }
 
   ngOnInit() {
     this.notificationService.showNotificationListener().subscribe(flag => {
@@ -22,9 +24,7 @@ export class NotificationComponent implements OnInit {
     this.notificationService.getNotifications().subscribe((notifications: INotification[]) => {
       this.notifications = notifications.filter(notification => { return notification.type !== NotificationType.archival });
     });
-
   }
-
 
   public closeNotification(notification: INotification): void {
     this.notificationService.removeNotificationByKey(notification.key!);
@@ -38,5 +38,4 @@ export class NotificationComponent implements OnInit {
     this.showed = !this.showed;
     this.notificationService.emitEventShowNotification(this.showed);
   }
-
 }

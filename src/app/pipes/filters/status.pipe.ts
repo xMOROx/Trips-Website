@@ -24,5 +24,4 @@ export class StatusPipe implements PipeTransform {
     if (statusArray.length === 0) return boughtTrips;
     return this.filterTripByCountry(boughtTrips, statusArray);
   }
-
 }

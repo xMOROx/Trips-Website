@@ -12,18 +12,19 @@ import { SettingsChangeService } from './settingsChange.service';
 })
 export class AuthService {
   public userData: any;
-  constructor(
-    private angularFireAuth: AngularFireAuth,
-    private angularFireDatabase: AngularFireDatabase,
-    private router: Router,
-    private settings: SettingsChangeService,
-    private reservedTripsForUserService: ReservedTripsForUserService
-  ) {
+
+  constructor
+    (
+      private router: Router,
+      private settings: SettingsChangeService,
+      private angularFireAuth: AngularFireAuth,
+      private angularFireDatabase: AngularFireDatabase,
+      private reservedTripsForUserService: ReservedTripsForUserService
+    ) {
 
     this.angularFireAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;
-
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user')!);
       } else {
@@ -48,7 +49,7 @@ export class AuthService {
     this.settings.getPersistance().subscribe((persistance: any) => {
       this.angularFireAuth.setPersistence(persistance.value).then(() => {
         this.angularFireAuth.signInWithEmailAndPassword(email, password)
-          .then(result => {
+          .then(_ => {
             this.angularFireAuth.authState.subscribe(user => {
               if (user!.emailVerified == false) {
                 window.alert('Zweryfikuj swój adres email!');
@@ -76,8 +77,6 @@ export class AuthService {
         window.alert(error.message);
       });
   }
-
-
 
   private setUserData(user: any): Promise<void> {
     const userRef = this.angularFireDatabase.object(`Users/${user.uid}`);
@@ -119,7 +118,7 @@ export class AuthService {
 
   public authLogin(provider: auth.AuthProvider): Promise<void> {
     return this.angularFireAuth.signInWithPopup(provider)
-      .then(result => {
+      .then(_ => {
         this.router.navigate(['dashboard']);
       }).catch(error => {
         window.alert(error);
@@ -145,7 +144,6 @@ export class AuthService {
     const allowed = ['admin', 'manager', 'customer'];
     return this.checkAuthorization(user, allowed);
   }
-
 
   public canEdit(user: User): boolean {
     const allowed = ['admin', 'manager'];
@@ -176,5 +174,4 @@ export class AuthService {
     }
     return false;
   }
-
 }
