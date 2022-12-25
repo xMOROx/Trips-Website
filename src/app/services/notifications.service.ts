@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { User } from 'firebase/auth';
-import { first, Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { ComponentsOfApplication } from '../Models/componentsOfApplication.enum';
 import { INotification } from '../Models/Notification';
 import { NotificationType } from '../Models/notificationType.enum';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsService {
   private notificationBar: ReplaySubject<boolean> = new ReplaySubject<boolean>();
+  private noticiationsRef: ReplaySubject<INotification[]> = new ReplaySubject<INotification[]>();
   private user?: User;
+  private notifications: INotification[] = [];
   private URL = "Notifications"
   constructor(
-    private fireDataBaseRef: AngularFireDatabase,
   ) {
     if (localStorage.getItem('user') !== null) {
       this.user = JSON.parse(localStorage.getItem('user')!);
@@ -32,42 +31,49 @@ export class NotificationsService {
   }
 
   public sendNotification(notification: INotification): void {
-    notification.key = this.fireDataBaseRef.database.ref(this.URL).push().key!;
-    this.fireDataBaseRef.database.ref(this.URL).child(notification.key).set(notification);
+    this.notifications.push(notification);
+    this.noticiationsRef.next(this.notifications);
+
   }
 
   public removeNotificationByKey(key: string): void {
-    this.fireDataBaseRef.database.ref(this.URL).child(key).remove();
+    this.notifications = this.notifications.filter((notification: INotification) => notification.key !== key);
+    this.noticiationsRef.next(this.notifications);
+
   }
 
   public removeAllNotifications(): void {
-    this.fireDataBaseRef.database.ref(this.URL).remove();
+    this.notifications = [];
+    this.noticiationsRef.next(this.notifications);
+
   }
 
   public updateNotificationByKey(key: string, value: INotification): void {
-    this.fireDataBaseRef.database.ref(this.URL).child(key).update(value);
+    this.notifications.find((notification: INotification) => notification.key === key)!.type = value.type;
+
+    this.noticiationsRef.next(this.notifications);
+
   }
 
   public getNotifications(): any {
-    return this.fireDataBaseRef.list(this.URL);
+    return this.noticiationsRef.asObservable();
+
   }
 
 
   public clearErrorsFrom(from_: ComponentsOfApplication) {
-    const cleaner = this.getNotifications().snapshotChanges().pipe(first()).subscribe((data: any) => {
-      data.forEach((notification: any) => {
-        if (notification.payload.val().from === from_) {
-          this.updateNotificationByKey(notification.key, { type: NotificationType.archival });
-        }
-      });
-      cleaner.unsubscribe();
-    });
 
+    this.notifications.forEach((notification: INotification) => {
+      if (notification.from === from_) {
+        this.updateNotificationByKey(notification.key!, { type: NotificationType.archival });
+      }
+    });
   }
+
+
 
   ngOnDestroy(): void {
     this.notificationBar.unsubscribe();
-    this.URL = "";
   }
 
 

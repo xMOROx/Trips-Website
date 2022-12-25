@@ -64,9 +64,6 @@ export class AuthService {
           });
       });
     });
-
-
-
   }
 
   public signUp(email: string, password: string, displayName: string): void {
@@ -87,6 +84,7 @@ export class AuthService {
     const userData: User = {
       uid: user.uid,
       email: user.email,
+      banned: false,
       roles: {
         guest: true,
         customer: true,

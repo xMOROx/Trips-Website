@@ -37,7 +37,7 @@ export class NavBarComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.notificationService.getNotifications().valueChanges().subscribe((notifications: INotification[]) => {
+    this.notificationService.getNotifications().subscribe((notifications: INotification[]) => {
       this.notifications = notifications.filter(notification => { return notification.type !== NotificationType.archival });
       if (this.notifications.length !== 0) {
         this.lastNotification = this.notifications[this.notifications.length - 1];
