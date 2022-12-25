@@ -38,6 +38,7 @@ export class ReservedTripsForUserService {
     });
   }
 
+
   public setReservedTripsForUser(trip: Trip): void {
     const tripFromList: Trip | undefined = this.findTripWithKey(trip);
     if (tripFromList) {

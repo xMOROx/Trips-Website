@@ -108,8 +108,17 @@ export class TripsCartComponent implements OnInit {
     this.tripsParseService.updateTripSingleValue(trip.key!, { maxPlace: trip.maxPlace - trip.amount, status: TripStatus.listed, amount: 0 });
   }
 
-  public onRemove(trip: Trip, value: any): void {
-    // this.tripsParseService.updateTripSingleValue(trip.key!, value);
+  public onRemove(trip: Trip, value: number): void {
+    trip.amount = value;
+    this.reservedTripsForUserService.setReservedTripsForUser(trip);
+
+  }
+
+  public onRemoveWithStatus(trip: Trip): void {
+    trip.status = TripStatus.listed;
+    trip.amount = 0;
+    this.reservedTripsForUserService.setReservedTripsForUser(trip);
+
   }
 
 }

@@ -34,10 +34,10 @@
                 </div>
                 <button type="button"
                   class="buttons text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300  dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                  (click)="onRemove(tripReserved, { status: statusType.listed, amount: 0 })">Usuń wszystko</button>
+                  (click)="onRemoveWithStatus(tripReserved)">Usuń wszystko</button>
                 <button type="button"
                   class="buttons text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300  dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                  (click)="onRemove(tripReserved, {amount: tripReserved.amount - 1})">Usuń jeden bilet</button>
+                  (click)="onRemove(tripReserved, tripReserved.amount - 1)">Usuń jeden bilet</button>
               </div>
             </div>
             <div class="p-4 border-t border-b text-xs text-gray-700 grid grid-cols-2 grid-rows-2 place-content-center">
