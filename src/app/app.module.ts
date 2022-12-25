@@ -31,14 +31,15 @@ import { CanReadGuard } from './authentication/guard/can-read.guard';
 import { SignInComponent } from './authentication/sign-in/sign-in.component';
 import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './authentication/verify-email/verify-email.component';
+import { ClickOutsideDirective } from './layout/nav-bar/ClickOutside.directive';
 import { AdminPanelComponent } from './page-administration/admin-panel/admin-panel.component';
 import { AnalyticsComponent } from './page-administration/admin-panel/Analytics/Analytics.component';
+import { EditFormComponent } from './page-administration/admin-panel/users/editForm/editForm.component';
 import { ListUsersComponent } from './page-administration/admin-panel/users/list-users/list-users.component';
 import { PageSettingsComponent } from './page-administration/pageSettings/pageSettings.component';
 import { StatusPipe } from './pipes/filters/status.pipe';
-import { AuthService } from './services/auth.service';
 import { AdminUsersService } from './services/adminUsers.service';
-import { EditFormComponent } from './page-administration/admin-panel/users/editForm/editForm.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { EditFormComponent } from './page-administration/admin-panel/users/editF
     ListUsersComponent,
     EditFormComponent,
     StatusPipe,
+    ClickOutsideDirective
 
   ],
   imports: [

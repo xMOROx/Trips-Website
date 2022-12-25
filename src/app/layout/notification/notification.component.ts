@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { INotification } from '../../Models/INotification';
 import { NotificationType } from '../../Models/notificationType.enum';
 import { NotificationsService } from '../../services/notifications.service';
@@ -6,9 +6,6 @@ import { NotificationsService } from '../../services/notifications.service';
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css'],
-  host: {
-    '(document:click)': 'onClick($event)'
-  }
 })
 export class NotificationComponent implements OnInit {
   public showed: boolean = false;
@@ -16,7 +13,6 @@ export class NotificationComponent implements OnInit {
   public notificationType: typeof NotificationType = NotificationType;
   constructor(
     private notificationService: NotificationsService,
-    private _eref: ElementRef
   ) { }
 
   ngOnInit() {
@@ -29,15 +25,6 @@ export class NotificationComponent implements OnInit {
 
   }
 
-  public onClick(event: any) {
-    if (!this._eref.nativeElement.contains(event.target)) {
-      // if (this.showed) {
-      //   this.showed = false;
-      // }
-      console.log("click outside");
-
-    }
-  }
 
   public closeNotification(notification: INotification): void {
     this.notificationService.removeNotificationByKey(notification.key!);

@@ -107,12 +107,12 @@
     <div
       class="min-h-[400px] w-full grid place-content-center  border-2 bg-gray-800 rounded-lg  shadow-md shadow-gray-900 border-none p-10 relative mt-[25px]"
       *ngIf="!boughtByUser && !auth.canCommentAll(user)">
-      <p class="text-2xl text-gray-500">Nie zakupiłeś wycieczki więc nie możesz dodawać opinii o niej!</p>
+      <p class="text-2xl text-gray-500">Nie zakupiłeś wycieczki, więc nie możesz dodawać opinii o niej!</p>
     </div>
     <div
       class="min-h-[400px] w-full grid place-content-center  border-2 bg-gray-800 rounded-lg  shadow-md shadow-gray-900 border-none p-10 relative mt-[25px]"
       *ngIf="user.banned ">
-      <p class="text-2xl text-gray-500">Jesteś zbanowany więc nie możesz dodawać opinii!</p>
+      <p class="text-2xl text-gray-500">Jesteś zbanowany, więc nie możesz dodawać opinii!</p>
     </div>
     <form *ngIf="(boughtByUser || auth.canCommentAll(user)) && !user.banned"
       class="flex flex-col items-center border-2 bg-gray-800 rounded-lg  shadow-md shadow-gray-900 border-none p-10 relative mt-[25px]"
