@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { User } from 'firebase/auth';
-import { filter, Observable } from 'rxjs';
+import { BehaviorSubject, filter, Observable, switchMap } from 'rxjs';
 import { ComponentsOfApplication } from '../Models/componentsOfApplication.enum';
 import { INotification } from '../Models/Notification';
 import { NotificationType } from '../Models/notificationType.enum';
@@ -19,6 +19,7 @@ export class BoughtTripsService {
 
   public user!: User;
   public statusType: typeof TripStatus = TripStatus;
+  private boughtTripsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(false);
 
   private boughtTripsRef: any | undefined;
 
@@ -32,8 +33,21 @@ export class BoughtTripsService {
     this.auth.userObservable().pipe(filter((res: any) => res)).subscribe((res: User) => {
       this.user = res;
       this.boughtTripsRef = this.fireDataBaseRef.list(URL + `/${this.user.uid}`);
+      this.boughtTripsRef
+        .valueChanges()
+        .pipe(switchMap((trips: Trip[]) => trips ? trips : []))
+        .subscribe((trips: Trip[]) => {
+          this.boughtTripsSubject.next(trips)
+        });
     });
+  }
 
+  public get boughtTrips(): Observable<Trip[]> {
+    return this.boughtTripsSubject.value;
+  }
+
+  public tripsObservable(): Observable<Trip[]> {
+    return this.boughtTripsSubject.asObservable();
   }
 
   public setStatus(trip: Trip): void {
