@@ -28,6 +28,7 @@ import { ForgotPasswordComponent } from './authentication/forgot-password/forgot
 import { AdminGuard } from './authentication/guard/admin.guard';
 import { AuthGuard } from './authentication/guard/auth.guard';
 import { CanReadGuard } from './authentication/guard/can-read.guard';
+import { LoggedGuard } from './authentication/guard/logged.guard';
 import { SignInComponent } from './authentication/sign-in/sign-in.component';
 import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './authentication/verify-email/verify-email.component';
@@ -84,7 +85,8 @@ import { AuthService } from './services/auth.service';
     AdminUsersService,
     AuthGuard,
     AdminGuard,
-    CanReadGuard
+    LoggedGuard,
+    CanReadGuard,
   ],
   bootstrap: [AppComponent]
 })

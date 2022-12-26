@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from './authentication/forgot-password/forgot
 import { AdminGuard } from './authentication/guard/admin.guard';
 import { AuthGuard } from './authentication/guard/auth.guard';
 import { CanReadGuard } from './authentication/guard/can-read.guard';
+import { LoggedGuard } from './authentication/guard/logged.guard';
 import { SignInComponent } from './authentication/sign-in/sign-in.component';
 import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './authentication/verify-email/verify-email.component';
@@ -37,11 +38,11 @@ const routes: Routes = [
   { path: 'trips/:key', component: SingleTripComponent, canActivate: [AuthGuard, CanReadGuard] },
   { path: 'buyHistory', component: BuyHistoryComponent, canActivate: [AuthGuard, CanReadGuard] },
   { path: 'settings', component: PageSettingsComponent, canActivate: [AuthGuard, AdminGuard] },
-  { path: 'sign-in', component: SignInComponent },
-  { path: 'register-user', component: SignUpComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, CanReadGuard] },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'verify-email-address', component: VerifyEmailComponent },
+  { path: 'sign-in', component: SignInComponent, canActivate: [LoggedGuard] },
+  { path: 'register-user', component: SignUpComponent, canActivate: [LoggedGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [LoggedGuard] },
+  { path: 'verify-email-address', component: VerifyEmailComponent, canActivate: [LoggedGuard] },
   { path: 'home', redirectTo: '', pathMatch: 'full' },
   { path: '', component: HomePageComponent },
   { path: "**", component: PageNotFoundComponent }

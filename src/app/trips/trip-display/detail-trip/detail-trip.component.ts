@@ -2,6 +2,7 @@ import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { faClock, faMinus, faPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { filter } from 'rxjs/operators';
 import { Trip } from 'src/app/Models/trip';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { User } from 'src/app/Models/User';
@@ -51,7 +52,7 @@ export class DetailTripComponent implements OnInit {
       this.currency = currency.value;
     });
 
-    this.auth.user.subscribe((user: User) => {
+    this.auth.userObservable().pipe(filter((res: any) => res)).subscribe((user: User) => {
       if (user) {
         this.user = user;
       }

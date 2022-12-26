@@ -18,15 +18,7 @@ export class AppComponent {
     ) { }
 
   ngOnInit() {
-    this.authService.user.subscribe(user => {
-      if (user) {
-        console.log(user);
-      } else {
-        console.log('user is null');
-      }
-    });
-
-    if (localStorage.getItem('user') != null) {
+    if (localStorage.getItem('user') !== 'null') {
       this.boughtTripsService.getBoughtTrips().subscribe(trips => {
         trips.forEach(trip => {
           this.boughtTripsService.setStatus(trip);
@@ -37,7 +29,7 @@ export class AppComponent {
         });
       });
     }
-    this.router.navigate(['/home']);
+    // this.router.navigate(['/home']);
   }
 }
 

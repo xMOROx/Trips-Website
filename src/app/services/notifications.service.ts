@@ -9,16 +9,11 @@ import { NotificationType } from '../Models/notificationType.enum';
   providedIn: 'root'
 })
 export class NotificationsService {
-  private user?: User;
-  private URL = "Notifications"
   private notifications: INotification[] = [];
   private notificationBar: ReplaySubject<boolean> = new ReplaySubject<boolean>();
   private noticiationsRef: ReplaySubject<INotification[]> = new ReplaySubject<INotification[]>();
   constructor() {
-    if (localStorage.getItem('user') !== null) {
-      this.user = JSON.parse(localStorage.getItem('user')!);
-      this.URL += `/${this.user!.uid}`;
-    }
+
   }
 
   public emitEventShowNotification(value: boolean): void {

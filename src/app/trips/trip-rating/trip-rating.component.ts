@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { faThumbsDown, faThumbsUp, IconDefinition } from '@fortawesome/free-regular-svg-icons';
+import { filter } from 'rxjs/operators';
 import { User } from 'src/app/Models/User';
 import { AuthService } from 'src/app/services/auth.service';
 import { RatingService } from 'src/app/services/rating.service';
-
 @Component({
   selector: 'app-trip-rating',
   templateUrl: './trip-rating.component.html',
@@ -37,7 +37,7 @@ export class TripRatingComponent implements OnInit {
       this.rating = 0;
     }
 
-    this.auth.user.subscribe((user: User) => {
+    this.auth.userObservable().pipe(filter((res: any) => res)).subscribe((user: User) => {
       if (user) {
         this.user = user;
       }

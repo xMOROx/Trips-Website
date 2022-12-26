@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { User } from 'firebase/auth';
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { ComponentsOfApplication } from '../Models/componentsOfApplication.enum';
 import { INotification } from '../Models/Notification';
 import { NotificationType } from '../Models/notificationType.enum';
@@ -20,7 +20,7 @@ export class BoughtTripsService {
   public user!: User;
   public statusType: typeof TripStatus = TripStatus;
 
-  private boughtTripsRef: any;
+  private boughtTripsRef: any | undefined;
 
   constructor
     (
@@ -29,10 +29,11 @@ export class BoughtTripsService {
       private notificationsService: NotificationsService,
     ) {
 
-    if (localStorage.getItem('user') !== null) {
-      this.user = JSON.parse(localStorage.getItem('user')!);
-    }
-    this.boughtTripsRef = fireDataBaseRef.list(URL + `/${this.user.uid}`);
+    this.auth.userObservable().pipe(filter((res: any) => res)).subscribe((res: User) => {
+      this.user = res;
+      this.boughtTripsRef = this.fireDataBaseRef.list(URL + `/${this.user.uid}`);
+    });
+
   }
 
   public setStatus(trip: Trip): void {
@@ -59,7 +60,11 @@ export class BoughtTripsService {
     this.fireDataBaseRef.database.ref(URL + `/${this.user.uid}`).child(trip.key!).set(trip);
   }
 
+
   public getBoughtTrips(): Observable<Trip[]> {
+    if (this.boughtTripsRef === undefined) {
+      return new Observable<Trip[]>();
+    }
     return this.boughtTripsRef.valueChanges();
   }
 

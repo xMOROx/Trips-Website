@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
 import * as auth from 'firebase/auth';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { User } from '../Models/User';
 import { ReservedTripsForUserService } from './reservedTripsForUser.service';
 import { SettingsChangeService } from './settingsChange.service';
@@ -11,7 +11,8 @@ import { SettingsChangeService } from './settingsChange.service';
   providedIn: 'root'
 })
 export class AuthService {
-  public userData: any;
+  private userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+
 
   constructor
     (
@@ -22,23 +23,17 @@ export class AuthService {
       private reservedTripsForUserService: ReservedTripsForUserService
     ) {
 
-    this.angularFireAuth.authState.subscribe(user => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
-      } else {
-        localStorage.setItem('user', 'null');
-        JSON.parse(localStorage.getItem('user')!);
-      }
-    });
+    this.angularFireAuth.authState
+      .pipe(switchMap(user => user ? this.angularFireDatabase.object(`Users/${user.uid}`).valueChanges() : of(false)))
+      .subscribe(userData => this.userSubject.next(userData));
   }
 
-  public get user(): Observable<any> {
-    if (this.userData !== undefined) {
-      return this.angularFireDatabase.object(`Users/${this.userData.uid}`).valueChanges();
-    }
-    return new Observable();
+  public get user() {
+    return this.userSubject.value;
+  }
+
+  public userObservable(): Observable<any> {
+    return this.userSubject.asObservable();
   }
 
   public updateUserData(user: User): void {
@@ -55,7 +50,7 @@ export class AuthService {
                 window.alert('Zweryfikuj swój adres email!');
               }
               else if (user) {
-                location.reload();
+                this.router.navigate(['home']);
               } else {
                 window.alert('Niepoprawny email lub hasło!');
               }
@@ -112,8 +107,7 @@ export class AuthService {
   }
 
   public get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    return (user !== null && user.emailVerified !== false) ? true : false;
+    return !!this.userSubject.value && this.userSubject.value.emailVerified;
   }
 
   public authLogin(provider: auth.AuthProvider): Promise<void> {
@@ -133,10 +127,10 @@ export class AuthService {
 
   public singOut(): void {
     this.angularFireAuth.signOut().then(() => {
-      localStorage.removeItem('user');
       window.alert('Wylogowano!');
       this.reservedTripsForUserService.clearReservedTripsForUser();
       this.router.navigate(['home']);
+      // location.reload();
     });
   }
 

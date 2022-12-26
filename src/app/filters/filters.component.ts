@@ -19,11 +19,11 @@ export class FiltersComponent implements OnInit {
   public filter!: IFilter;
 
   public stars = [
-    { name: "1", value: 20 },
-    { name: "2", value: 40 },
-    { name: "3", value: 60 },
-    { name: "4", value: 80 },
     { name: "5", value: 90 },
+    { name: "4", value: 80 },
+    { name: "3", value: 60 },
+    { name: "2", value: 40 },
+    { name: "1", value: 20 },
   ]
 
   constructor

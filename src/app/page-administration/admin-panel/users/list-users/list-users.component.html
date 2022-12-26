@@ -70,7 +70,7 @@
           </td>
           <td class="flex items-center py-4 px-6 space-x-3" colspan="2">
             <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              (click)="modifyUser()">Edytuj</button>
+              (click)="modifyUser(user)">Edytuj</button>
             <button class="font-medium  hover:underline"
               [ngClass]="{'text-green-600 dark:text-green-500': user.banned, 'text-red-600 dark:text-red-500': !user.banned}"
               (click)="changeBanned(user, !user.banned)">

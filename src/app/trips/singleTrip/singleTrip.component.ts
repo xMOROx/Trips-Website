@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { faClock, faMinus, faPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ISlide } from 'src/app/imageSlider/Models/ISlide';
 import { ComponentsOfApplication } from 'src/app/Models/componentsOfApplication.enum';
 import { INotification } from 'src/app/Models/Notification';
@@ -17,7 +18,6 @@ import { RatingService } from 'src/app/services/rating.service';
 import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
 import { SettingsChangeService } from 'src/app/services/settingsChange.service';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
-
 @Component({
   selector: 'app-singleTrip',
   templateUrl: './singleTrip.component.html',
@@ -61,7 +61,7 @@ export class SingleTripComponent implements OnInit {
 
   ngOnInit() {
 
-    this.auth.user.subscribe((user: User) => {
+    this.auth.userObservable().pipe(filter((res: any) => res)).subscribe((user: User) => {
       if (user) {
         this.user = user;
       }
@@ -116,7 +116,6 @@ export class SingleTripComponent implements OnInit {
       this.currency = currency.value;
     });
 
-
   }
 
   private formatDate(date: Date): string {
@@ -150,7 +149,6 @@ export class SingleTripComponent implements OnInit {
     this.tripName = "";
   }
 
-
   public addClick(trip: Trip): void {
     if (trip.amount < trip.maxPlace) {
       if (trip.status === TripStatus.listed) {
@@ -171,10 +169,7 @@ export class SingleTripComponent implements OnInit {
     }
   }
 
-
   public addOpinion(form: any): void {
-
-
     if (form.value.nick === "") {
       this.notificationsService.sendNotification(this.sendError("Brak nicku", "Podanie nicku jest wymagane aby wystawić opinie."));
       return;
@@ -223,7 +218,6 @@ export class SingleTripComponent implements OnInit {
   public onRemove(): void {
     this.tripsParseService.deleteTrip(this.trip.key!);
   }
-
 
   ngOnDestroy(): void {
     if (this.subscription) {

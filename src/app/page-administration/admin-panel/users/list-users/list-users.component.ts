@@ -1,6 +1,7 @@
 import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { filter } from 'rxjs/operators';
 import { User } from 'src/app/Models/User';
 import { AdminUsersService } from 'src/app/services/adminUsers.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -28,11 +29,14 @@ export class ListUsersComponent implements OnInit {
     this.adminUsersService.getUsers().valueChanges().subscribe((users: User[]) => {
       this.users = users;
     });
-    this.auth.user.subscribe((user: User) => {
-      if (user) {
-        this.user = user;
-      }
-    });
+
+    this.auth.userObservable()
+      .pipe(filter((res: any) => res))
+      .subscribe((user: User) => {
+        if (user) {
+          this.user = user;
+        }
+      });
   }
 
   public deleteUser(user: User): void {
@@ -47,14 +51,14 @@ export class ListUsersComponent implements OnInit {
     this.adminUsersService.updateUserByValue(user.uid, { banned: value });
   }
 
-  public modifyUser(): void {
+  public modifyUser(user: any): void {
     if (this.auth.canEdit(this.user)) {
       this.MatDialog.open(EditFormComponent, {
         width: '80vw',
         scrollStrategy: this.sso.noop(),
         autoFocus: false,
         data: {
-          user: this.user
+          user: user
         }
       });
     }
