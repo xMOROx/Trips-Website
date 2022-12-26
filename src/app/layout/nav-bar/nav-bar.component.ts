@@ -60,7 +60,6 @@ export class NavBarComponent implements OnInit {
       this._toggleNotification = flag;
     });
 
-
   }
 
   @HostListener('window:resize', ['$event'])

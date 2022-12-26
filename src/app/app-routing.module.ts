@@ -8,6 +8,7 @@ import { AdminGuard } from './authentication/guard/admin.guard';
 import { AuthGuard } from './authentication/guard/auth.guard';
 import { CanReadGuard } from './authentication/guard/can-read.guard';
 import { LoggedGuard } from './authentication/guard/logged.guard';
+import { ManageGuard } from './authentication/guard/manage.guard';
 import { SignInComponent } from './authentication/sign-in/sign-in.component';
 import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './authentication/verify-email/verify-email.component';
@@ -25,7 +26,7 @@ import { ListTripsComponent } from './trips/trip-display/list-trips/list-trips.c
 
 const routes: Routes = [
   { path: 'cart', component: TripsCartComponent, canActivate: [AuthGuard, CanReadGuard] },
-  { path: 'manage', component: ManageTripsComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'manage', component: ManageTripsComponent, canActivate: [AuthGuard, ManageGuard] },
   {
     path: 'admin-panel', component: AdminPanelComponent, canActivate: [AuthGuard, AdminGuard],
     children:

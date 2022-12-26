@@ -69,13 +69,13 @@
               <div class="p-4 pb-0 text-gray-900 lg:pb-4 dark:text-white">
                 <ul class="space-y-4" aria-labelledby="mega-menu-dropdown-button">
                   <li>
-                    <a routerLink="/manage"
+                    <a routerLink="/manage" *ngIf="authService.canEdit(authService.user)"
                       class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500">
                       Zarządzanie Wycieczkami
                     </a>
                   </li>
                   <li>
-                    <a routerLink="/admin-panel/analytics"
+                    <a routerLink="/admin-panel/analytics" *ngIf="authService.adminAccess(authService.user)"
                       class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500">
                       Panel administratora
                     </a>
@@ -103,7 +103,7 @@
                     </a>
                   </li>
                   <li>
-                    <a routerLink="/settings"
+                    <a routerLink="/settings" *ngIf="authService.adminAccess(authService.user)"
                       class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500">
                       Ustawienia
                     </a>

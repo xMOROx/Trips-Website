@@ -41,6 +41,7 @@ import { PageSettingsComponent } from './page-administration/pageSettings/pageSe
 import { StatusPipe } from './pipes/filters/status.pipe';
 import { AdminUsersService } from './services/adminUsers.service';
 import { AuthService } from './services/auth.service';
+import { ManageGuard } from './authentication/guard/manage.guard';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { AuthService } from './services/auth.service';
     AdminUsersService,
     AuthGuard,
     AdminGuard,
+    ManageGuard,
     LoggedGuard,
     CanReadGuard,
   ],
