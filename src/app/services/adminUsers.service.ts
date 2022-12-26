@@ -39,4 +39,5 @@ export class AdminUsersService {
   public getUserUrlByKey(key: string): any {
     return this.fireDataBaseRef.object(`Users/${key}`).valueChanges();
   }
+
 }

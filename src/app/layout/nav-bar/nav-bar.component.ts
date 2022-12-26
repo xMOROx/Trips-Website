@@ -84,6 +84,7 @@ export class NavBarComponent implements OnInit {
   public clickedOutside(): void {
     this.isMenuOpen = false;
   }
+
   public clickedOutsideDropDown(): void {
     if (this.screenWidth < 1024) {
       this.isMenuOpenDropDown = false;

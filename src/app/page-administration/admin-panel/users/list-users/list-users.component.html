@@ -29,17 +29,20 @@
           <th scope="col" class="py-3 px-6">
             Email
           </th>
-          <th scope="col" class="py-3 px-6">
+          <th scope="col" class="py-3 px-6" *ngIf="!smallTable">
             Admin
           </th>
-          <th scope="col" class="py-3 px-6">
+          <th scope="col" class="py-3 px-6" *ngIf="!smallTable">
             Manager
           </th>
-          <th scope="col" class="py-3 px-6">
+          <th scope="col" class="py-3 px-6" *ngIf="!smallTable">
             Klient
           </th>
-          <th scope="col" class="py-3 px-6" colspan="2">
+          <th scope="col" class="py-3 px-6" colspan="2" *ngIf="!smallTable">
             Zarządzanie
+          </th>
+          <th scope="col" class="py-3 px-6" *ngIf="smallTable">
+            Opcje
           </th>
         </tr>
       </thead>
@@ -54,21 +57,19 @@
           <td class="py-4 px-6">
             {{user.email}}
           </td>
-          <td class="py-4 px-6">
+          <td class="py-4 px-6" *ngIf="!smallTable">
             <input type="checkbox" name="admin" id="admin" value="" [checked]="user.roles.admin"
               (click)="changeRole(user, {admin: !user.roles.admin})">
-
           </td>
-          <td class="py-4 px-6">
-
+          <td class="py-4 px-6" *ngIf="!smallTable">
             <input type="checkbox" name="admin" id="manager" value="" [checked]="user.roles.manager"
               (click)="changeRole(user, {manager: !user.roles.manager})">
           </td>
-          <td class="py-4 px-6">
+          <td class="py-4 px-6" *ngIf="!smallTable">
             <input type="checkbox" name="admin" id="customer" value="" [checked]="user.roles.customer"
               (click)="changeRole(user, {customer: !user.roles.customer})">
           </td>
-          <td class="flex items-center py-4 px-6 space-x-3" colspan="2">
+          <td class="flex items-center py-4 px-6 space-x-3" colspan="2" *ngIf="!smallTable">
             <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               (click)="modifyUser(user)">Edytuj</button>
             <button class="font-medium  hover:underline"
@@ -79,7 +80,72 @@
             <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
               (click)="deleteUser(user)">Usuń</button>
           </td>
+          <td class="flex items-center py-4 px-6 space-x-3 relative" *ngIf="smallTable" ClickOutside
+            (ClickOutside)="clickedOutside(user)">
+            <!-- dropdown menu -->
+            <div class="relative inline-block text-left">
+              <div>
+                <button type="button"
+                  class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  id="options-menu" aria-haspopup="true" aria-expanded="true" (click)="toggleMenu(user)">
+                  <fa-icon [icon]="faEllipsisV"></fa-icon>
+                </button>
+              </div>
 
+              <div id="mega-menu-dropdown" *ngIf="user.isMenuOpen"
+                class="grid text-center  absolute z-10 grid-cols-3 pb-4 -left-[40vw] w-[50vw] rounded-lg text-sm bg-white  border border-gray-100 shadow-md dark:border-gray-700  dark:bg-gray-700">
+                <div class="p-4 pb-0 text-gray-900 lg:pb-4 dark:text-white">
+                  <ul class="space-y-4">
+                    <li>
+                      <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        (click)="modifyUser(user)">Edytuj</button>
+                    </li>
+                    <li>
+                      <button class="font-medium  hover:underline"
+                        [ngClass]="{'text-green-600 dark:text-green-500': user.banned, 'text-red-600 dark:text-red-500': !user.banned}"
+                        (click)="changeBanned(user, !user.banned)">
+                        {{!user.banned? "Zbanuj": "Odbanuj"}}
+                      </button>
+                    </li>
+                    <li>
+                      <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
+                        (click)="deleteUser(user)">Usuń</button>
+                    </li>
+                  </ul>
+                </div>
+                <div class="p-4 text-gray-900 dark:text-white">
+                  <ul class="space-y-4">
+                    <li>
+                      <span>Admin</span>
+                    </li>
+                    <li>
+                      <span>Manager</span>
+                    </li>
+                    <li>
+                      <span>Customer</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="p-4 text-gray-900 dark:text-white">
+                  <ul class="space-y-4">
+                    <li>
+                      <input type="checkbox" name="admin" id="admin" value="" [checked]="user.roles.admin"
+                        (click)="changeRole(user, {admin: !user.roles.admin})">
+                    </li>
+                    <li>
+                      <input type="checkbox" name="admin" id="manager" value="" [checked]="user.roles.manager"
+                        (click)="changeRole(user, {manager: !user.roles.manager})">
+                    </li>
+                    <li>
+                      <input type="checkbox" name="admin" id="customer" value="" [checked]="user.roles.customer"
+                        (click)="changeRole(user, {customer: !user.roles.customer})">
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="origin-top"></div>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

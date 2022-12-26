@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Trip } from 'src/app/Models/trip';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 
 @Component({
@@ -24,8 +25,6 @@ export class ModifyFormComponent implements OnInit {
       private matDialogRef: MatDialogRef<ModifyFormComponent>,
     ) { }
 
-
-
   ngOnInit() {
     this.setToDefault();
   }
@@ -43,7 +42,7 @@ export class ModifyFormComponent implements OnInit {
       unitPrice: this.unitPricePassed,
       description: this.descriptionPassed,
       destinationCountry: this.countryPassed,
-    });
+    } as Trip);
     this.closeDialog()
   }
 
