@@ -1,6 +1,5 @@
-<div class="flex flex-wrap">
+<div class="flex flex-wrap" *ngIf="currency !== undefined">
   <div class="w-full md:w-1/2 xl:w-1/3 p-6">
-    <!--Metric Card-->
     <div class="bg-gradient-to-b from-green-200 to-green-100 border-b-4 border-green-600 rounded-lg shadow-xl p-5">
       <div class="flex flex-row items-center">
         <div class="flex-shrink pr-4">
@@ -9,15 +8,14 @@
           </div>
         </div>
         <div class="flex-1 text-right md:text-center">
-          <h2 class="font-bold uppercase text-gray-600">Total Revenue</h2>
-          <p class="font-bold text-3xl">$3249 <span class="text-green-500"><i class="fas fa-caret-up"></i></span></p>
+          <h2 class="font-bold uppercase text-gray-600">Całkowity zysk</h2>
+          <p class="font-bold text-3xl">{{revenue}} <span>{{currency}}</span> <span class="text-green-500"><i
+                class="fas fa-caret-up"></i></span></p>
         </div>
       </div>
     </div>
-    <!--/Metric Card-->
   </div>
   <div class="w-full md:w-1/2 xl:w-1/3 p-6">
-    <!--Metric Card-->
     <div class="bg-gradient-to-b from-pink-200 to-pink-100 border-b-4 border-pink-500 rounded-lg shadow-xl p-5">
       <div class="flex flex-row items-center">
         <div class="flex-shrink pr-4">
@@ -26,15 +24,14 @@
           </div>
         </div>
         <div class="flex-1 text-right md:text-center">
-          <h2 class="font-bold uppercase text-gray-600">Total Users</h2>
-          <p class="font-bold text-3xl">249 <span class="text-pink-500"><i class="fas fa-exchange-alt"></i></span></p>
+          <h2 class="font-bold uppercase text-gray-600">Wszyscy użytkownicy</h2>
+          <p class="font-bold text-3xl">{{numberOfUsers}} <span class="text-pink-500"><i
+                class="fas fa-exchange-alt"></i></span></p>
         </div>
       </div>
     </div>
-    <!--/Metric Card-->
   </div>
   <div class="w-full md:w-1/2 xl:w-1/3 p-6">
-    <!--Metric Card-->
     <div class="bg-gradient-to-b from-yellow-200 to-yellow-100 border-b-4 border-yellow-600 rounded-lg shadow-xl p-5">
       <div class="flex flex-row items-center">
         <div class="flex-shrink pr-4">
@@ -43,16 +40,14 @@
           </div>
         </div>
         <div class="flex-1 text-right md:text-center">
-          <h2 class="font-bold uppercase text-gray-600">New Users</h2>
+          <h2 class="font-bold uppercase text-gray-600">Nowi użytkownicy</h2>
           <p class="font-bold text-3xl">2 <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span>
           </p>
         </div>
       </div>
     </div>
-    <!--/Metric Card-->
   </div>
   <div class="w-full md:w-1/2 xl:w-1/3 p-6">
-    <!--Metric Card-->
     <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-blue-500 rounded-lg shadow-xl p-5">
       <div class="flex flex-row items-center">
         <div class="flex-shrink pr-4">
@@ -61,38 +56,33 @@
           </div>
         </div>
         <div class="flex-1 text-right md:text-center">
-          <h2 class="font-bold uppercase text-gray-600">Server Uptime</h2>
-          <p class="font-bold text-3xl">152 days</p>
+          <h2 class="font-bold uppercase text-gray-600">Czas działania serwera</h2>
+          <p class="font-bold text-3xl">152 dni</p>
         </div>
       </div>
     </div>
-    <!--/Metric Card-->
   </div>
 
 </div>
 
-
 <div class="flex flex-row flex-wrap flex-grow mt-2">
 
   <div class="w-full md:w-1/2 xl:w-1/3 p-6 h-[300px]">
-    <!--Graph Card-->
     <div class="bg-white border-transparent rounded-lg shadow-xl">
       <div
         class="bg-gradient-to-b from-gray-300 to-gray-100 uppercase text-gray-800 border-b-2 border-gray-300 rounded-tl-lg rounded-tr-lg p-2">
-        <h2 class="font-bold uppercase text-gray-600">Graph</h2>
+        <h2 class="font-bold uppercase text-gray-600">Wykres</h2>
       </div>
       <div class="p-5">
         <canvas id="chartjs-0" class="chartjs" width="undefined" height="undefined"></canvas>
       </div>
     </div>
-    <!--/Graph Card-->
   </div>
 
   <div class="w-full md:w-1/2 xl:w-1/3 p-6 h-[300px]">
 
   </div>
 
-
   <div class="w-full md:w-1/2 xl:w-1/3 p-6 h-[300px]">
 
   </div>
@@ -102,12 +92,5 @@
   <div class="w-full md:w-1/2 xl:w-1/3 p-6 h-[300px]">
 
   </div>
-
-
-
-
-
-
-
 
 </div>

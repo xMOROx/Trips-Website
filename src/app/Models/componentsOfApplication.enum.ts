@@ -10,7 +10,11 @@ export enum ComponentsOfApplication {
     TripList = "TripList",
     Register = "Register",
     TripsList = "TripsList",
+    analytics = "analytics",
     TripRating = "TripRating",
     BuyHistory = "BuyHistory",
     TripDetail = "TripDetail",
+    manageTrips = "manageTrips",
+    manageUsers = "manageUsers",
+    pageNotFound = "pageNotFound",
 }

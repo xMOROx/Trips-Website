@@ -130,7 +130,6 @@ export class AuthService {
       window.alert('Wylogowano!');
       this.reservedTripsForUserService.clearReservedTripsForUser();
       this.router.navigate(['home']);
-      // location.reload();
     });
   }
 

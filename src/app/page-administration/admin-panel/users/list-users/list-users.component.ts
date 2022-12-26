@@ -26,7 +26,7 @@ export class ListUsersComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.adminUsersService.getUsers().valueChanges().subscribe((users: User[]) => {
+    this.adminUsersService.users.subscribe((users: User[]) => {
       this.users = users;
     });
 

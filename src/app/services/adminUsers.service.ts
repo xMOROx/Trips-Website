@@ -16,8 +16,8 @@ export class AdminUsersService {
     this.refDatabase = fireDataBaseRef.list('Users');
   }
 
-  public getUsers(): any {
-    return this.refDatabase;
+  public get users(): any {
+    return this.fireDataBaseRef.list('Users').valueChanges();
   }
 
   public deleteUser(key: string) {

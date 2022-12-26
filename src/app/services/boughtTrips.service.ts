@@ -19,9 +19,9 @@ export class BoughtTripsService {
 
   public user!: User;
   public statusType: typeof TripStatus = TripStatus;
-  private boughtTripsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(false);
 
   private boughtTripsRef: any | undefined;
+  private boughtTripsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(false);
 
   constructor
     (
@@ -50,6 +50,10 @@ export class BoughtTripsService {
     return this.boughtTripsSubject.asObservable();
   }
 
+  public get allBoughtTrips(): any {
+    return this.fireDataBaseRef.list(URL).valueChanges();
+  }
+
   public setStatus(trip: Trip): void {
     const currentDate = new Date();
     const startDate = new Date(trip.startDate);
@@ -73,7 +77,6 @@ export class BoughtTripsService {
     this.setStatus(trip);
     this.fireDataBaseRef.database.ref(URL + `/${this.user.uid}`).child(trip.key!).set(trip);
   }
-
 
   public getBoughtTrips(): Observable<Trip[]> {
     if (this.boughtTripsRef === undefined) {
