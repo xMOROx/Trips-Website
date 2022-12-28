@@ -18,7 +18,7 @@ import { AdminPanelComponent } from './page-administration/admin-panel/admin-pan
 import { AnalyticsComponent } from './page-administration/admin-panel/Analytics/Analytics.component';
 import { ListUsersComponent } from './page-administration/admin-panel/users/list-users/list-users.component';
 import { PageSettingsComponent } from './page-administration/pageSettings/pageSettings.component';
-import { PageNotFoundComponent } from './pageNotFound/pageNotFound.component';
+import { PageNotFoundComponent } from './layout/pageNotFound/pageNotFound.component';
 import { TripsCartComponent } from './trips-cart/trips-cart.component';
 import { ManageTripsComponent } from './trips/manage-trips/manage-trips.component';
 import { SingleTripComponent } from './trips/singleTrip/singleTrip.component';

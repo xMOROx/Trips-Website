@@ -29,19 +29,19 @@ export class SingleTripComponent implements OnInit {
   public opinions: IOpinion[] = [];
   public slides: ISlide[] = [];
 
-  public faClock: IconDefinition = faClock;
   public faPlus: IconDefinition = faPlus;
+  public faClock: IconDefinition = faClock;
   public faMinus: IconDefinition = faMinus;
 
-  public boughtByUser: boolean = false;
   private liked: boolean = false;
+  public boughtByUser: boolean = false;
 
-  public key: string = "";
-  public description: string = "";
-  public date: string = "";
-  public tripName: string = "";
-  public nick: string = "";
   public currency!: string;
+  public key: string = "";
+  public date: string = "";
+  public nick: string = "";
+  public tripName: string = "";
+  public description: string = "";
 
   private subscription: Subscription | undefined
 
@@ -64,6 +64,7 @@ export class SingleTripComponent implements OnInit {
     this.auth.userObservable().pipe(filter((res: any) => res)).subscribe((user: User) => {
       if (user) {
         this.user = user;
+        this.nick = user.displayName;
       }
     });
 
@@ -73,7 +74,7 @@ export class SingleTripComponent implements OnInit {
 
     this.tripsParseService.getTripUrlByKey(this.key).subscribe(trip => {
       this.trip = trip;
-
+      this.tripName = trip.name;
       this.reservedTripsForUserService.getReservedTripsForUser().subscribe(trips => {
         for (const tripReserved of trips) {
           if (tripReserved.key === this.trip.key) {

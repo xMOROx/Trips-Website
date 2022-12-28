@@ -15,7 +15,7 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { HomePageComponent } from './layout/home-page/home-page.component';
 import { NavBarComponent } from './layout/nav-bar/nav-bar.component';
 import { NotificationComponent } from './layout/notification/notification.component';
-import { PageNotFoundComponent } from './pageNotFound/pageNotFound.component';
+import { PageNotFoundComponent } from './layout/pageNotFound/pageNotFound.component';
 import { TripsCartComponent } from './trips-cart/trips-cart.component';
 
 import { FiltersService } from './services/filters.service';
@@ -81,6 +81,8 @@ import { LoadingPageComponent } from './layout/loading-page/loading-page.compone
     BrowserAnimationsModule,
     AngularFireDatabaseModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+  ],
+  exports: [
   ],
   providers: [
     AuthGuard,

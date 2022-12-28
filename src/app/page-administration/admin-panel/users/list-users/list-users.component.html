@@ -77,8 +77,8 @@
               (click)="changeBanned(user, !user.banned)">
               {{!user.banned? "Zbanuj": "Odbanuj"}}
             </button>
-            <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
-              (click)="deleteUser(user)">Usuń</button>
+            <!-- <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
+              (click)="deleteUser(user)">Usuń</button> -->
           </td>
           <td class="flex items-center py-4 px-6 space-x-3 relative" *ngIf="smallTable" ClickOutside
             (ClickOutside)="clickedOutside(user)">
@@ -107,10 +107,10 @@
                         {{!user.banned? "Zbanuj": "Odbanuj"}}
                       </button>
                     </li>
-                    <li>
+                    <!-- <li>
                       <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
                         (click)="deleteUser(user)">Usuń</button>
-                    </li>
+                    </li> -->
                   </ul>
                 </div>
                 <div class="p-4 text-gray-900 dark:text-white">

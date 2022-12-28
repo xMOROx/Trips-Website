@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
 import * as auth from 'firebase/auth';
+import { updateProfile } from 'firebase/auth';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { User } from '../Models/User';
 import { ReservedTripsForUserService } from './reservedTripsForUser.service';
@@ -12,7 +13,6 @@ import { SettingsChangeService } from './settingsChange.service';
 })
 export class AuthService {
   private userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(false);
-
 
   constructor
     (
@@ -50,6 +50,8 @@ export class AuthService {
                 window.alert('Zweryfikuj swój adres email!');
               }
               else if (user) {
+                const userRef = this.angularFireDatabase.object(`Users/${user.uid}`);
+                userRef.update({ emailVerified: true, });
                 this.router.navigate(['home']);
               } else {
                 window.alert('Niepoprawny email lub hasło!');
@@ -65,9 +67,11 @@ export class AuthService {
   public signUp(email: string, password: string, displayName: string): void {
     this.angularFireAuth.createUserWithEmailAndPassword(email, password)
       .then(result => {
-        result.user?.updateProfile({ displayName: displayName });
-        this.setUserData(result.user);
-        this.sendVerificationEmail();
+        updateProfile(result.user!, { displayName: displayName }).then(() => {
+          this.setUserData(result.user);
+          this.sendVerificationEmail();
+        });
+
       }).catch(error => {
         window.alert(error.message);
       });
@@ -120,8 +124,9 @@ export class AuthService {
   }
 
   public googleAuth(): Promise<void> {
+
     return this.authLogin(new auth.GoogleAuthProvider()).then(() => {
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['home']);
     });
   }
 

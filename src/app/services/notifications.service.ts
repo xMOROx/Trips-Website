@@ -51,7 +51,7 @@ export class NotificationsService {
   public clearErrorsFrom(from_: ComponentsOfApplication) {
     this.notifications.forEach((notification: INotification) => {
       if (notification.from === from_) {
-        this.updateNotificationByKey(notification.key!, { type: NotificationType.archival });
+        this.removeNotificationByKey(notification.key!);
       }
     });
   }

@@ -43,4 +43,6 @@ Thumbs.db
 
 *.zip
 *.rar
+*.txt
+*.png
 /src/.htmlhintrc

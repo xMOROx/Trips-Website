@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Trip } from './Models/trip';
+import { User } from './Models/User';
 import { AuthService } from './services/auth.service';
 import { BoughtTripsService } from './services/boughtTrips.service';
 @Component({
@@ -11,6 +12,7 @@ import { BoughtTripsService } from './services/boughtTrips.service';
 })
 export class AppComponent {
   title = 'Wycieczki';
+  user!: any;
   constructor
     (
       private router: Router,
@@ -27,7 +29,6 @@ export class AppComponent {
         this.boughtTripsService.sendReminderNotification(trip);
       }
     });
-    // this.router.navigate(['/home']);
   }
 }
 
