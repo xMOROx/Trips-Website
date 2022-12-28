@@ -29,6 +29,7 @@ import { AdminGuard } from './authentication/guard/admin.guard';
 import { AuthGuard } from './authentication/guard/auth.guard';
 import { CanReadGuard } from './authentication/guard/can-read.guard';
 import { LoggedGuard } from './authentication/guard/logged.guard';
+import { ManageGuard } from './authentication/guard/manage.guard';
 import { SignInComponent } from './authentication/sign-in/sign-in.component';
 import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { VerifyEmailComponent } from './authentication/verify-email/verify-email.component';
@@ -41,30 +42,31 @@ import { PageSettingsComponent } from './page-administration/pageSettings/pageSe
 import { StatusPipe } from './pipes/filters/status.pipe';
 import { AdminUsersService } from './services/adminUsers.service';
 import { AuthService } from './services/auth.service';
-import { ManageGuard } from './authentication/guard/manage.guard';
+import { LoadingPageComponent } from './layout/loading-page/loading-page.component';
 
 @NgModule({
   declarations: [
+    StatusPipe,
     AppComponent,
     NavBarComponent,
-    HomePageComponent,
-    TripsCartComponent,
-    PageNotFoundComponent,
     FooterComponent,
-    NotificationComponent,
-    BuyHistoryComponent,
-    PageSettingsComponent,
-    VerifyEmailComponent,
-    ForgotPasswordComponent,
     SignInComponent,
     SignUpComponent,
+    EditFormComponent,
+    HomePageComponent,
     DashboardComponent,
-    AdminPanelComponent,
+    TripsCartComponent,
     AnalyticsComponent,
     ListUsersComponent,
-    EditFormComponent,
-    StatusPipe,
-    ClickOutsideDirective
+    AdminPanelComponent,
+    BuyHistoryComponent,
+    VerifyEmailComponent,
+    LoadingPageComponent,
+    NotificationComponent,
+    PageSettingsComponent,
+    PageNotFoundComponent,
+    ForgotPasswordComponent,
+    ClickOutsideDirective,
 
   ],
   imports: [
@@ -81,14 +83,14 @@ import { ManageGuard } from './authentication/guard/manage.guard';
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [
-    AuthService,
-    FiltersService,
-    AdminUsersService,
     AuthGuard,
     AdminGuard,
     ManageGuard,
     LoggedGuard,
     CanReadGuard,
+    AuthService,
+    FiltersService,
+    AdminUsersService,
   ],
   bootstrap: [AppComponent]
 })
