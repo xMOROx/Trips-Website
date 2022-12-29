@@ -19,7 +19,7 @@ export class BoughtTripsService {
 
   public user!: User;
   public statusType: typeof TripStatus = TripStatus;
-
+  private _boughtTrips: Trip[] = [];
   private boughtTripsRef: any | undefined;
   private boughtTripsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(false);
 
@@ -35,8 +35,7 @@ export class BoughtTripsService {
       this.boughtTripsRef = this.fireDataBaseRef.list(URL + `/${this.user.uid}`);
       this.boughtTripsRef
         .valueChanges()
-        .pipe(switchMap((trips: Trip[]) => trips ? trips : []))
-        .subscribe((trips: Trip[]) => {
+        .subscribe((trips: any) => {
           this.boughtTripsSubject.next(trips)
         });
     });
@@ -78,12 +77,6 @@ export class BoughtTripsService {
     this.fireDataBaseRef.database.ref(URL + `/${this.user.uid}`).child(trip.key!).set(trip);
   }
 
-  public getBoughtTrips(): Observable<Trip[]> {
-    if (this.boughtTripsRef === undefined) {
-      return new Observable<Trip[]>();
-    }
-    return this.boughtTripsRef.valueChanges();
-  }
 
   public sendReminderNotification(trip: Trip): void {
     const one_day: number = 1000 * 60 * 60 * 24;

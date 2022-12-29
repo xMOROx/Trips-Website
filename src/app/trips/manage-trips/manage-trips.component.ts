@@ -3,12 +3,11 @@ import { NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { faArrowDown, faArrowUp, faList, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
 import { Trip } from '../../Models/trip';
-
 @Component({
   selector: 'app-manage-trips',
   templateUrl: './manage-trips.component.html',
@@ -46,7 +45,7 @@ export class ManageTripsComponent implements OnInit {
       .pipe(map((changes: any) => { return changes.map((c: any) => ({ key: c.payload.key, ...c.payload.val() })); }))
       .subscribe((trips: Trip[]) => {
         this.trips = trips.filter(trip => trip.maxPlace > 0);
-        this.reservedTripsForUserService.getReservedTripsForUser().subscribe((tripsReserved: Trip[]) => {
+        this.reservedTripsForUserService.getReservedTripsForUser().pipe(filter((res: any) => res)).subscribe((tripsReserved: Trip[]) => {
           for (const trip of this.trips) {
             for (const reservedTrip of tripsReserved) {
               if (trip.key === reservedTrip.key) {

@@ -3,13 +3,13 @@ import { Title } from '@angular/platform-browser';
 import { ICart } from '../Models/cart';
 
 import { faClock, faMinus, faPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { filter } from 'rxjs/operators';
 import { Trip } from '../Models/trip';
 import { TripStatus } from '../Models/tripStatus.enum';
 import { BoughtTripsService } from '../services/boughtTrips.service';
 import { ReservedTripsForUserService } from '../services/reservedTripsForUser.service';
 import { SettingsChangeService } from '../services/settingsChange.service';
 import { TripsParseService } from '../services/tripsParse.service';
-
 const TITLE = "Koszyk";
 
 @Component({
@@ -46,8 +46,7 @@ export class TripsCartComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle(TITLE);
-
-    this.reservedTripsForUserService.getReservedTripsForUser().subscribe((trips: Trip[]) => {
+    this.reservedTripsForUserService.getReservedTripsForUser().pipe(filter((res: any) => res)).subscribe((trips: any) => {
       this.cart.tripsReserved = trips;
     });
 
@@ -83,13 +82,19 @@ export class TripsCartComponent implements OnInit {
 
   private removeTripFromLocalCart(trip: Trip): void {
     this.cart.tripsReserved = this.cart.tripsReserved.filter((tripReserved: Trip) => tripReserved.key !== trip.key);
-    this.cart.priceTotalAmount -= trip.unitPrice;
-    this.cart.reservedTotalAmount -= trip.amount;
+  }
+  private updateTripInLocalCart(trip: Trip): Trip[] {
+    const index = this.cart.tripsReserved.findIndex((tripReserved: Trip) => tripReserved.key === trip.key);
+
+    this.cart.tripsReserved[index] = trip;
+    return this.cart.tripsReserved;
   }
 
   private removeTrip(trip: Trip): void {
     this.removeTripFromCart(trip);
+    console.log(this.cart.tripsReserved);
     this.removeTripFromLocalCart(trip);
+    console.log(this.cart.tripsReserved);
   }
 
   public changeView(): void {
@@ -112,13 +117,17 @@ export class TripsCartComponent implements OnInit {
   }
 
   public onRemove(trip: Trip, value: number): void {
+
+    if (value === 0) {
+      this.removeTrip(trip);
+      return;
+    }
     trip.amount = value;
-    this.reservedTripsForUserService.setReservedTripsForUser(trip);
+    this.cart.tripsReserved = this.updateTripInLocalCart(trip);
+    this.reservedTripsForUserService.updateReservedTripsForUserByValue(trip, { amount: value });
   }
 
   public onRemoveWithStatus(trip: Trip): void {
-    trip.status = TripStatus.listed;
-    trip.amount = 0;
-    this.reservedTripsForUserService.setReservedTripsForUser(trip);
+    this.removeTrip(trip);
   }
 }

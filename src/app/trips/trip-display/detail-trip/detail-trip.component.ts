@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { faClock, faMinus, faPlus, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs/operators';
+import { AppModule } from 'src/app/app.module';
 import { Trip } from 'src/app/Models/trip';
 import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { User } from 'src/app/Models/User';
@@ -82,7 +83,11 @@ export class DetailTripComponent implements OnInit {
         trip.status = TripStatus.reserved;
       }
       trip.amount += 1;
-      this.reservedTripsForUserService.setReservedTripsForUser(trip);
+      if (trip.amount === 1) {
+        this.reservedTripsForUserService.setReservedTripsForUser(trip);
+      } else {
+        this.reservedTripsForUserService.updateReservedTripsForUser(trip);
+      }
     }
   }
 

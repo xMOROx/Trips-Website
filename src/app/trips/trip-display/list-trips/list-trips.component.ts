@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { faFilter, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { FiltersComponent } from 'src/app/filters/filters.component';
 import { Currencies } from 'src/app/Models/Currencies.enum';
 import { IFilter } from 'src/app/Models/filter';
@@ -12,7 +13,6 @@ import { TripStatus } from 'src/app/Models/tripStatus.enum';
 import { FiltersService } from 'src/app/services/filters.service';
 import { ReservedTripsForUserService } from 'src/app/services/reservedTripsForUser.service';
 import { TripsParseService } from 'src/app/services/tripsParse.service';
-
 @Component({
   selector: 'app-list-trips',
   templateUrl: './list-trips.component.html',
@@ -49,9 +49,9 @@ export class ListTripsComponent implements OnInit {
       .pipe(map((changes: any) => { return changes.map((c: any) => ({ key: c.payload.key, ...c.payload.val() })); }))
       .subscribe((trips: Trip[]) => {
         this.trips = trips.filter(trip => trip.maxPlace > 0);
-        this.reservedTripsForUserService.getReservedTripsForUser().subscribe((tripsReserved: Trip[]) => {
+        this.reservedTripsForUserService.getReservedTripsForUser().pipe(filter((res: any) => res)).subscribe((reservedTrips: Trip[]) => {
           for (const trip of this.trips) {
-            for (const reservedTrip of tripsReserved) {
+            for (const reservedTrip of reservedTrips) {
               if (trip.key === reservedTrip.key) {
                 trip.status = TripStatus.reserved;
                 trip.amount = reservedTrip.amount;

@@ -75,13 +75,9 @@ export class SingleTripComponent implements OnInit {
     this.tripsParseService.getTripUrlByKey(this.key).subscribe(trip => {
       this.trip = trip;
       this.tripName = trip.name;
-      this.reservedTripsForUserService.getReservedTripsForUser().subscribe(trips => {
-        for (const tripReserved of trips) {
-          if (tripReserved.key === this.trip.key) {
-            this.trip.amount = tripReserved.amount;
-            this.trip.status = tripReserved.status;
-          }
-        }
+      this.reservedTripsForUserService.getReservedTripsForUser().pipe(filter((res: any) => res)).subscribe(tripReserved => {
+        this.trip.amount = tripReserved.amount;
+        this.trip.status = tripReserved.status;
       });
 
       if (this.slides.length < this.trip.imageSrc.length) {
@@ -102,7 +98,7 @@ export class SingleTripComponent implements OnInit {
         });
       }
 
-      this.boughtTripsForUserService.getBoughtTrips().subscribe(trips => {
+      this.boughtTripsForUserService.tripsObservable().pipe(filter((res: any) => res)).subscribe(trips => {
         if (trips.length > 0) {
           for (const trip of trips) {
             if (trip.oldKey === this.trip.key) {

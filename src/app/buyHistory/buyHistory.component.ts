@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { faClock, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { filter } from 'rxjs/operators';
 import { Trip } from '../Models/trip';
 import { TripStatus } from '../Models/tripStatus.enum';
 import { BoughtTripsService } from '../services/boughtTrips.service';
 import { SettingsChangeService } from '../services/settingsChange.service';
-
 @Component({
   selector: 'app-buyHistory',
   templateUrl: './buyHistory.component.html',
@@ -27,7 +27,9 @@ export class BuyHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle("Historia zakupow")
-    this.boughtTripsService.getBoughtTrips().subscribe(trips => {
+    this.boughtTripsService.tripsObservable().pipe(filter((res: any) => res)).subscribe(trips => {
+      console.log(trips);
+
       this.boughtTrips = trips;
     });
     this.settings.getCurrency().subscribe(currency => {

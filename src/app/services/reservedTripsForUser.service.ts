@@ -1,59 +1,69 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { BehaviorSubject, filter, Observable, switchMap, of, zip, concat } from 'rxjs';
 import { Trip } from '../Models/trip';
+import { User } from '../Models/User';
+import { AuthService } from './auth.service';
+import { TripsParseService } from './tripsParse.service';
 
+const URL = "ReservedTrips";
 @Injectable({
   providedIn: 'root'
 })
 export class ReservedTripsForUserService {
 
-  private reservedTripsForUser: Trip[] = [];
+  private user!: User;
+  private refReservedTripsForUser: any;
   private subjectAmount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   private subjectPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  private handleReservedTripsForUser: BehaviorSubject<Trip[]> = new BehaviorSubject<Trip[]>(this.reservedTripsForUser);
+  private reservedTripsForUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(false);
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private angularFireDatabase: AngularFireDatabase,
+  ) {
+    this.authService.userObservable().pipe(filter((res: any) => res)).subscribe((user: User) => {
+      this.user = user;
+      this.refReservedTripsForUser = this.angularFireDatabase.list(URL + `/${this.user.uid}`);
 
-  private removeTripWithKey(trip: Trip): void {
-    this.reservedTripsForUser = this.reservedTripsForUser.filter((tripFromList: Trip) => {
-      return tripFromList.key !== trip.key;
+      this.refReservedTripsForUser
+        .valueChanges()
+        .subscribe((trips: any) => {
+          this.reservedTripsForUserSubject.next(trips);
+        });
     });
+
   }
 
-  private findTripWithKey(trip: Trip): Trip | undefined {
-    return this.reservedTripsForUser.find((tripFromList: Trip) => {
-      return tripFromList.key === trip.key;
-    });
+  public get reservedTrips(): Observable<Trip[]> {
+    return this.reservedTripsForUserSubject.value;
   }
 
   public getReservedTripsForUser(): Observable<Trip[]> {
-    return this.handleReservedTripsForUser.asObservable();
+    return this.reservedTripsForUserSubject.asObservable();
   }
 
   public removeTrip(trip: Trip): void {
-    this.reservedTripsForUser = this.reservedTripsForUser.filter((tripFromList: Trip) => {
-      return tripFromList.key !== trip.key;
+    this.angularFireDatabase.database.ref(URL + `/${this.user.uid}`).child(trip.key!).remove().then(() => {
+      this.reservedTripsForUserSubject.next(false)
     });
-    this.handleReservedTripsForUser.next(this.reservedTripsForUser);
   }
 
   public setReservedTripsForUser(trip: Trip): void {
-    const tripFromList: Trip | undefined = this.findTripWithKey(trip);
-    if (tripFromList) {
-      this.removeTripWithKey(trip);
-    }
-
-    if (trip.amount > 0) {
-      this.reservedTripsForUser.push(trip);
-    }
-    this.handleReservedTripsForUser.next(this.reservedTripsForUser);
+    this.angularFireDatabase.database.ref(URL + `/${this.user.uid}`).child(trip.key!).set(trip);
   }
 
+  public updateReservedTripsForUser(trip: Trip): void {
+    this.angularFireDatabase.database.ref(URL + `/${this.user.uid}`).child(trip.key!).update(trip);
+  }
+
+  public updateReservedTripsForUserByValue(trip: Trip, value: Object): void {
+    this.angularFireDatabase.database.ref(URL + `/${this.user.uid}`).child(trip.key!).update(value);
+  }
   public getAmountOfReservedTripsForUser(): Observable<number> {
-    this.getReservedTripsForUser().subscribe((trips: Trip[]) => {
+    this.getReservedTripsForUser().pipe(filter((res: any) => res)).subscribe((trips: Trip[]) => {
       let amount = 0;
       for (const trip of trips) {
-
         amount += trip.amount;
       }
       return this.subjectAmount.next(amount);
@@ -62,7 +72,7 @@ export class ReservedTripsForUserService {
   }
 
   public getTotalPriceOfReservedTripsForUser(): Observable<number> {
-    this.getReservedTripsForUser().subscribe((trips: Trip[]) => {
+    this.getReservedTripsForUser().pipe(filter((res: any) => res)).subscribe((trips: Trip[]) => {
       let priceSum = 0;
       for (const trip of trips) {
         priceSum += (trip.unitPrice * trip.amount);
@@ -72,8 +82,5 @@ export class ReservedTripsForUserService {
     return this.subjectPrice.asObservable();
   }
 
-  public clearReservedTripsForUser(): void {
-    this.reservedTripsForUser = [];
-    this.handleReservedTripsForUser.next(this.reservedTripsForUser);
-  }
+
 }

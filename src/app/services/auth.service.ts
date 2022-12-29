@@ -6,7 +6,6 @@ import * as auth from 'firebase/auth';
 import { updateProfile } from 'firebase/auth';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { User } from '../Models/User';
-import { ReservedTripsForUserService } from './reservedTripsForUser.service';
 import { SettingsChangeService } from './settingsChange.service';
 @Injectable({
   providedIn: 'root'
@@ -20,7 +19,6 @@ export class AuthService {
       private settings: SettingsChangeService,
       private angularFireAuth: AngularFireAuth,
       private angularFireDatabase: AngularFireDatabase,
-      private reservedTripsForUserService: ReservedTripsForUserService
     ) {
 
     this.angularFireAuth.authState
@@ -133,7 +131,6 @@ export class AuthService {
   public singOut(): void {
     this.angularFireAuth.signOut().then(() => {
       window.alert('Wylogowano!');
-      this.reservedTripsForUserService.clearReservedTripsForUser();
       this.router.navigate(['home']);
     });
   }

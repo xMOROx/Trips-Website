@@ -22,11 +22,13 @@ export class AppComponent {
 
   ngOnInit() {
 
-    this.boughtTripsService.tripsObservable().pipe(filter((res: any) => res)).subscribe((trip: Trip) => {
-      this.boughtTripsService.setStatus(trip);
-      this.boughtTripsService.updateTripByValue(trip, { status: trip.status });
-      if (!trip.getNotification) {
-        this.boughtTripsService.sendReminderNotification(trip);
+    this.boughtTripsService.tripsObservable().pipe(filter((res: any) => res)).subscribe((trips: Trip[]) => {
+      for (const trip of trips) {
+        this.boughtTripsService.setStatus(trip);
+        this.boughtTripsService.updateTripByValue(trip, { status: trip.status });
+        if (!trip.getNotification) {
+          this.boughtTripsService.sendReminderNotification(trip);
+        }
       }
     });
   }
